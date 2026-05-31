@@ -1825,20 +1825,30 @@
 
                     <!-- Nagad Payment Details -->
                     <div class="payment-details-section" id="nagadDetails">
-                        <div class="payment-logo">📱</div>
-                        <h4>নগদ পেমেন্ট</h4>
-                        <p><strong>অ্যাকাউন্ট নম্বর:</strong></p>
-                        <div class="payment-number">01700000000</div>
-                        <p style="margin-top: 10px; font-size: 12px;">অ্যাকাউন্ট হোল্ডার: ASHIKDIGITAl BD</p>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                            <div class="payment-logo" style="font-size: 48px;">📱</div>
+                            <div style="text-align: left;">
+                                <h4 style="color: var(--primary); font-size: 18px; margin-bottom: 5px;">নগদ পেমেন্ট</h4>
+                                <p style="color: var(--text-gray); font-size: 12px;">Personal / Send Money</p>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-bottom: 8px;"><strong>অ্যাকাউন্ট নম্বর:</strong></p>
+                        <div class="payment-number" style="text-align: center; font-size: 20px; font-weight: 700;">01700000000</div>
+                        <p style="margin-top: 10px; font-size: 12px; text-align: center; color: var(--text-gray);">অ্যাকাউন্ট হোল্ডার: ASHIKDIগিটাল BD</p>
                     </div>
 
                     <!-- Bkash Payment Details -->
                     <div class="payment-details-section" id="bkashDetails">
-                        <div class="payment-logo">💳</div>
-                        <h4>বিকাশ পেমেন্ট</h4>
-                        <p><strong>অ্যাকাউন্ট নম্বর:</strong></p>
-                        <div class="payment-number">01700000000</div>
-                        <p style="margin-top: 10px; font-size: 12px;">অ্যাকাউন্ট হোল্ডার: ASHIKDIGITAl BD</p>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                            <div class="payment-logo" style="font-size: 48px;">💳</div>
+                            <div style="text-align: left;">
+                                <h4 style="color: var(--primary); font-size: 18px; margin-bottom: 5px;">বিকাশ পেমেন্ট</h4>
+                                <p style="color: var(--text-gray); font-size: 12px;">Personal / Send Money</p>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-bottom: 8px;"><strong>অ্যাকাউন্ট নম্বর:</strong></p>
+                        <div class="payment-number" style="text-align: center; font-size: 20px; font-weight: 700;">01700000000</div>
+                        <p style="margin-top: 10px; font-size: 12px; text-align: center; color: var(--text-gray);">অ্যাকাউন্ট হোল্ডার: ASHIKDIগিটাল BD</p>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-comment"></i> অতিরিক্ত মেসেজ (ঐচ্ছিক)</label>
@@ -1859,18 +1869,65 @@
             <div class="modal-icon">
                 <i class="fas fa-check" style="color: white;"></i>
             </div>
-            <h2>অর্ডার সফল!</h2>
+            <h2>অর্ডার সফল! 🎉</h2>
             <p>আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে। শীঘ্রই আমরা আপনার সাথে যোগাযোগ করব।</p>
-            <p style="color: var(--primary);">
-                <i class="fab fa-telegram"></i> অর্ডার ডিটেইলস Telegram Bot এ পাঠানো হয়েছে।
+            <p style="color: var(--primary); margin: 15px 0;">
+                <i class="fab fa-telegram"></i> আপনার অর্ডার ডিটেইলস Telegram Bot এ পাঠানো হয়েছে।
             </p>
-            <button class="slide-btn" style="margin-top: 15px; background: var(--gradient-1); color: white;" onclick="closeModal()">
-                <i class="fas fa-check"></i> ঠিক আছে
-            </button>
+            
+            <div style="display: flex; gap: 10px; margin: 20px 0;">
+                <a href="https://t.me/ASHIKHELPDESK" target="_blank" class="slide-btn" 
+                   style="flex: 1; background: #0088cc; color: white; text-align: center; text-decoration: none; padding: 12px;">
+                    <i class="fab fa-telegram"></i> টেলিগ্রামে যান
+                </a>
+                <button class="slide-btn" style="flex: 1; background: var(--gradient-1); color: white;" onclick="closeModal()">
+                    <i class="fas fa-check"></i> ঠিক আছে
+                </button>
+            </div>
+            
+            <p style="font-size: 12px; color: var(--text-gray); text-align: center; margin-top: 15px;">
+                ✓ পেমেন্ট সম্পূর্ণ হওয়ার পর আপনার প্রোডাক্ট টেলিগ্রামে পাঠানো হবে।
+            </p>
         </div>
     </div>
 
     <script>
+        // ════════════════════════════════════════════════════════════════
+        // 🎨 হিরো ব্যানার ইমেজ কনফিগারেশন
+        // ════════════════════════════════════════════════════════════════
+        // নিচের ইমেজ লিঙ্কগুলি পরিবর্তন করুন আপনার ব্যানারের সাথে
+        // প্রতিটি ইমেজ ১৯২০×৪০০ পিক্সেল হতে হবে
+        // ════════════════════════════════════════════════════════════════
+        
+        const heroSlideImages = {
+            // Slide 1: Adobe Creative Cloud
+            slide1: 'https://via.placeholder.com/1920x400?text=Adobe+Creative+Cloud+-%E0%A7%A981999',
+            
+            // Slide 2: Canva Pro
+            slide2: 'https://via.placeholder.com/1920x400?text=Canva+Pro+-%E0%A7%A982299',
+            
+            // Slide 3: CapCut Pro
+            slide3: 'https://via.placeholder.com/1920x400?text=CapCut+Pro+-%E0%A7%A982249',
+            
+            // Slide 4: YouTube Premium
+            slide4: 'https://via.placeholder.com/1920x400?text=YouTube+Premium+-%E0%A7%A982199',
+            
+            // Slide 5: AI Logo Design
+            slide5: 'https://via.placeholder.com/1920x400?text=AI+Logo+Design+-%E0%A7%A984499'
+        };
+        
+        // ════════════════════════════════════════════════════════════════
+        // 📧 টেলিগ্রাম বট কনফিগারেশন
+        // ════════════════════════════════════════════════════════════════
+        // টেলিগ্রাম বট সেটআপের জন্য প্রয়োজনীয় তথ্য
+        // ════════════════════════════════════════════════════════════════
+        
+        const telegramConfig = {
+            botToken: 'আপনার_বট_টোকেন_এখানে', // https://t.me/BotFather থেকে পান
+            chatId: '-1001234567890', // আপনার চ্যানেল বা গ্রুপ ID
+            supportLink: 'https://t.me/ASHIKHELPDESK' // সাপোর্ট লিঙ্ক
+        };
+        
         // Loader
         window.addEventListener('load', function() {
             setTimeout(() => {
@@ -1982,7 +2039,7 @@
             const formData = new FormData(form);
             
             const orderData = `
-📦 *নতুন অর্ডার -ASHIKDIGITAl BD!*
+📦 *নতুন অর্ডার - ASHIKDIগিটাল BD!*
 
 👤 নাম: ${formData.get('name')}
 📱 WhatsApp: ${formData.get('whatsapp')}
@@ -1993,8 +2050,36 @@
 💬 মেসেজ: ${formData.get('message') || 'N/A'}
 ⏰ সময়: ${new Date().toLocaleString('bn-BD')}
             `;
+            
             console.log('Telegram Bot Data:', orderData);
             
+            // ════════════════════════════════════════════════════════
+            // টেলিগ্রাম বট API কনফিগারেশন
+            // ════════════════════════════════════════════════════════
+            const TELEGRAM_BOT_TOKEN = telegramConfig.botToken;
+            const TELEGRAM_CHAT_ID = telegramConfig.chatId;
+            
+            // টেলিগ্রাম API এ পাঠানো
+            const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            fetch(telegramUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: orderData,
+                    parse_mode: 'Markdown'
+                })
+            }).then(response => {
+                console.log('✓ Telegram message sent successfully');
+            }).catch(error => {
+                console.log('ℹ️ টেলিগ্রাম কনফিগারেশন: script এর শুরুতে telegramConfig এ বট টোকেন এবং চ্যাট ID যোগ করুন');
+                console.error('Error:', error);
+            });
+            
+            // সাফল্য মেসেজ দেখান এবং ফর্ম রিসেট করুন
             closeOrderModal();
             setTimeout(() => {
                 document.getElementById('successModal').classList.add('active');
