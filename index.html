@@ -2,972 +2,515 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>ASHIKDIGITAL BD - প্রিমিয়াম ডিজিটাল সার্ভিস</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Hind Siliguri", sans-serif;
+      background: radial-gradient(circle at 10% 0%, #ffffff 0%, #f4f7ff 45%, #edf2ff 100%);
+      color: #111832;
+    }
     :root {
       --primary: #ff4f63;
       --secondary: #5b61ff;
       --accent: #ff9f43;
-      --bg: #f4f7ff;
-      --text: #111832;
-      --muted: #5e6788;
-      --surface: #ffffff;
       --border: #e4e9fb;
-      --dark: #1b2244;
+      --surface: #ffffff;
     }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: "Hind Siliguri", sans-serif;
-      color: var(--text);
-      background: radial-gradient(circle at 10% 0%, #ffffff 0%, #f4f7ff 45%, #edf2ff 100%);
-    }
-
-    .container { width: min(1180px, 92%); margin-inline: auto; }
+    .container { width: min(1180px, 92%); margin: 0 auto; }
     .section { padding: 56px 0; }
-
+    
+    /* Loader */
     .loader {
-      position: fixed;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      background: #f4f7ff;
-      z-index: 9999;
-      transition: opacity .35s ease, visibility .35s ease;
+      position: fixed; inset: 0; background: #f4f7ff; display: grid; place-items: center;
+      z-index: 9999; transition: 0.3s;
     }
     .loader.hidden { opacity: 0; visibility: hidden; }
     .ring {
-      width: 58px;
-      height: 58px;
-      border: 4px solid #dfe6ff;
-      border-top-color: var(--primary);
-      border-radius: 999px;
+      width: 58px; height: 58px; border: 4px solid #dfe6ff;
+      border-top-color: var(--primary); border-radius: 50%;
       animation: spin 1s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* topbar removed as requested */
-
+    /* Header */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, .82);
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.85);
       border-bottom: 1px solid #e8edff;
     }
     .header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0; gap: 12px;
     }
-
     .brand {
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 30px;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      gap: 11px;
+      text-decoration: none; color: #111832; font-weight: 700;
+      font-size: 28px; display: flex; align-items: center; gap: 10px;
     }
     .brand-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: linear-gradient(135deg, #ff4f63, #ff9f43);
-      box-shadow: 0 10px 24px rgba(255, 79, 99, .35);
-      font-size: 23px;
+      width: 42px; height: 42px; background: linear-gradient(135deg, #ff4f63, #ff9f43);
+      border-radius: 12px; display: grid; place-items: center; color: white;
+      font-size: 22px; box-shadow: 0 8px 20px rgba(255,79,99,0.3);
     }
     .brand span { color: #ff7e2c; }
-
-    nav ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-    nav a {
-      text-decoration: none;
-      color: #20284b;
-      font-weight: 600;
-      font-size: 15px;
-    }
+    nav ul { display: flex; list-style: none; gap: 24px; align-items: center; }
+    nav a { text-decoration: none; font-weight: 600; color: #20284b; transition: 0.2s; }
     nav a:hover { color: var(--primary); }
-
-    .cart {
-      position: relative;
-      color: #20284b;
-      font-size: 20px;
-      cursor: pointer;
-    }
+    .cart { position: relative; cursor: pointer; font-size: 22px; }
     .cart-count {
-      position: absolute;
-      top: -9px;
-      right: -10px;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      background: var(--primary);
-      color: #fff;
-      font-weight: 700;
-      font-size: 11px;
+      position: absolute; top: -10px; right: -12px; background: var(--primary);
+      color: white; font-size: 11px; font-weight: bold; width: 18px; height: 18px;
+      border-radius: 50%; display: grid; place-items: center;
     }
-    .menu-btn {
-      display: none;
-      border: 0;
-      background: none;
-      color: #1e2648;
-      font-size: 22px;
-      cursor: pointer;
-    }
+    .menu-btn { display: none; background: none; border: none; font-size: 24px; cursor: pointer; }
 
-    .hero {
-      padding: 50px 0 18px;
-    }
+    /* Hero Slider */
     .hero-box {
-      position: relative;
-      overflow: hidden;
-      border-radius: 26px;
-      min-height: 460px;
-      background: linear-gradient(130deg, #1f2a67 0%, #4f3ab8 40%, #7b35b5 100%);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, .2);
-      box-shadow: 0 28px 45px rgba(41, 46, 109, .28);
+      position: relative; overflow: hidden; border-radius: 28px;
+      background: linear-gradient(130deg, #1f2a67, #4f3ab8, #7b35b5);
+      min-height: 460px; box-shadow: 0 20px 35px rgba(0,0,0,0.2);
     }
-    .hero-box::before,
-    .hero-box::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .1);
-    }
-    .hero-box::before {
-      width: 260px;
-      height: 260px;
-      top: -90px;
-      left: -70px;
-      animation: floatY 6s ease-in-out infinite;
-    }
-    .hero-box::after {
-      width: 210px;
-      height: 210px;
-      bottom: -70px;
-      right: -40px;
-      animation: floatY 5s ease-in-out infinite reverse;
-    }
-    @keyframes floatY {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(16px); }
-    }
-
-    .slides {
-      display: flex;
-      min-height: 460px;
-      transition: transform .7s cubic-bezier(.65,0,.35,1);
-    }
+    .slides { display: flex; transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1); min-height: 460px; }
     .slide {
-      min-width: 100%;
-      padding: 28px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    .slide-img {
-      width: 110px;
-      height: 110px;
-      border-radius: 28px;
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(4px);
-      object-fit: cover;
-      margin-bottom: 16px;
-      border: 2px solid rgba(255,255,255,0.5);
-      box-shadow: 0 12px 20px rgba(0,0,0,0.2);
-    }
-    .slide h1 {
-      margin: 0;
-      font-size: clamp(30px, 6vw, 50px);
-      line-height: 1.1;
-    }
-    .slide p {
-      margin: 12px 0 18px;
-      color: #ecedff;
-      font-size: clamp(14px, 2.3vw, 18px);
-    }
-    .badge {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, .35);
-      background: rgba(255, 255, 255, .14);
-      margin-bottom: 12px;
-      font-size: 13px;
-    }
-    .price {
-      margin-bottom: 18px;
-      font-size: clamp(28px, 4.5vw, 40px);
-      font-weight: 700;
-    }
-    .price del {
-      font-size: 20px;
-      margin-left: 8px;
-      opacity: .7;
-      font-weight: 500;
-    }
-
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      border: 0;
-      color: #fff;
-      background: rgba(255, 255, 255, .18);
-      cursor: pointer;
-      z-index: 3;
-    }
-    .arrow:hover { background: rgba(255, 255, 255, .3); }
-    .arrow.prev { left: 14px; }
-    .arrow.next { right: 14px; }
-
-    .dots {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 18px;
-      display: flex;
-      gap: 8px;
-      z-index: 3;
-    }
-    .dot {
-      border: 0;
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, .5);
-    }
-    .dot.active {
-      width: 30px;
-      background: #fff;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 999px;
-      padding: 12px 26px;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-    .btn-light {
-      background: #fff;
-      color: #ff4f63;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, .22);
-    }
-    .btn-light:hover { transform: translateY(-2px); }
-    .btn-grad {
-      background: linear-gradient(135deg, #ff4f63, #ff9f43);
-      color: #fff;
-    }
-
-    .head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 10px;
-    }
-    .head h2 {
-      margin: 0;
-      font-size: clamp(24px, 4vw, 34px);
-    }
-    .head h2 span { color: var(--primary); }
-
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-    .tab {
-      border-radius: 999px;
-      border: 1px solid #dbe2ff;
-      background: #fff;
-      color: #31395f;
-      padding: 9px 16px;
-      cursor: pointer;
-      font-weight: 600;
-      font-family: inherit;
-    }
-    .tab.active {
-      border-color: transparent;
-      color: #fff;
-      background: linear-gradient(135deg, #ff4f63, #ff9f43);
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 15px;
-    }
-    .product {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform .28s ease, box-shadow .28s ease;
-    }
-    .product:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 32px rgba(33, 49, 107, .15);
-    }
-    .product-top {
-      height: 146px;
-      background: linear-gradient(140deg, #6372ff, #8338c0);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .product-top img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .product-top i {
-      font-size: 48px;
+      min-width: 100%; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center; padding: 30px 20px;
       color: white;
     }
-    .product-body { padding: 14px; }
-    .product-body h3 { margin: 0 0 6px; font-size: 17px; }
-    .muted { margin: 0; color: var(--muted); font-size: 13px; }
+    .slide-img {
+      width: 110px; height: 110px; object-fit: cover; border-radius: 30px;
+      background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4);
+      margin-bottom: 18px; box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+    }
+    .badge {
+      background: rgba(255,255,255,0.2); backdrop-filter: blur(4px);
+      padding: 5px 14px; border-radius: 40px; font-size: 12px; display: inline-block;
+      margin-bottom: 12px;
+    }
+    .slide h1 { font-size: clamp(28px, 6vw, 48px); margin: 0 0 8px; }
+    .price { font-size: 32px; font-weight: 700; margin: 12px 0 16px; }
+    .price del { font-size: 20px; opacity: 0.7; margin-left: 8px; }
+    .arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.2); border: none; width: 40px; height: 40px;
+      border-radius: 50%; color: white; cursor: pointer; z-index: 3;
+    }
+    .arrow:hover { background: rgba(255,255,255,0.4); }
+    .prev { left: 15px; }
+    .next { right: 15px; }
+    .dots {
+      position: absolute; bottom: 18px; left: 0; right: 0;
+      display: flex; justify-content: center; gap: 8px; z-index: 3;
+    }
+    .dot {
+      width: 10px; height: 10px; background: rgba(255,255,255,0.5);
+      border-radius: 50%; cursor: pointer; border: none;
+    }
+    .dot.active { width: 28px; background: white; border-radius: 20px; }
+
+    /* Buttons */
+    .btn {
+      border: none; border-radius: 40px; padding: 10px 24px;
+      font-weight: 700; cursor: pointer; transition: 0.2s;
+    }
+    .btn-light { background: white; color: #ff4f63; box-shadow: 0 6px 14px rgba(0,0,0,0.1); }
+    .btn-grad { background: linear-gradient(135deg, #ff4f63, #ff9f43); color: white; }
+    .btn-grad:hover, .btn-light:hover { transform: translateY(-2px); }
+
+    /* Products */
+    .head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 24px; }
+    .head h2 { font-size: 28px; }
+    .head h2 span { color: var(--primary); }
+    .tabs { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+    .tab {
+      background: white; border: 1px solid #dbe2ff; border-radius: 40px;
+      padding: 8px 20px; font-weight: 600; cursor: pointer; transition: 0.2s;
+    }
+    .tab.active { background: linear-gradient(135deg, #ff4f63, #ff9f43); color: white; border: none; }
+    .products {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 22px; margin-bottom: 30px;
+    }
+    .product {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden; transition: 0.25s;
+    }
+    .product:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+    .product-top {
+      height: 160px; background: #eef2ff; display: flex; align-items: center;
+      justify-content: center; overflow: hidden;
+    }
+    .product-top img { width: 100%; height: 100%; object-fit: cover; }
+    .product-top i { font-size: 48px; color: #5b61ff; }
+    .product-body { padding: 15px; }
+    .product-body h3 { margin-bottom: 6px; font-size: 18px; }
+    .muted { color: #5e6788; font-size: 13px; }
     .p-foot {
-      margin-top: 12px;
-      border-top: 1px solid var(--border);
-      padding-top: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 14px; border-top: 1px solid #edf2ff; padding-top: 12px;
     }
     .p-price strong { font-size: 22px; color: var(--primary); }
-    .p-price del { display: block; color: #8a93b7; font-size: 12px; }
-
     .feature-row {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 16px;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 15px;
+      margin-top: 20px;
     }
     .feature {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      background: white; border: 1px solid var(--border); border-radius: 16px;
+      padding: 12px; display: flex; align-items: center; gap: 12px;
     }
     .feature i {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #ff4f63, #ff9f43);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      font-size: 15px;
+      width: 40px; height: 40px; background: linear-gradient(135deg, #ff4f63, #ff9f43);
+      border-radius: 12px; display: grid; place-items: center; color: white;
     }
 
-    .payment-panel {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 22px;
-      box-shadow: 0 14px 32px rgba(49, 63, 122, .09);
-    }
-    .payment-guides {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .guide {
-      background: linear-gradient(140deg, #f4f7ff, #eef2ff);
-      border: 1px solid #dde5ff;
-      border-radius: 12px;
-      padding: 10px;
-      font-size: 13px;
-      color: #424b70;
-    }
-    .payment-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .pay-card {
-      background: #f8faff;
-      border: 1px solid #dde5ff;
-      border-radius: 13px;
-      padding: 12px;
-      text-align: center;
-    }
-    .logo-frame {
-      width: 100%;
-      height: 62px;
-      border-radius: 10px;
-      background: #fff;
-      border: 1px solid #edf2ff;
-      display: grid;
-      place-items: center;
-      margin-bottom: 8px;
-      overflow: hidden;
-    }
-    .logo-frame img {
-      width: 88%;
-      height: 46px;
-      object-fit: contain;
-    }
-    .pay-number {
-      margin-top: 4px;
-      color: #ff4f63;
-      font-weight: 700;
-      letter-spacing: .2px;
-    }
-
+    /* Reviews, Contact, CTA similar to original but cleaner */
     .review-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
     }
     .review {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      transition: transform .28s ease, box-shadow .28s ease;
+      background: white; border: 1px solid var(--border); border-radius: 20px;
+      padding: 18px; transition: 0.2s;
     }
-    .review:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 28px rgba(38, 48, 95, .12);
-    }
+    .review:hover { transform: translateY(-3px); }
     .stars { color: #f7b500; margin-bottom: 8px; }
-    .review p { margin: 0 0 10px; color: #556082; }
-    .review h4 { margin: 0; }
-    .review small { color: #7b85a8; }
-
-    .cta {
-      background: linear-gradient(130deg, #2f3cb1 0%, #6c3bc6 55%, #a335b8 100%);
-      color: #fff;
-      border-radius: 18px;
-      padding: 36px 18px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .cta::before {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .11);
-      right: -45px;
-      top: -45px;
-      animation: floatY 5s ease-in-out infinite;
-    }
-
     .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 15px;
     }
     .contact-item {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      text-align: center;
-      padding: 14px;
+      background: white; border: 1px solid var(--border); border-radius: 18px;
+      text-align: center; padding: 18px;
     }
-
-    footer {
-      background: #eef3ff;
-      border-top: 1px solid #dbe3ff;
-      text-align: center;
-      color: #677197;
-      padding: 22px 0;
-      font-size: 13px;
-      margin-top: 30px;
+    .cta {
+      background: linear-gradient(130deg, #2f3cb1, #6c3bc6, #a335b8);
+      border-radius: 24px; padding: 45px 20px; text-align: center; color: white;
     }
-
     .whatsapp {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: 58px;
-      height: 58px;
-      border-radius: 999px;
-      background: #25d366;
-      color: #fff;
-      display: grid;
-      place-items: center;
-      text-decoration: none;
-      font-size: 28px;
-      box-shadow: 0 0 0 0 rgba(37, 211, 102, .6);
-      animation: pulse 2s infinite;
-      z-index: 998;
+      position: fixed; bottom: 20px; right: 20px; background: #25d366;
+      width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+      color: white; font-size: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      animation: pulse 2s infinite; z-index: 99;
     }
-    @keyframes pulse {
-      70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-    }
-
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); } 70% { box-shadow: 0 0 0 12px rgba(37,211,102,0); } 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); } }
+    
+    /* Modal */
     .modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 12px;
-      background: rgba(16, 23, 49, .78);
-      z-index: 2000;
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      display: none; justify-content: center; align-items: center;
+      z-index: 2000; padding: 16px;
     }
     .modal.active { display: flex; }
     .modal-box {
-      width: min(760px, 100%);
-      max-height: 92vh;
-      overflow: auto;
-      background: #fff;
-      border: 1px solid #dbe4ff;
-      border-radius: 16px;
-      box-shadow: 0 18px 36px rgba(21, 33, 80, .3);
-      animation: pop .3s ease;
-    }
-    @keyframes pop {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      background: white; max-width: 700px; width: 100%; border-radius: 28px;
+      max-height: 90vh; overflow: auto;
     }
     .modal-head {
-      padding: 16px 18px;
-      border-bottom: 1px solid #e5ebff;
-      background: linear-gradient(130deg, #f7f9ff, #edf2ff);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 18px; background: #f8faff; border-bottom: 1px solid #eef2ff;
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .modal-head h3 { margin: 0; color: #2a3562; }
-    .close-btn {
-      border: 0;
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: #e7edff;
-      color: #2b3665;
-      cursor: pointer;
+    .close-btn { background: #eef2ff; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
+    .modal-body { padding: 20px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .group { margin-bottom: 16px; }
+    .group label { font-weight: 600; display: block; margin-bottom: 6px; }
+    .group input, .group select, .group textarea {
+      width: 100%; padding: 12px; border: 1px solid #dce3ff; border-radius: 14px;
+      font-family: inherit; background: #fbfdff;
     }
-    .modal-body { padding: 16px 18px 20px; }
-
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .group { margin-bottom: 12px; }
-    .group label {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #2f3967;
-    }
-    .group input,
-    .group select,
-    .group textarea {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid #dce3ff;
-      padding: 11px 12px;
-      font-size: 14px;
-      color: #2b3458;
-      font-family: inherit;
-      background: #fbfcff;
-    }
-    .group textarea { min-height: 78px; resize: vertical; }
-
-    .method-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .method-item input { display: none; }
+    .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .method-label {
-      border: 1px solid #dde4ff;
-      border-radius: 11px;
-      background: #f7f9ff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px;
-      cursor: pointer;
-      transition: border-color .22s ease, transform .22s ease;
+      display: flex; align-items: center; gap: 8px; border: 1px solid #dce3ff;
+      border-radius: 14px; padding: 8px 10px; cursor: pointer;
     }
-    .method-logo {
-      width: 76px;
-      height: 34px;
-      border-radius: 8px;
-      background: #fff;
-      border: 1px solid #edf1ff;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .method-logo img {
-      width: 86%;
-      height: 26px;
-      object-fit: contain;
-    }
-    .method-item input:checked + .method-label {
-      border-color: var(--primary);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 20px rgba(255, 79, 99, .13);
-    }
-
-    .pay-detail {
-      display: none;
-      border-radius: 11px;
-      border: 1px solid #dce4ff;
-      background: #f8faff;
-      padding: 11px;
-      margin-bottom: 12px;
-      text-align: center;
-      color: #4d577d;
-    }
+    .method-logo img { height: 28px; }
+    .method-item input:checked + .method-label { border-color: #ff4f63; background: #fff0f2; }
+    .pay-detail { display: none; background: #f8faff; padding: 12px; border-radius: 16px; text-align: center; margin-bottom: 15px; }
     .pay-detail.active { display: block; }
-    .pay-detail .num {
-      margin-top: 4px;
-      color: #ff4f63;
-      font-size: 19px;
-      font-weight: 700;
-    }
-
     .submit {
-      width: 100%;
-      border: 0;
-      border-radius: 10px;
-      padding: 12px;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-      cursor: pointer;
-      background: linear-gradient(135deg, #ff4f63, #ff9f43);
-    }
-
-    @media (max-width: 1024px) {
-      .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .feature-row, .payment-grid, .payment-guides, .contact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .review-grid { grid-template-columns: 1fr 1fr; }
+      width: 100%; background: linear-gradient(135deg, #ff4f63, #ff9f43);
+      border: none; padding: 14px; border-radius: 40px; color: white;
+      font-weight: bold; font-size: 16px; cursor: pointer;
     }
 
     @media (max-width: 768px) {
-      nav ul {
-        display: none;
-        flex-direction: column;
-        align-items: flex-start;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 68px;
-        background: #fff;
-        border-top: 1px solid #e8edff;
-        padding: 14px;
-      }
+      nav ul { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: white; padding: 20px; border-bottom: 1px solid #eef; z-index: 99; }
       nav ul.active { display: flex; }
       .menu-btn { display: block; }
-
-      .hero-box, .slides { min-height: 420px; }
+      .products { grid-template-columns: 1fr 1fr; }
+      .feature-row, .review-grid, .contact-grid { grid-template-columns: 1fr 1fr; }
+      .row { grid-template-columns: 1fr; }
       .arrow { display: none; }
-      .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .row, .method-grid, .feature-row, .payment-grid, .payment-guides, .contact-grid, .review-grid { grid-template-columns: 1fr; }
-      .brand { font-size: 27px; }
     }
   </style>
 </head>
 <body>
-  <div id="loader" class="loader">
-    <div class="ring"></div>
+<div id="loader" class="loader"><div class="ring"></div></div>
+
+<header>
+  <div class="container header-row">
+    <a class="brand" href="#"><div class="brand-badge">A</div> ASHIK <span>DIGITAL</span> BD</a>
+    <nav>
+      <ul id="navMenu">
+        <li><a href="#home">হোম</a></li>
+        <li><a href="#products">প্রোডাক্ট</a></li>
+        <li><a href="#reviews">রিভিউ</a></li>
+        <li><a href="#contact">যোগাযোগ</a></li>
+        <li><div class="cart" onclick="openOrderModal()"><i class="fas fa-shopping-cart"></i><span id="cartCount" class="cart-count">0</span></div></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
   </div>
+</header>
 
-  <!-- topbar removed -->
-
-  <header>
-    <div class="container header-row">
-      <a class="brand" href="#home">
-        <div class="brand-badge">A</div>
-        ASHIK <span>DIGITAL</span> BD
-      </a>
-
-      <nav>
-        <ul id="navMenu">
-          <li><a href="#home">হোম</a></li>
-          <li><a href="#products">প্রোডাক্ট</a></li>
-          <li><a href="#payment">পেমেন্ট</a></li>
-          <li><a href="#reviews">রিভিউ</a></li>
-          <li><a href="#contact">যোগাযোগ</a></li>
-          <li>
-            <div class="cart" onclick="openOrderModal()">
-              <i class="fas fa-shopping-cart"></i>
-              <span id="cartCount" class="cart-count">0</span>
-            </div>
-          </li>
-        </ul>
-      </nav>
-
-      <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-    </div>
-  </header>
-
-  <!-- Hero Section with 5 images (placeholders, user can replace later) -->
-  <section id="home" class="hero">
-    <div class="container">
-      <div class="hero-box">
-        <div id="sliderTrack" class="slides">
-          <div class="slide"><img class="slide-img" src="https://picsum.photos/id/26/140/140" alt="Adobe"><span class="badge">আজকের সেরা অফার</span><h1>Adobe Creative Cloud</h1><p>সব Adobe Apps এর প্রিমিয়াম অ্যাক্সেস</p><div class="price">৳৯৯৯ <del>৳৩৫০০</del></div><button class="btn btn-light" onclick="openOrderModalWith('Adobe Creative Cloud', 999)">এখনই অর্ডার করুন</button></div>
-          <div class="slide"><img class="slide-img" src="https://picsum.photos/id/20/140/140" alt="Canva"><span class="badge">ফ্ল্যাশ সেল</span><h1>Canva Pro</h1><p>প্রিমিয়াম ডিজাইন লাইব্রেরি ও টুলস আনলিমিটেড</p><div class="price">৳২৯৯ <del>৳৯৯৯</del></div><button class="btn btn-light" onclick="openOrderModalWith('Canva Pro', 299)">এখনই কিনুন</button></div>
-          <div class="slide"><img class="slide-img" src="https://picsum.photos/id/155/140/140" alt="CapCut"><span class="badge">ভিডিও ক্রিয়েটর ডিল</span><h1>CapCut Pro</h1><p>প্রফেশনাল ভিডিও এডিটিং টুলস</p><div class="price">৳২৪৯ <del>৳৬৯৯</del></div><button class="btn btn-light" onclick="openOrderModalWith('CapCut Pro', 249)">অর্ডার করুন</button></div>
-          <div class="slide"><img class="slide-img" src="https://picsum.photos/id/101/140/140" alt="YouTube"><span class="badge">পপুলার</span><h1>YouTube Premium</h1><p>বিজ্ঞাপন ছাড়া ভিডিও এবং ব্যাকগ্রাউন্ড প্লে</p><div class="price">৳১৯৯ <del>৳৪৯৯</del></div><button class="btn btn-light" onclick="openOrderModalWith('YouTube Premium', 199)">অর্ডার করুন</button></div>
-          <div class="slide"><img class="slide-img" src="https://picsum.photos/id/3/140/140" alt="AI Logo"><span class="badge">AI পাওয়ার্ড</span><h1>AI Logo Design</h1><p>আপনার ব্র্যান্ডের জন্য মডার্ন কাস্টম ডিজাইন</p><div class="price">৳৪৯৯ <del>৳১২০০</del></div><button class="btn btn-light" onclick="openOrderModalWith('AI Logo Creation', 499)">অর্ডার করুন</button></div>
-        </div>
-        <button class="arrow prev" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
-        <button class="arrow next" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
-        <div class="dots" id="heroDots"></div>
+<!-- Hero Slider with 5 images (replaceable) -->
+<section id="home" class="hero">
+  <div class="container">
+    <div class="hero-box">
+      <div id="sliderTrack" class="slides">
+        <div class="slide"><img class="slide-img" src="https://picsum.photos/id/26/150/150" alt="Adobe"><span class="badge">বেস্ট অফার</span><h1>Adobe Creative Cloud</h1><p>সব Adobe Apps প্রিমিয়াম</p><div class="price">৳৯৯৯ <del>৳৩৫০০</del></div><button class="btn btn-light" onclick="quickOrder('Adobe Creative Cloud',999)">অর্ডার করুন</button></div>
+        <div class="slide"><img class="slide-img" src="https://picsum.photos/id/20/150/150" alt="Canva"><span class="badge">ফ্ল্যাশ সেল</span><h1>Canva Pro</h1><p>আনলিমিটেড ডিজাইন</p><div class="price">৳২৯৯ <del>৳৯৯৯</del></div><button class="btn btn-light" onclick="quickOrder('Canva Pro',299)">অর্ডার করুন</button></div>
+        <div class="slide"><img class="slide-img" src="https://picsum.photos/id/155/150/150" alt="CapCut"><span class="badge">এডিটর স্পেশাল</span><h1>CapCut Pro</h1><p>প্রো ভিডিও এডিটিং</p><div class="price">৳২৪৯ <del>৳৬৯৯</del></div><button class="btn btn-light" onclick="quickOrder('CapCut Pro',249)">অর্ডার করুন</button></div>
+        <div class="slide"><img class="slide-img" src="https://picsum.photos/id/101/150/150" alt="YouTube"><span class="badge">প্রিমিয়াম</span><h1>YouTube Premium</h1><p>বিজ্ঞাপন মুক্ত</p><div class="price">৳১৯৯ <del>৳৪৯৯</del></div><button class="btn btn-light" onclick="quickOrder('YouTube Premium',199)">অর্ডার করুন</button></div>
+        <div class="slide"><img class="slide-img" src="https://picsum.photos/id/3/150/150" alt="AI Logo"><span class="badge">এআই ডিজাইন</span><h1>AI Logo Creation</h1><p>কাস্টম লোগো</p><div class="price">৳৪৯৯ <del>৳১২০০</del></div><button class="btn btn-light" onclick="quickOrder('AI Logo Creation',499)">অর্ডার করুন</button></div>
       </div>
+      <button class="arrow prev" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="arrow next" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+      <div class="dots" id="heroDots"></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="products" class="section">
-    <div class="container">
-      <div class="head"><h2>সকল <span>প্রোডাক্ট</span></h2></div>
-      <div class="tabs" id="categoryTabs">
-        <button class="tab active" data-category="all">সব প্রোডাক্ট</button>
-        <button class="tab" data-category="subscription">সাবস্ক্রিপশন</button>
-        <button class="tab" data-category="design">ডিজাইন</button>
-        <button class="tab" data-category="digital">ডিজিটাল</button>
-      </div>
-      <div id="productsGrid" class="products"><div class="text-center py-8 col-span-full">প্রোডাক্ট লোড হচ্ছে...</div></div>
-      <div class="feature-row">
-        <div class="feature"><i class="fas fa-bolt"></i> ৫-১০ মিনিটে ডেলিভারি</div>
-        <div class="feature"><i class="fas fa-shield-halved"></i> ১০০% সিকিউর পেমেন্ট</div>
-        <div class="feature"><i class="fas fa-headset"></i> ২৪/৭ সাপোর্ট</div>
-        <div class="feature"><i class="fas fa-gem"></i> অরিজিনাল গ্যারান্টি</div>
-      </div>
+<!-- Products Section -->
+<section id="products" class="section">
+  <div class="container">
+    <div class="head"><h2>সকল <span>প্রোডাক্ট</span></h2></div>
+    <div class="tabs" id="tabsContainer">
+      <button class="tab active" data-cat="all">সব</button>
     </div>
-  </section>
+    <div id="productsGrid" class="products"><div class="text-center py-10">প্রোডাক্ট লোড হচ্ছে...</div></div>
+    <div class="feature-row">
+      <div class="feature"><i class="fas fa-bolt"></i> ৫-১০ মিনিটে ডেলিভারি</div>
+      <div class="feature"><i class="fas fa-shield-halved"></i> ১০০% সিকিউর পেমেন্ট</div>
+      <div class="feature"><i class="fas fa-headset"></i> ২৪/৭ সাপোর্ট</div>
+      <div class="feature"><i class="fas fa-gem"></i> অরিজিনাল গ্যারান্টি</div>
+    </div>
+  </div>
+</section>
 
-  <section id="reviews" class="section"><div class="container"><div class="head"><h2>কাস্টমার <span>রিভিউ</span></h2></div><div class="review-grid"><article class="review"><div class="stars">★★★★★</div><p>Canva Pro অর্ডার দিয়ে ৫ মিনিটে ডেলিভারি পেয়েছি। সার্ভিস খুবই দ্রুত এবং রেসপন্সিভ।</p><h4>রাহাত হোসেন</h4><small>ফ্রিল্যান্সার</small></article><article class="review"><div class="stars">★★★★★</div><p>পেমেন্টের পর অর্ডার আপডেট সঙ্গে সঙ্গে পেয়েছি। Telegram আপডেট সুবিধাটা খুব ভালো।</p><h4>নাজমুল হক</h4><small>ব্যবসায়ী</small></article><article class="review"><div class="stars">★★★★★</div><p>AI Logo Design নিয়েছিলাম, কোয়ালিটি দারুণ ছিল। আবারও সার্ভিস নেবো।</p><h4>সাব্বির আহমেদ</h4><small>কনটেন্ট ক্রিয়েটর</small></article></div></div></section>
+<!-- Reviews -->
+<section id="reviews" class="section">
+  <div class="container">
+    <div class="head"><h2>কাস্টমার <span>রিভিউ</span></h2></div>
+    <div class="review-grid">
+      <div class="review"><div class="stars">★★★★★</div><p>Canva Pro ৫ মিনিটে পেয়েছি! দারুণ সার্ভিস।</p><h4>রাহাত হোসেন</h4><small>ফ্রিল্যান্সার</small></div>
+      <div class="review"><div class="stars">★★★★★</div><p>টেলিগ্রাম আপডেট খুব ভালো, দ্রুত ডেলিভারি।</p><h4>নাজমুল হক</h4><small>ব্যবসায়ী</small></div>
+      <div class="review"><div class="stars">★★★★★</div><p>AI লোগো ডিজাইন অসাধারণ ছিল। ধন্যবাদ।</p><h4>সাব্বির আহমেদ</h4><small>ক্রিয়েটর</small></div>
+    </div>
+  </div>
+</section>
 
-  <section class="section"><div class="container"><div class="cta"><h2 style="margin:0 0 10px;">অর্ডার করতে প্রস্তুত?</h2><p style="margin:0 0 18px;">অর্ডার সাবমিট করলে তথ্য সরাসরি Telegram ও Supabase-এ সংরক্ষিত হবে।</p><button class="btn btn-light" onclick="openOrderModal()">এখনই অর্ডার করুন</button></div></div></section>
+<!-- CTA -->
+<section class="section"><div class="container"><div class="cta"><h2>অর্ডার করতে প্রস্তুত?</h2><p>অর্ডার সাবমিট করলে সরাসরি টেলিগ্রাম ও ডাটাবেসে সংরক্ষিত হবে।</p><button class="btn btn-light" onclick="openOrderModal()">এখনই অর্ডার করুন</button></div></div></section>
 
-  <section id="contact" class="section" style="padding-top: 0;"><div class="container"><div class="head"><h2>যোগাযোগ <span>করুন</span></h2></div><div class="contact-grid"><div class="contact-item"><i class="fab fa-whatsapp"></i><p>+880 1933-489724</p></div><div class="contact-item"><i class="fas fa-envelope"></i><p>support@ashikdigital.com</p></div><div class="contact-item"><i class="fab fa-telegram"></i><p>@ASHIKHELPDESK</p></div><div class="contact-item"><i class="fas fa-clock"></i><p>সকাল ১০টা - রাত ১২টা</p></div></div></div></section>
-  <footer>© ২০২৬ ASHIKDIGITAL BD | All rights reserved</footer>
-  <a class="whatsapp" target="_blank" href="https://wa.me/8801933489724"><i class="fab fa-whatsapp"></i></a>
+<!-- Contact -->
+<section id="contact" class="section" style="padding-top:0"><div class="container"><div class="head"><h2>যোগাযোগ <span>করুন</span></h2></div><div class="contact-grid"><div class="contact-item"><i class="fab fa-whatsapp"></i><p>+880 1933-489724</p></div><div class="contact-item"><i class="fas fa-envelope"></i><p>support@ashikdigital.com</p></div><div class="contact-item"><i class="fab fa-telegram"></i><p>@ASHIKHELPDESK</p></div><div class="contact-item"><i class="fas fa-clock"></i><p>সকাল ১০টা - রাত ১২টা</p></div></div></div></section>
 
-  <!-- order & success modals same as before -->
-  <div id="orderModal" class="modal"><div class="modal-box"><div class="modal-head"><h3><i class="fas fa-bag-shopping"></i> অর্ডার ফর্ম</h3><button class="close-btn" onclick="closeOrderModal()"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="orderForm"><div class="row"><div class="group"><label>আপনার নাম *</label><input name="name" required placeholder="পূর্ণ নাম লিখুন"></div><div class="group"><label>WhatsApp *</label><input name="whatsapp" required placeholder="+8801XXXXXXXXX"></div></div><div class="group"><label>ইমেইল *</label><input type="email" name="email" required placeholder="example@email.com"></div><div class="row"><div class="group"><label>প্রোডাক্ট *</label><select name="product" id="productSelect" required onchange="updatePrice()"></select></div><div class="group"><label>মোট মূল্য</label><input id="totalPrice" readonly placeholder="প্রোডাক্ট সিলেক্ট করুন"></div></div><div class="row"><div class="group"><label>পেমেন্ট মেথড *</label><div class="method-grid"><div class="method-item"><input id="payBkash" type="radio" name="payment_method" value="bKash" onchange="showPaymentDetails(this.value)" required><label class="method-label" for="payBkash"><div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/BKash_logo.svg/320px-BKash_logo.svg.png" alt="bKash"></div>bKash</label></div><div class="method-item"><input id="payNagad" type="radio" name="payment_method" value="Nagad" onchange="showPaymentDetails(this.value)"><label class="method-label" for="payNagad"><div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Nagad_Logo.wine.svg/320px-Nagad_Logo.wine.svg.png" alt="Nagad"></div>Nagad</label></div><div class="method-item"><input id="payUpay" type="radio" name="payment_method" value="Upay" onchange="showPaymentDetails(this.value)"><label class="method-label" for="payUpay"><div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Upay_logo.svg" alt="Upay"></div>Upay</label></div><div class="method-item"><input id="payRocket" type="radio" name="payment_method" value="Rocket" onchange="showPaymentDetails(this.value)"><label class="method-label" for="payRocket"><div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Rocket_mobile_banking_logo.svg" alt="Rocket"></div>Rocket</label></div></div></div><div class="group"><label>Transaction ID *</label><input name="transaction_id" required placeholder="Trx ID লিখুন"></div></div><div id="detailBkash" class="pay-detail"><strong>bKash</strong><div class="num">018933489724</div></div><div id="detailNagad" class="pay-detail"><strong>Nagad</strong><div class="num">018933489724</div></div><div id="detailUpay" class="pay-detail"><strong>Upay</strong><div class="num">018933489724</div></div><div id="detailRocket" class="pay-detail"><strong>Rocket</strong><div class="num">018933489724</div></div><div class="group"><label>অতিরিক্ত মেসেজ</label><textarea name="message" placeholder="কোনো বিশেষ নির্দেশনা থাকলে লিখুন"></textarea></div><button class="submit" type="submit"><i class="fas fa-paper-plane"></i> অর্ডার কনফার্ম করুন</button></form></div></div></div>
-  <div id="successModal" class="modal"><div class="modal-box" style="max-width:460px; text-align:center;"><div class="modal-body" style="padding:26px;"><div style="width:74px;height:74px;border-radius:999px;background:linear-gradient(135deg,#2fd67d,#21a7ff);color:#fff;display:grid;place-items:center;margin:0 auto 12px;font-size:30px;"><i class="fas fa-check"></i></div><h3 style="margin:0 0 10px;">অর্ডার সফল</h3><p style="margin:0 0 14px;">অর্ডার Telegram ও ডাটাবেসে সংরক্ষিত হয়েছে। শীঘ্রই যোগাযোগ করা হবে।</p><button class="btn btn-grad" onclick="closeSuccessModal()">ঠিক আছে</button></div></div></div>
+<footer>© ২০২৬ ASHIKDIGITAL BD | All rights reserved</footer>
+<a class="whatsapp" href="https://wa.me/8801933489724" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-  <script>
-    // Supabase config
-    const SUPABASE_URL = "https://rvbdzbqjrsavwdbxutfo.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_qt8sN5cY-JrxmaKrxSEv5Q_Q4JJdNra";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<!-- Order Modal -->
+<div id="orderModal" class="modal"><div class="modal-box"><div class="modal-head"><h3><i class="fas fa-shopping-cart"></i> অর্ডার ফর্ম</h3><button class="close-btn" onclick="closeOrderModal()"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="orderForm"><div class="row"><div class="group"><label>নাম *</label><input name="name" required placeholder="আপনার নাম"></div><div class="group"><label>WhatsApp *</label><input name="whatsapp" required placeholder="+8801XXXXXXXXX"></div></div><div class="group"><label>ইমেইল *</label><input type="email" name="email" required placeholder="example@mail.com"></div><div class="row"><div class="group"><label>প্রোডাক্ট *</label><select id="productSelect" name="product" required onchange="updatePrice()"></select></div><div class="group"><label>মোট মূল্য</label><input id="totalPrice" readonly placeholder="০ টাকা"></div></div><div class="row"><div class="group"><label>পেমেন্ট মেথড *</label><div class="method-grid"><div><input type="radio" name="payment_method" value="bKash" id="bkash" onchange="showPaymentDetail('bKash')"><label for="bkash" class="method-label"><div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/BKash_logo.svg/320px-BKash_logo.svg.png" alt="bKash"></div>bKash</label></div><div><input type="radio" name="payment_method" value="Nagad" id="nagad" onchange="showPaymentDetail('Nagad')"><label for="nagad" class="method-label"><div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Nagad_Logo.wine.svg/320px-Nagad_Logo.wine.svg.png" alt="Nagad"></div>Nagad</label></div><div><input type="radio" name="payment_method" value="Upay" id="upay" onchange="showPaymentDetail('Upay')"><label for="upay" class="method-label"><div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Upay_logo.svg" alt="Upay"></div>Upay</label></div><div><input type="radio" name="payment_method" value="Rocket" id="rocket" onchange="showPaymentDetail('Rocket')"><label for="rocket" class="method-label"><div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Rocket_mobile_banking_logo.svg" alt="Rocket"></div>Rocket</label></div></div></div><div class="group"><label>Trx ID *</label><input name="transaction_id" required placeholder="ট্রানজেকশন আইডি"></div></div><div id="paymentDetailBlock" class="pay-detail">পেমেন্ট মেথড সিলেক্ট করুন</div><div class="group"><label>অতিরিক্ত মেসেজ</label><textarea name="message" rows="2"></textarea></div><button type="submit" class="submit"><i class="fas fa-paper-plane"></i> অর্ডার কনফার্ম করুন</button></form></div></div></div>
 
-    // Telegram config
-    const TG_API_ID = "8732766562";
-    const TG_TOKEN_PART = "AAEYvZLBWdXf2BmF2zwtddISCy1GDYxMU5g";
-    const TG_BOT_TOKEN = `${TG_API_ID}:${TG_TOKEN_PART}`;
-    let TG_CHAT_ID = "";
+<!-- Success Modal -->
+<div id="successModal" class="modal"><div class="modal-box" style="max-width:400px; text-align:center;"><div class="modal-body"><div style="width:70px;height:70px;background:green;border-radius:50%;margin:0 auto;display:grid;place-items:center;color:white;font-size:32px;"><i class="fas fa-check"></i></div><h3 style="margin:15px 0">অর্ডার সফল!</h3><p>আপনার অর্ডার টেলিগ্রাম ও ডাটাবেসে সংরক্ষিত হয়েছে।</p><button class="btn btn-grad" onclick="closeSuccessModal()">ঠিক আছে</button></div></div></div>
 
-    let currentSlide = 0, totalSlides = 5, sliderTrack, dotsArr = [];
-    let cartCount = 0;
-    let allProducts = [];
-    let currentCategory = "all";
+<script>
+  // ---------- SUPABASE & TELEGRAM ----------
+  const SUPABASE_URL = "https://rvbdzbqjrsavwdbxutfo.supabase.co";
+  const SUPABASE_ANON = "sb_publishable_qt8sN5cY-JrxmaKrxSEv5Q_Q4JJdNra";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  const TG_BOT_TOKEN = "8732766562:AAEYvZLBWdXf2BmF2zwtddISCy1GDYxMU5g";
+  let tgChatId = "";
+  let allProductsData = [];
+  let currentCat = "all";
+  let cartQty = 0;
 
-    // Helper functions
-    function toggleMenu() { document.getElementById("navMenu").classList.toggle("active"); }
-    function openOrderModal() { document.getElementById("orderModal").classList.add("active"); document.body.style.overflow = "hidden"; }
-    function closeOrderModal() { document.getElementById("orderModal").classList.remove("active"); document.body.style.overflow = ""; }
-    function closeSuccessModal() { document.getElementById("successModal").classList.remove("active"); }
+  // Helper functions
+  function toggleMenu() { document.getElementById("navMenu").classList.toggle("active"); }
+  function openOrderModal() { document.getElementById("orderModal").classList.add("active"); document.body.style.overflow = "hidden"; }
+  function closeOrderModal() { document.getElementById("orderModal").classList.remove("active"); document.body.style.overflow = ""; }
+  function closeSuccessModal() { document.getElementById("successModal").classList.remove("active"); }
 
-    function openOrderModalWith(productName, price) {
-      cartCount += 1;
-      document.getElementById("cartCount").textContent = cartCount;
-      const select = document.getElementById("productSelect");
-      for(let i=0;i<select.options.length;i++) if(select.options[i].value === productName) { select.selectedIndex = i; break; }
-      updatePrice();
-      openOrderModal();
+  function quickOrder(name, price) {
+    cartQty++; document.getElementById("cartCount").innerText = cartQty;
+    const select = document.getElementById("productSelect");
+    for(let i=0; i<select.options.length; i++) {
+      if(select.options[i].value === name) { select.selectedIndex = i; break; }
     }
+    updatePrice();
+    openOrderModal();
+  }
 
-    function updatePrice() {
-      const select = document.getElementById("productSelect");
-      const option = select.options[select.selectedIndex];
-      document.getElementById("totalPrice").value = option?.dataset?.price ? `৳${option.dataset.price}` : "";
-    }
+  function updatePrice() {
+    const sel = document.getElementById("productSelect");
+    const price = sel.options[sel.selectedIndex]?.getAttribute("data-price") || "0";
+    document.getElementById("totalPrice").value = price ? `৳${price}` : "";
+  }
 
-    function showPaymentDetails(method) { 
-      ["Bkash","Nagad","Upay","Rocket"].forEach(k=>{ let el=document.getElementById(`detail${k}`); if(el) el.classList.remove("active"); });
-      if(method==="bKash") document.getElementById("detailBkash").classList.add("active");
-      if(method==="Nagad") document.getElementById("detailNagad").classList.add("active");
-      if(method==="Upay") document.getElementById("detailUpay").classList.add("active");
-      if(method==="Rocket") document.getElementById("detailRocket").classList.add("active");
-    }
+  function showPaymentDetail(method) {
+    const block = document.getElementById("paymentDetailBlock");
+    if(method === "bKash") block.innerHTML = `<strong>bKash</strong><div class="num" style="font-size:18px;color:#ff4f63;">018933489724</div>`;
+    else if(method === "Nagad") block.innerHTML = `<strong>Nagad</strong><div class="num" style="font-size:18px;color:#ff4f63;">018933489724</div>`;
+    else if(method === "Upay") block.innerHTML = `<strong>Upay</strong><div class="num" style="font-size:18px;color:#ff4f63;">018933489724</div>`;
+    else if(method === "Rocket") block.innerHTML = `<strong>Rocket</strong><div class="num" style="font-size:18px;color:#ff4f63;">018933489724</div>`;
+    block.classList.add("active");
+  }
 
-    function renderProductsByCategory() {
-      const container = document.getElementById("productsGrid");
-      let filtered = currentCategory === "all" ? allProducts : allProducts.filter(p => p.category?.toLowerCase() === currentCategory);
-      if(filtered.length === 0) { container.innerHTML = `<div class="text-center py-8 col-span-full">কোনো প্রোডাক্ট পাওয়া যায়নি</div>`; return; }
-      container.innerHTML = filtered.map(p => `
-        <article class="product" data-category="${p.category}">
-          <div class="product-top">${p.image_url ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy">` : `<i class="fas fa-box"></i>`}</div>
-          <div class="product-body"><h3>${escapeHtml(p.name)}</h3><p class="muted">${escapeHtml(p.description?.slice(0,60) || 'প্রিমিয়াম সার্ভিস')}</p><div class="p-foot"><div class="p-price"><strong>৳${p.price}</strong><del>৳${Math.round(p.price*2.5)}</del></div><button class="btn btn-grad" onclick="openOrderModalWith('${escapeHtml(p.name)}', ${p.price})">কিনুন</button></div></div>
-        </article>`).join("");
-    }
-
-    function escapeHtml(str) { return String(str||'').replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-
-    async function fetchProductsAndRender() {
-      try {
-        const { data, error } = await supabase.from("Products").select("*");
-        if(error) throw error;
-        allProducts = data || [];
-        renderProductsByCategory();
-        // populate product select dropdown
-        const select = document.getElementById("productSelect");
-        select.innerHTML = `<option value="" data-price="">-- প্রোডাক্ট বেছে নিন --</option>` + allProducts.map(p => `<option value="${escapeHtml(p.name)}" data-price="${p.price}">${escapeHtml(p.name)} - ৳${p.price}</option>`).join("");
-      } catch(err) { console.error(err); document.getElementById("productsGrid").innerHTML = `<div class="text-center py-8 col-span-full">প্রোডাক্ট লোড করতে ব্যর্থ</div>`; }
-    }
-
-    // category tabs event
-    document.querySelectorAll("#categoryTabs .tab").forEach(tab => {
-      tab.addEventListener("click", (e) => {
-        document.querySelectorAll("#categoryTabs .tab").forEach(t => t.classList.remove("active"));
-        tab.classList.add("active");
-        currentCategory = tab.dataset.category;
-        renderProductsByCategory();
-      });
-    });
-
-    // Hero Slider
-    function initHeroSlider() {
-      sliderTrack = document.getElementById("sliderTrack");
-      const dotsContainer = document.getElementById("heroDots");
-      totalSlides = document.querySelectorAll(".slide").length;
-      for(let i=0;i<totalSlides;i++) { let dot = document.createElement("button"); dot.classList.add("dot"); if(i===0) dot.classList.add("active"); dot.addEventListener("click",()=>goToSlide(i)); dotsContainer.appendChild(dot); dotsArr.push(dot); }
-      updateSlider();
-      setInterval(()=>changeSlide(1), 5000);
-    }
-    function updateSlider() { sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`; dotsArr.forEach((d,i)=>d.classList.toggle("active", i===currentSlide)); }
-    function changeSlide(dir) { currentSlide = (currentSlide + dir + totalSlides) % totalSlides; updateSlider(); }
-    function goToSlide(idx) { currentSlide = idx; updateSlider(); }
-
-    // Telegram & Supabase Order
-    async function resolveChatId() {
-      if(TG_CHAT_ID) return TG_CHAT_ID;
+  async function getTelegramChatId() {
+    if(tgChatId) return tgChatId;
+    try {
       const res = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/getUpdates`);
       const data = await res.json();
-      if(!data.ok || !data.result?.length) throw new Error("Telegram Chat ID পাওয়া যায়নি। /start পাঠান।");
-      const last = data.result[data.result.length-1];
-      const chat = last.message?.chat || last.channel_post?.chat;
-      if(!chat?.id) throw new Error("Chat id detect ব্যর্থ");
-      TG_CHAT_ID = String(chat.id);
-      return TG_CHAT_ID;
-    }
+      if(data.ok && data.result && data.result.length) {
+        const last = data.result[data.result.length-1];
+        const chat = last.message?.chat || last.channel_post?.chat;
+        if(chat?.id) { tgChatId = String(chat.id); return tgChatId; }
+      }
+      throw new Error("Chat ID not found. Please send /start to your bot.");
+    } catch(e) { throw new Error("Telegram chat ID error: "+e.message); }
+  }
 
-    async function sendToTelegram(orderData) {
-      const chatId = await resolveChatId();
-      const text = `<b>নতুন অর্ডার - ASHIKDIGITAL BD</b>\n\n<b>নাম:</b> ${escapeHtml(orderData.name)}\n<b>WhatsApp:</b> ${escapeHtml(orderData.whatsapp)}\n<b>ইমেইল:</b> ${escapeHtml(orderData.email)}\n<b>প্রোডাক্ট:</b> ${escapeHtml(orderData.product)}\n<b>মোট মূল্য:</b> ${orderData.price}\n<b>পেমেন্ট মেথড:</b> ${escapeHtml(orderData.payment_method)}\n<b>Transaction ID:</b> ${escapeHtml(orderData.transaction_id)}\n<b>মেসেজ:</b> ${escapeHtml(orderData.message || "N/A")}\n<b>সময়:</b> ${new Date().toLocaleString("bn-BD")}`;
-      const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ chat_id:chatId, text, parse_mode:"HTML" }) });
-      const out = await response.json();
-      if(!out.ok) throw new Error(out.description || "Telegram error");
-    }
+  async function sendToTelegram(order) {
+    const chatId = await getTelegramChatId();
+    const text = `<b>🛒 নতুন অর্ডার</b>\n\n👤 নাম: ${order.name}\n📱 WhatsApp: ${order.whatsapp}\n📧 ইমেইল: ${order.email}\n📦 প্রোডাক্ট: ${order.product}\n💰 মূল্য: ${order.price}\n💳 পেমেন্ট: ${order.payment_method}\n🔖 TrxID: ${order.transaction_id}\n💬 মেসেজ: ${order.message || "—"}\n⏱️ সময়: ${new Date().toLocaleString("bn-BD")}`;
+    const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+      method: "POST", headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" })
+    });
+    const json = await response.json();
+    if(!json.ok) throw new Error(json.description);
+  }
 
-    async function saveOrderToSupabase(order) {
-      const { error } = await supabase.from("orders").insert({
-        customer_name: order.name,
-        whatsapp_number: order.whatsapp,
-        email: order.email,
-        product_name: order.product,
-        total_price: parseInt(order.price.replace(/[^0-9]/g,'')) || 0,
-        payment_method: order.payment_method,
-        transaction_id: order.transaction_id,
-        additional_message: order.message || null,
-        created_at: new Date().toISOString()
+  async function saveOrderToSupabase(order) {
+    const { error } = await supabaseClient.from("orders").insert({
+      customer_name: order.name,
+      whatsapp_number: order.whatsapp,
+      email: order.email,
+      product_name: order.product,
+      total_price: parseInt(order.price.replace(/[^0-9]/g,'')) || 0,
+      payment_method: order.payment_method,
+      transaction_id: order.transaction_id,
+      additional_message: order.message || null,
+      created_at: new Date().toISOString()
+    });
+    if(error) throw new Error("Supabase error: "+error.message);
+  }
+
+  // Load products from Supabase
+  async function loadProducts() {
+    const { data, error } = await supabaseClient.from("Products").select("*");
+    if(error) {
+      document.getElementById("productsGrid").innerHTML = `<div class="text-center">প্রোডাক্ট লোড ব্যর্থ: ${error.message}</div>`;
+      return;
+    }
+    allProductsData = data || [];
+    renderTabs();
+    renderProducts();
+    populateProductSelect();
+  }
+
+  function renderTabs() {
+    const cats = new Set(allProductsData.map(p => p.category).filter(Boolean));
+    const tabsDiv = document.getElementById("tabsContainer");
+    tabsDiv.innerHTML = `<button class="tab active" data-cat="all">সব</button>`;
+    for(let cat of cats) {
+      tabsDiv.innerHTML += `<button class="tab" data-cat="${cat}">${cat.toUpperCase()}</button>`;
+    }
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", (e) => {
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+        tab.classList.add("active");
+        currentCat = tab.getAttribute("data-cat");
+        renderProducts();
       });
-      if(error) throw new Error("Supabase insert error: "+error.message);
-    }
-
-    document.getElementById("orderForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const fd = new FormData(form);
-      const productSelect = document.getElementById("productSelect");
-      const selectedOption = productSelect.options[productSelect.selectedIndex];
-      const productPrice = selectedOption?.dataset?.price || "0";
-      const orderData = {
-        name: fd.get("name"), whatsapp: fd.get("whatsapp"), email: fd.get("email"), product: fd.get("product"),
-        price: `৳${productPrice}`, payment_method: fd.get("payment_method"), transaction_id: fd.get("transaction_id"), message: fd.get("message")
-      };
-      const submitBtn = form.querySelector("button[type='submit']");
-      const originalText = submitBtn.innerHTML;
-      submitBtn.disabled = true; submitBtn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> প্রক্রিয়াকরণ...";
-      try {
-        await sendToTelegram(orderData);
-        await saveOrderToSupabase(orderData);
-        closeOrderModal();
-        document.getElementById("successModal").classList.add("active");
-        form.reset(); updatePrice(); cartCount=0; document.getElementById("cartCount").textContent="0";
-      } catch(err) { alert("অর্ডার জমা দিতে সমস্যা: "+err.message); } finally { submitBtn.disabled = false; submitBtn.innerHTML = originalText; }
     });
+  }
 
-    document.getElementById("orderModal").addEventListener("click", (e) => { if(e.target.id === "orderModal") closeOrderModal(); });
-    document.getElementById("successModal").addEventListener("click", (e) => { if(e.target.id === "successModal") closeSuccessModal(); });
-    document.querySelectorAll("a[href^='#']").forEach(link => link.addEventListener("click", function(e){ let href=this.getAttribute("href"); if(href==="#") return; let target=document.querySelector(href); if(target){ e.preventDefault(); target.scrollIntoView({behavior:"smooth"}); document.getElementById("navMenu")?.classList.remove("active"); } }));
-    document.addEventListener("keydown", (e) => { if(e.key==="Escape") { closeOrderModal(); closeSuccessModal(); } });
+  function renderProducts() {
+    const filtered = currentCat === "all" ? allProductsData : allProductsData.filter(p => p.category === currentCat);
+    const container = document.getElementById("productsGrid");
+    if(filtered.length===0) { container.innerHTML = "<div class='text-center'>কোন প্রোডাক্ট নেই</div>"; return; }
+    container.innerHTML = filtered.map(p => `
+      <div class="product">
+        <div class="product-top">${p.image_url ? `<img src="${p.image_url}" alt="${p.name}">` : `<i class="fas fa-digital-tiling"></i>`}</div>
+        <div class="product-body">
+          <h3>${escapeHtml(p.name)}</h3>
+          <p class="muted">${escapeHtml(p.description?.slice(0,70) || 'প্রিমিয়াম ডিজিটাল প্রোডাক্ট')}</p>
+          <div class="p-foot"><div class="p-price"><strong>৳${p.price}</strong><del>৳${Math.round(p.price*2.2)}</del></div><button class="btn btn-grad" onclick="quickOrder('${escapeHtml(p.name)}',${p.price})">কিনুন</button></div>
+        </div>
+      </div>
+    `).join("");
+  }
 
-    window.addEventListener("load", async () => {
-      setTimeout(()=>document.getElementById("loader").classList.add("hidden"), 500);
-      initHeroSlider();
-      await fetchProductsAndRender();
-    });
-  </script>
+  function populateProductSelect() {
+    const select = document.getElementById("productSelect");
+    select.innerHTML = `<option value="" data-price="">প্রোডাক্ট বেছে নিন</option>` + allProductsData.map(p => `<option value="${escapeHtml(p.name)}" data-price="${p.price}">${escapeHtml(p.name)} - ৳${p.price}</option>`).join("");
+  }
+
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  // Hero Slider
+  let slideIndex = 0, slideCount = 5;
+  function initSlider() {
+    const dotsDiv = document.getElementById("heroDots");
+    for(let i=0;i<slideCount;i++) { let dot=document.createElement("button"); dot.classList.add("dot"); if(i===0) dot.classList.add("active"); dot.onclick=()=>goToSlide(i); dotsDiv.appendChild(dot); }
+    updateSlider();
+    setInterval(()=>changeSlide(1), 5000);
+  }
+  function updateSlider() { document.getElementById("sliderTrack").style.transform = `translateX(-${slideIndex*100}%)`; document.querySelectorAll(".dot").forEach((d,i)=>d.classList.toggle("active", i===slideIndex)); }
+  function changeSlide(dir) { slideIndex = (slideIndex+dir+slideCount)%slideCount; updateSlider(); }
+  function goToSlide(idx) { slideIndex = idx; updateSlider(); }
+
+  // Order Form Submit
+  document.getElementById("orderForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const fd = new FormData(form);
+    const productSelect = document.getElementById("productSelect");
+    const selectedOpt = productSelect.options[productSelect.selectedIndex];
+    const price = selectedOpt?.getAttribute("data-price") || "0";
+    const order = {
+      name: fd.get("name"), whatsapp: fd.get("whatsapp"), email: fd.get("email"),
+      product: fd.get("product"), price: `৳${price}`, payment_method: fd.get("payment_method"),
+      transaction_id: fd.get("transaction_id"), message: fd.get("message")
+    };
+    const btn = form.querySelector("button[type='submit']");
+    const orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> প্রক্রিয়াকরণ...";
+    try {
+      await sendToTelegram(order);
+      await saveOrderToSupabase(order);
+      closeOrderModal();
+      document.getElementById("successModal").classList.add("active");
+      form.reset(); updatePrice(); cartQty = 0; document.getElementById("cartCount").innerText = "0";
+    } catch(err) { alert("অর্ডার জমা দিতে সমস্যা: "+err.message); } finally { btn.disabled = false; btn.innerHTML = orig; }
+  });
+
+  window.addEventListener("load", async () => {
+    document.getElementById("loader").classList.add("hidden");
+    initSlider();
+    await loadProducts();
+  });
+  document.getElementById("orderModal").addEventListener("click", (e)=> { if(e.target.id==="orderModal") closeOrderModal(); });
+  document.getElementById("successModal").addEventListener("click", (e)=> { if(e.target.id==="successModal") closeSuccessModal(); });
+  document.querySelectorAll("a[href^='#']").forEach(link => link.addEventListener("click", function(e){ let hash=this.getAttribute("href"); if(hash==="#") return; let el=document.querySelector(hash); if(el){ e.preventDefault(); el.scrollIntoView({behavior:"smooth"}); document.getElementById("navMenu")?.classList.remove("active"); } }));
+</script>
 </body>
 </html>
