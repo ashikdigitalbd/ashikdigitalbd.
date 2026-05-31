@@ -14,10 +14,10 @@
             --primary-dark: #EE2A3C;
             --secondary: #FFA502;
             --accent: #2ED573;
-            --bg-main: #0F1729;
-            --bg-darker: #0A0E1A;
-            --bg-card: #1A2847;
-            --bg-card-hover: #2A3E5F;
+            --bg-main: #1A1F35;
+            --bg-darker: #151929;
+            --bg-card: #242943;
+            --bg-card-hover: #2D3350;
             --text: #FFFFFF;
             --text-gray: #B4B8D0;
             --border: rgba(255, 71, 87, 0.15);
@@ -30,7 +30,7 @@
 
         body {
             font-family: 'Hind Siliguri', sans-serif;
-            background: linear-gradient(135deg, #0F1729 0%, #1a2e4d 50%, #0F1729 100%);
+            background: var(--bg-main);
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
@@ -45,8 +45,7 @@
         /* Loader */
         .loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #0F1729 0%, #1a2e4d 50%, #0F1729 100%);
-            display: flex; justify-content: center;
+            background: var(--bg-main); display: flex; justify-content: center;
             align-items: center; z-index: 10000;
             transition: opacity 0.5s, visibility 0.5s;
         }
@@ -134,12 +133,17 @@
             overflow: hidden;
         }
 
-        /* Default gradient backgrounds */
+        /* Default gradient backgrounds - You can replace with your own images */
         .slide-1 { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); }
         .slide-2 { background: linear-gradient(135deg, #FF4757 0%, #FFA502 100%); }
         .slide-3 { background: linear-gradient(135deg, #11998E 0%, #38EF7D 100%); }
         .slide-4 { background: linear-gradient(135deg, #F12711 0%, #F5AF19 100%); }
         .slide-5 { background: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%); }
+
+        /* If you want to use images, uncomment and add image URLs:
+        .slide-1 { background: url('your-image-1.jpg') center/cover; }
+        .slide-2 { background: url('your-image-2.jpg') center/cover; }
+        */
 
         .slide::before {
             content: '';
@@ -217,18 +221,30 @@
         }
 
         .slide-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
-        .slider-nav {
+        .slide-icon {
             position: absolute;
-            bottom: 20px;
+            right: 8%;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 240px;
+            opacity: 0.15;
+            color: white;
+            z-index: 1;
+        }
+
+        /* Slider Dots */
+        .slider-dots {
+            position: absolute;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             gap: 8px;
-            z-index: 3;
+            z-index: 10;
         }
 
         .dot {
@@ -238,6 +254,7 @@
             background: rgba(255, 255, 255, 0.5);
             cursor: pointer;
             transition: all 0.3s;
+            border: none;
         }
 
         .dot.active {
@@ -246,351 +263,661 @@
             border-radius: 5px;
         }
 
-        .slider-arrows {
+        /* Slider Arrows */
+        .slider-arrow {
             position: absolute;
             top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
             transform: translateY(-50%);
-            padding: 0 20px;
-            z-index: 3;
-        }
-
-        .arrow-btn {
-            background: rgba(255, 255, 255, 0.3);
-            border: none;
-            color: white;
-            font-size: 24px;
             width: 45px;
             height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: none;
             border-radius: 50%;
+            color: white;
+            font-size: 18px;
             cursor: pointer;
+            z-index: 10;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .arrow-btn:hover {
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(1.1);
+        .slider-arrow:hover { background: rgba(255, 255, 255, 0.4); }
+        .slider-arrow.prev { left: 20px; }
+        .slider-arrow.next { right: 20px; }
+
+        /* Section Header */
+        .section-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid var(--border);
+        }
+        .section-title { display: flex; align-items: center; gap: 12px; }
+        .section-title-bar {
+            width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;
+        }
+        .section-title h2 { font-size: 26px; font-weight: 700; }
+        .section-title h2 span { color: var(--primary); }
+        .view-all {
+            color: var(--primary); text-decoration: none; font-weight: 600;
+            font-size: 14px; display: flex; align-items: center; gap: 5px;
         }
 
-        /* Products Section */
-        .products-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .products-header h2 {
-            font-size: 40px;
-            margin-bottom: 10px;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .products-header p {
-            color: var(--text-gray);
-            font-size: 16px;
-        }
-
+        /* Products */
+        .products-section { padding: 30px 0; }
         .category-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+            display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;
+            overflow-x: auto; padding-bottom: 5px;
         }
-
         .category-tab {
-            padding: 10px 25px;
-            border: 2px solid var(--border);
-            background: transparent;
-            color: var(--text);
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            font-family: inherit;
-            font-size: 14px;
+            padding: 10px 20px; background: var(--bg-card); border: 2px solid transparent;
+            border-radius: 50px; color: var(--text); cursor: pointer;
+            font-family: inherit; font-size: 14px; font-weight: 500;
+            transition: all 0.3s; white-space: nowrap;
         }
-
-        .category-tab:hover,
-        .category-tab.active {
-            background: var(--gradient-1);
-            color: white;
-            border-color: var(--primary);
-        }
+        .category-tab:hover { border-color: var(--primary); }
+        .category-tab.active { background: var(--gradient-1); border-color: transparent; }
 
         .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
         }
-
         .product-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s;
-            display: block;
+            background: var(--bg-card); border-radius: 15px; overflow: hidden;
+            transition: all 0.3s; border: 1px solid var(--border); position: relative;
         }
-
         .product-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 40px rgba(255, 71, 87, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(255, 71, 87, 0.2);
+            background: var(--bg-card-hover);
+        }
+        .product-image {
+            height: 180px; position: relative; display: flex;
+            align-items: center; justify-content: center; font-size: 60px;
+            color: white; overflow: hidden;
+        }
+        .product-image.bg-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .product-image.bg-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .product-image.bg-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .product-image.bg-4 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .product-image.bg-5 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .product-image.bg-6 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .product-image.bg-7 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .product-image.bg-8 { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .product-badge {
+            position: absolute; top: 12px; left: 12px; background: var(--primary);
+            color: white; padding: 4px 12px; border-radius: 15px;
+            font-size: 11px; font-weight: 600; z-index: 2;
+        }
+        .product-badge.hot { background: var(--gradient-1); }
+        .product-badge.new { background: var(--accent); }
+        .product-discount {
+            position: absolute; top: 12px; right: 12px; background: rgba(0, 0, 0, 0.7);
+            color: white; padding: 4px 10px; border-radius: 12px;
+            font-size: 11px; font-weight: 600;
+        }
+        .product-info { padding: 18px; }
+        .product-info h3 { font-size: 16px; margin-bottom: 5px; font-weight: 600; }
+        .product-info .product-desc {
+            color: var(--text-gray); font-size: 12px; margin-bottom: 12px; min-height: 18px;
+        }
+        .product-rating {
+            display: flex; align-items: center; gap: 5px;
+            margin-bottom: 10px; font-size: 12px;
+        }
+        .product-rating .stars { color: #FFD700; }
+        .product-rating .count { color: var(--text-gray); }
+        .product-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 12px; border-top: 1px solid var(--border);
+        }
+        .product-price-wrap { display: flex; flex-direction: column; }
+        .product-price { font-size: 20px; font-weight: 700; color: var(--primary); }
+        .product-old-price { font-size: 12px; color: var(--text-gray); text-decoration: line-through; }
+        .btn-cart {
+            padding: 8px 14px; background: var(--gradient-1); color: white; border: none;
+            border-radius: 20px; cursor: pointer; font-weight: 600;
+            transition: all 0.3s; font-family: inherit; font-size: 12px;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .btn-cart:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); }
+
+        /* Features Bar */
+        .features-bar {
+            padding: 30px 25px; background: var(--bg-card); margin: 30px 0;
+            border-radius: 15px;
+        }
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .feature-item { display: flex; align-items: center; gap: 15px; }
+        .feature-icon {
+            width: 50px; height: 50px; background: var(--gradient-1);
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; font-size: 22px; color: white; flex-shrink: 0;
+        }
+        .feature-text h4 { font-size: 15px; margin-bottom: 3px; }
+        .feature-text p { font-size: 12px; color: var(--text-gray); }
+
+        /* Categories */
+        .categories-section { padding: 40px 0; background: var(--bg-darker); }
+        .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .category-card {
+            border-radius: 15px; padding: 30px; position: relative;
+            overflow: hidden; cursor: pointer; transition: transform 0.3s;
+            min-height: 160px; display: flex; flex-direction: column;
+            justify-content: space-between;
+        }
+        .category-card:hover { transform: translateY(-5px); }
+        .category-card.cat-1 { background: var(--gradient-2); }
+        .category-card.cat-2 { background: var(--gradient-1); }
+        .category-card.cat-3 { background: var(--gradient-3); }
+        .category-card h3 { font-size: 22px; margin-bottom: 5px; }
+        .category-card p { opacity: 0.9; font-size: 13px; margin-bottom: 15px; }
+        .category-arrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-weight: 600; font-size: 14px; color: white;
+            text-decoration: none; width: fit-content;
+        }
+        .category-icon-bg {
+            position: absolute; right: 20px; top: 50%;
+            transform: translateY(-50%); font-size: 80px; opacity: 0.15;
         }
 
-        .product-image {
-            width: 100%;
-            height: 200px;
+        /* Stats */
+        .stats-section { padding: 50px 0; background: var(--gradient-2); }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 25px; text-align: center;
+        }
+        .stat-item .stat-number {
+            font-size: 42px; font-weight: 700; margin-bottom: 5px;
+            background: linear-gradient(135deg, #FFD700, #FFA502);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stat-item .stat-label { font-size: 14px; opacity: 0.9; }
+
+        /* Reviews */
+        .reviews-section { padding: 50px 0; }
+        .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .review-card {
+            background: var(--bg-card); padding: 25px; border-radius: 15px;
+            border: 1px solid var(--border); transition: transform 0.3s;
+        }
+        .review-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .review-stars { color: #FFD700; margin-bottom: 12px; font-size: 14px; }
+        .review-text {
+            color: var(--text-gray); font-size: 14px; margin-bottom: 18px;
+            font-style: italic; line-height: 1.6;
+        }
+        .reviewer { display: flex; align-items: center; gap: 12px; }
+        .reviewer-avatar {
+            width: 45px; height: 45px; background: var(--gradient-1);
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-weight: 700; font-size: 16px; color: white;
+        }
+        .reviewer-info h4 { font-size: 15px; margin-bottom: 2px; }
+        .reviewer-info p { color: var(--text-gray); font-size: 12px; }
+        .verified-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            color: var(--accent); font-size: 11px; margin-left: auto;
+        }
+
+        /* Payment Section */
+        .payment-section { padding: 50px 0; background: var(--bg-darker); }
+        .payment-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .payment-methods { display: flex; flex-direction: column; gap: 15px; }
+        .payment-card {
+            background: var(--bg-card); padding: 20px; border-radius: 12px;
+            display: flex; align-items: center; gap: 18px;
+            border: 1px solid var(--border); transition: all 0.3s;
+        }
+        .payment-card:hover { border-color: var(--primary); transform: translateX(8px); }
+        
+        .payment-logo {
+            width: 75px; height: 60px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; padding: 8px; background: white;
+        }
+        .payment-logo img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+        }
+
+        .payment-info h3 { font-size: 17px; margin-bottom: 5px; }
+        .payment-info p {
+            color: var(--primary); font-size: 18px;
+            font-weight: 700; letter-spacing: 1px;
+        }
+        .payment-info .type {
+            color: var(--text-gray); font-size: 12px;
+            font-weight: 400; letter-spacing: 0; margin-top: 3px;
+        }
+        .payment-instructions {
+            background: var(--bg-card); padding: 25px;
+            border-radius: 15px; border: 1px solid var(--border);
+        }
+        .payment-instructions h3 {
+            font-size: 20px; margin-bottom: 18px;
+            display: flex; align-items: center; gap: 10px; color: var(--primary);
+        }
+        .payment-instructions ol { padding-left: 18px; }
+        .payment-instructions li {
+            margin-bottom: 10px; color: var(--text-gray);
+            font-size: 14px; line-height: 1.7;
+        }
+        .payment-instructions li strong { color: var(--text); }
+
+        /* Order CTA Section */
+        .order-cta {
+            padding: 70px 0;
             background: var(--gradient-2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
+            position: relative;
             overflow: hidden;
         }
 
-        .product-info {
-            padding: 20px;
-        }
-
-        .product-badge {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .product-name {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            min-height: 50px;
-        }
-
-        .product-desc {
-            color: var(--text-gray);
-            font-size: 14px;
-            margin-bottom: 15px;
-            min-height: 40px;
-        }
-
-        .product-price {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .price-amount {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .product-btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--gradient-1);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            font-size: 14px;
-        }
-
-        .product-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(255, 71, 87, 0.4);
-        }
-
-        /* Stats Section */
-        .stats-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 50px 20px;
-            margin: 50px 0;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            color: var(--text-gray);
-            font-size: 16px;
-        }
-
-        /* Order Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-close {
+        .order-cta::before {
+            content: '';
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--text-gray);
-            transition: color 0.3s;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 71, 87, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255, 165, 2, 0.3) 0%, transparent 50%);
         }
 
-        .modal-close:hover {
-            color: var(--primary);
+        .order-cta::after {
+            content: '';
+            position: absolute;
+            top: 10%; right: 5%;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: float-circle 6s ease-in-out infinite;
         }
 
-        .modal-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient-1);
+        @keyframes float-circle {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+
+        .order-cta-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .order-cta-icon {
+            width: 90px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
+            font-size: 40px;
+            color: white;
+            animation: float-icon 3s ease-in-out infinite;
+            border: 3px solid rgba(255,255,255,0.3);
         }
 
-        .modal-content h2 {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 24px;
+        @keyframes float-icon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
-        .modal-content > p {
-            text-align: center;
-            color: var(--text-gray);
-            margin-bottom: 25px;
+        .order-cta h2 {
+            font-size: 40px;
+            color: white;
+            margin-bottom: 12px;
+            font-weight: 700;
         }
 
-        /* Form */
-        .form-group {
-            margin-bottom: 20px;
+        .order-cta p {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 30px;
         }
 
-        .form-group label {
+        .order-cta-features {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+
+        .cta-feature {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 8px;
-            color: var(--text);
-            font-weight: 600;
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: 25px;
             font-size: 14px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
+        .cta-feature i { color: #FFD700; }
+
+        .btn-order-now {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 45px;
+            background: white;
+            color: var(--primary);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+
+        .btn-order-now:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+        }
+
+        .btn-order-now i { font-size: 22px; }
+
+        /* Order Modal */
+        .order-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+            backdrop-filter: blur(5px);
+        }
+
+        .order-modal.active { display: flex; }
+
+        .order-modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            max-width: 720px;
+            width: 100%;
+            position: relative;
+            animation: modalSlideUp 0.4s ease;
+            border: 1px solid var(--border);
+            max-height: 90vh;
+            overflow-y: auto;
+            margin: auto;
+        }
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .order-modal-header {
+            background: var(--gradient-1);
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .order-modal-header h2 {
+            font-size: 24px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .order-modal-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .order-modal-body { padding: 30px; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            display: block; margin-bottom: 7px;
+            font-weight: 500; font-size: 14px;
+        }
+        .form-group label i { color: var(--primary); margin-right: 5px; }
         .form-group input,
         .form-group select,
         .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 14px;
-            transition: all 0.3s;
+            width: 100%; padding: 12px 16px;
+            background: var(--bg-darker); border: 1px solid var(--border);
+            border-radius: 8px; color: var(--text);
+            font-family: inherit; font-size: 14px;
+            transition: border-color 0.3s;
         }
-
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: var(--bg-card-hover);
+            outline: none; border-color: var(--primary);
         }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        
         .btn-submit {
-            width: 100%;
-            padding: 14px;
-            background: var(--gradient-1);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            margin-top: 20px;
+            width: 100%; padding: 15px; background: var(--gradient-1);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; font-family: inherit;
         }
-
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 71, 87, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+        }
+
+        /* Contact */
+        .contact-section { padding: 50px 0; background: var(--bg-darker); }
+        .contact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .contact-card {
+            background: var(--bg-card); padding: 25px; border-radius: 12px;
+            text-align: center; border: 1px solid var(--border); transition: all 0.3s;
+        }
+        .contact-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .contact-icon {
+            width: 55px; height: 55px; background: var(--gradient-1);
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; margin: 0 auto 12px;
+            font-size: 22px;
+        }
+        .contact-card h4 { font-size: 15px; margin-bottom: 5px; }
+        .contact-card p, .contact-card a {
+            color: var(--text-gray); font-size: 13px; text-decoration: none;
+        }
+        .contact-card a:hover { color: var(--primary); }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker); padding: 40px 0 20px;
+            border-top: 1px solid var(--border);
+        }
+        .footer-content {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 35px; margin-bottom: 30px;
+        }
+        .footer-about h3 {
+            font-size: 22px; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .footer-about p {
+            color: var(--text-gray); font-size: 13px;
+            margin-bottom: 15px; line-height: 1.7;
+        }
+        .social-links { display: flex; gap: 10px; }
+        .social-links a {
+            width: 38px; height: 38px; background: var(--bg-card);
+            border-radius: 8px; display: flex; align-items: center;
+            justify-content: center; color: white; text-decoration: none;
+            transition: all 0.3s;
+        }
+        .social-links a:hover { background: var(--gradient-1); transform: translateY(-3px); }
+        .footer-links h4 { font-size: 16px; margin-bottom: 15px; color: var(--primary); }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a {
+            color: var(--text-gray); text-decoration: none;
+            transition: color 0.3s; font-size: 13px;
+        }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+        .footer-bottom {
+            text-align: center; padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+        .footer-bottom p {
+            color: var(--text-gray); font-size: 13px; margin-bottom: 5px;
+        }
+        .footer-bottom a {
+            color: var(--primary); text-decoration: none; font-weight: 600;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed; bottom: 25px; right: 25px;
+            width: 60px; height: 60px; background: #25D366;
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; color: white; font-size: 28px;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.5);
+            z-index: 999; text-decoration: none;
+            animation: pulse-ring 2s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        .whatsapp-btn:hover { transform: scale(1.1); }
+
+        /* Success Modal */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85);
+            z-index: 2001; align-items: center; justify-content: center; padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-card); padding: 35px; border-radius: 15px;
+            max-width: 480px; width: 100%; text-align: center;
+            position: relative; animation: modalIn 0.3s ease;
+            border: 1px solid var(--border);
+        }
+        @keyframes modalIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-close {
+            position: absolute; top: 12px; right: 18px;
+            font-size: 26px; cursor: pointer; color: var(--text-gray);
+        }
+        .modal-icon {
+            width: 75px; height: 75px; background: linear-gradient(135deg, #2ED573, #1E90FF);
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; margin: 0 auto 18px;
+            font-size: 35px; animation: bounce-in 0.5s ease;
+        }
+        @keyframes bounce-in {
+            0% { transform: scale(0); }
+            60% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .modal h2 { font-size: 24px; margin-bottom: 12px; }
+        .modal p { color: var(--text-gray); margin-bottom: 12px; font-size: 14px; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .products-grid { grid-template-columns: repeat(3, 1fr); }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            nav ul.active {
+                display: flex; flex-direction: column;
+                position: absolute; top: 65px; left: 0; right: 0;
+                background: var(--bg-card); padding: 20px; gap: 15px;
+                border-top: 1px solid var(--border);
+            }
+            .mobile-menu-btn { display: block; }
+
+            .hero-slider { height: 360px; }
+            .slide-content h2 { font-size: 28px; }
+            .slide-content p { font-size: 14px; }
+            .slide-price .new-price { font-size: 30px; }
+            .slide-icon { font-size: 150px; right: -20px; opacity: 0.1; }
+            .slider-arrow { width: 36px; height: 36px; font-size: 14px; }
+            .slider-arrow.prev { left: 10px; }
+            .slider-arrow.next { right: 10px; }
+
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .product-image { height: 130px; font-size: 45px; }
+            .product-info { padding: 12px; }
+            .product-info h3 { font-size: 14px; }
+            .product-price { font-size: 16px; }
+            .btn-cart { padding: 6px 10px; font-size: 11px; }
+
+            .categories-grid { grid-template-columns: 1fr; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .payment-content { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: 1fr; }
+            .section-title h2 { font-size: 20px; }
+            .order-modal-body { padding: 20px; }
+            .order-modal-header { padding: 20px; }
+            .order-modal-header h2 { font-size: 20px; }
+            .order-cta h2 { font-size: 28px; }
+            .order-cta-features { gap: 10px; }
+            .cta-feature { padding: 8px 14px; font-size: 12px; }
+            .btn-order-now { padding: 14px 32px; font-size: 15px; }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+            .social-links { justify-content: center; }
+            .footer-about h3 { justify-content: center; }
+            .contact-grid { grid-template-columns: 1fr; }
         }
 
         /* Payment Method Styles */
-        .payment-methods-grid {
+        .payment-methods-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
@@ -621,9 +948,10 @@
         }
 
         .payment-option input[type="radio"]:checked + .payment-label {
-            background: var(--gradient-1);
-            border-color: var(--primary);
+            background: var(--primary);
+            border-color: var(--primary-dark);
             color: white;
+            transform: scale(1.05);
         }
 
         .payment-icon {
@@ -635,66 +963,45 @@
             font-size: 14px;
         }
 
-        .payment-number-section {
+        .payment-details-section {
             display: none;
             margin-top: 20px;
             padding: 20px;
             background: var(--bg-card);
             border-radius: 12px;
             border: 1px solid var(--border);
+            text-align: center;
         }
 
-        .payment-number-section.active {
+        .payment-details-section.active {
             display: block;
         }
 
         .payment-logo {
             font-size: 48px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        .payment-number-section h4 {
+        .payment-details-section h4 {
             margin-bottom: 10px;
             color: var(--primary);
             font-size: 16px;
         }
 
-        .payment-number-section p {
+        .payment-details-section p {
             color: var(--text-gray);
-            font-size: 13px;
-            margin-bottom: 10px;
+            font-size: 14px;
+            margin-bottom: 5px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .slide-content h2 {
-                font-size: 32px;
-            }
-
-            nav ul {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-
-            .payment-methods-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .payment-number {
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 71, 87, 0.1);
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -706,9 +1013,12 @@
 
     <!-- Top Bar -->
     <div class="top-bar">
-        <div class="top-bar-content">
-            <span>🎉 ASHIKDIGITAl BD এ স্বাগতম</span>
-            <span>✨ সর্বোচ্চ মানের সেবা নিশ্চিত করি আমরা</span>
+        <div class="container">
+            <div class="top-bar-content">
+                <span><i class="fas fa-truck-fast"></i> দ্রুত ডিজিটাল ডেলিভারি</span>
+                <span><i class="fas fa-shield-halved"></i> ১০০% সিকিউর পেমেন্ট</span>
+                <span><i class="fas fa-headset"></i> ২৪/৭ সাপোর্ট</span>
+            </div>
         </div>
     </div>
 
@@ -717,26 +1027,27 @@
         <div class="container">
             <div class="header-content">
                 <a href="#" class="logo">
-                    <div class="logo-icon">🚀</div>
-                    <span>ASHIKDIGITAl BD</span>
+                    <div class="logo-icon">Z</div>
+                    <span>ASHIKDIগিটাল BD</span>
                 </a>
                 <nav>
-                    <ul id="navMenu" class="nav-menu">
+                    <ul id="navMenu">
                         <li><a href="#home">হোম</a></li>
-                        <li><a href="#products">সেবা</a></li>
-                        <li><a href="#stats">পরিসংখ্যান</a></li>
+                        <li><a href="#products">প্রোডাক্ট</a></li>
+                        <li><a href="#categories">ক্যাটাগরি</a></li>
+                        <li><a href="#reviews">রিভিউ</a></li>
                         <li><a href="#contact">যোগাযোগ</a></li>
+                        <li>
+                            <div class="cart-icon" onclick="openOrderModal()">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="cart-count" id="cartCount">0</span>
+                            </div>
+                        </li>
                     </ul>
                 </nav>
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <div class="cart-icon" onclick="openOrderModal()">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count" id="cartCount">0</span>
-                    </div>
-                    <button class="mobile-menu-btn" onclick="toggleMenu()">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
+                <button class="mobile-menu-btn" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </header>
@@ -744,329 +1055,779 @@
     <!-- Hero Slider -->
     <section class="hero-slider" id="home">
         <div class="slider-track" id="sliderTrack">
+            <!-- Slide 1: Adobe -->
             <div class="slide slide-1">
                 <div class="slide-content">
-                    <span class="slide-badge">🌟 প্রিমিয়াম সেবা</span>
-                    <h2>ডিজিটাল মার্কেটিং এক্সপার্ট</h2>
-                    <p>আপনার ব্যবসাকে পরবর্তী স্তরে নিয়ে যান আমাদের সাথে</p>
+                    <span class="slide-badge">🔥 আজকের সেরা অফার</span>
+                    <h2>Adobe Creative Cloud</h2>
+                    <p>সকল Adobe Apps এর ১ বছরের অ্যাক্সেস</p>
                     <div class="slide-price">
-                        <span class="old-price">৳ ৫০০০</span>
-                        <span class="new-price">৳ ২৯৯৯</span>
+                        <span class="new-price">৳৯৯৯</span>
+                        <span class="old-price">৳৩,৫০০</span>
                     </div>
-                    <button class="slide-btn" onclick="openOrderModalWith('ডিজিটাল মার্কেটিং প্যাকেজ', '2999')">
-                        <i class="fas fa-arrow-right"></i> অর্ডার করুন
+                    <button class="slide-btn" onclick="openOrderModalWith('Adobe Creative Cloud', 999)">
+                        <i class="fas fa-shopping-cart"></i> এখনই অর্ডার করুন
                     </button>
                 </div>
+                <i class="fas fa-wand-magic-sparkles slide-icon"></i>
             </div>
 
+            <!-- Slide 2: Canva -->
             <div class="slide slide-2">
                 <div class="slide-content">
-                    <span class="slide-badge">💎 এক্সক্লুসিভ</span>
-                    <h2>ওয়েবসাইট ডিজাইন সেবা</h2>
-                    <p>আধুনিক এবং রেসপন্সিভ ওয়েবসাইট তৈরি করুন</p>
+                    <span class="slide-badge">⚡ ফ্ল্যাশ সেল</span>
+                    <h2>Canva Pro</h2>
+                    <p>সীমাহীন প্রিমিয়াম ডিজাইন সুবিধা</p>
                     <div class="slide-price">
-                        <span class="old-price">৳ ১০০০০</span>
-                        <span class="new-price">৳ ৫৯৯৯</span>
+                        <span class="new-price">৳২৯৯</span>
+                        <span class="old-price">৳৯৯৯</span>
                     </div>
-                    <button class="slide-btn" onclick="openOrderModalWith('ওয়েবসাইট ডিজাইন', '5999')">
-                        <i class="fas fa-arrow-right"></i> অর্ডার করুন
+                    <button class="slide-btn" onclick="openOrderModalWith('Canva Pro', 299)">
+                        <i class="fas fa-bolt"></i> এখনই কিনুন
                     </button>
                 </div>
+                <i class="fas fa-palette slide-icon"></i>
             </div>
 
+            <!-- Slide 3: CapCut -->
             <div class="slide slide-3">
                 <div class="slide-content">
-                    <span class="slide-badge">🎨 সৃজনশীল</span>
-                    <h2>গ্রাফিক্স ডিজাইন</h2>
-                    <p>আপনার ব্র্যান্ডকে সুন্দরভাবে উপস্থাপন করুন</p>
+                    <span class="slide-badge">🎬 হট ডিল</span>
+                    <h2>CapCut Pro</h2>
+                    <p>প্রফেশনাল ভিডিও এডিটিং টুলস</p>
                     <div class="slide-price">
-                        <span class="old-price">৳ ৩০০০</span>
-                        <span class="new-price">৳ ১৫০০</span>
+                        <span class="new-price">৳২৪৯</span>
+                        <span class="old-price">৳৬৯৯</span>
                     </div>
-                    <button class="slide-btn" onclick="openOrderModalWith('গ্রাফিক্স ডিজাইন', '1500')">
-                        <i class="fas fa-arrow-right"></i> অর্ডার করুন
+                    <button class="slide-btn" onclick="openOrderModalWith('CapCut Pro', 249)">
+                        <i class="fas fa-video"></i> অর্ডার করুন
                     </button>
                 </div>
+                <i class="fas fa-video slide-icon"></i>
             </div>
 
+            <!-- Slide 4: YouTube -->
             <div class="slide slide-4">
                 <div class="slide-content">
-                    <span class="slide-badge">📱 মোবাইল অপ্টিমাইজড</span>
-                    <h2>এসইও অপটিমাইজেশন</h2>
-                    <p>গুগলে প্রথম পাতায় আসুন</p>
+                    <span class="slide-badge">📺 জনপ্রিয়</span>
+                    <h2>YouTube Premium</h2>
+                    <p>বিজ্ঞাপন ছাড়া অসীম ভিডিও দেখুন</p>
                     <div class="slide-price">
-                        <span class="old-price">৳ ৪০০০</span>
-                        <span class="new-price">৳ ২৪৯৯</span>
+                        <span class="new-price">৳১৯৯</span>
+                        <span class="old-price">৳৪৯৯</span>
                     </div>
-                    <button class="slide-btn" onclick="openOrderModalWith('এসইও সেবা', '2499')">
-                        <i class="fas fa-arrow-right"></i> অর্ডার করুন
+                    <button class="slide-btn" onclick="openOrderModalWith('YouTube Premium', 199)">
+                        <i class="fab fa-youtube"></i> অর্ডার করুন
                     </button>
                 </div>
+                <i class="fab fa-youtube slide-icon"></i>
             </div>
 
+            <!-- Slide 5: AI Logo -->
             <div class="slide slide-5">
                 <div class="slide-content">
-                    <span class="slide-badge">🎯 লক্ষ্যভিত্তিক</span>
-                    <h2>সোশ্যাল মিডিয়া ম্যানেজমেন্ট</h2>
-                    <p>আপনার সোশ্যাল মিডিয়া উপস্থিতি বাড়ান</p>
+                    <span class="slide-badge">🤖 AI পাওয়ার্ড</span>
+                    <h2>AI Logo Design</h2>
+                    <p>আধুনিক AI প্রযুক্তিতে কাস্টম লোগো</p>
                     <div class="slide-price">
-                        <span class="old-price">৳ ২০০০</span>
-                        <span class="new-price">৳ ৯৯৯</span>
+                        <span class="new-price">৳৪৯৯</span>
+                        <span class="old-price">৳১,২০০</span>
                     </div>
-                    <button class="slide-btn" onclick="openOrderModalWith('সোশ্যাল মিডিয়া ম্যানেজমেন্ট', '999')">
-                        <i class="fas fa-arrow-right"></i> অর্ডার করুন
+                    <button class="slide-btn" onclick="openOrderModalWith('AI Logo Creation', 499)">
+                        <i class="fas fa-robot"></i> অর্ডার করুন
                     </button>
                 </div>
+                <i class="fas fa-robot slide-icon"></i>
             </div>
         </div>
 
-        <div class="slider-nav">
-            <span class="dot active" onclick="goToSlide(0)"></span>
-            <span class="dot" onclick="goToSlide(1)"></span>
-            <span class="dot" onclick="goToSlide(2)"></span>
-            <span class="dot" onclick="goToSlide(3)"></span>
-            <span class="dot" onclick="goToSlide(4)"></span>
-        </div>
+        <button class="slider-arrow prev" onclick="changeSlide(-1)">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-arrow next" onclick="changeSlide(1)">
+            <i class="fas fa-chevron-right"></i>
+        </button>
 
-        <div class="slider-arrows">
-            <button class="arrow-btn" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
-            <button class="arrow-btn" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+        <div class="slider-dots" id="sliderDots">
+            <button class="dot active" onclick="goToSlide(0)"></button>
+            <button class="dot" onclick="goToSlide(1)"></button>
+            <button class="dot" onclick="goToSlide(2)"></button>
+            <button class="dot" onclick="goToSlide(3)"></button>
+            <button class="dot" onclick="goToSlide(4)"></button>
         </div>
     </section>
 
     <!-- Products Section -->
     <section class="products-section" id="products">
         <div class="container">
-            <div class="products-header">
-                <h2>আমাদের সেবা সমূহ</h2>
-                <p>সর্বোচ্চ মানের ডিজিটাল সেবা পান আমাদের কাছ থেকে</p>
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-title-bar"></div>
+                    <h2>সকল <span>প্রোডাক্ট</span></h2>
+                </div>
+                <a href="#" class="view-all">সব দেখুন <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="category-tabs">
-                <button class="category-tab active" onclick="filterProducts('all', this)">সকল</button>
-                <button class="category-tab" onclick="filterProducts('design', this)">ডিজাইন</button>
-                <button class="category-tab" onclick="filterProducts('marketing', this)">মার্কেটিং</button>
-                <button class="category-tab" onclick="filterProducts('development', this)">ডেভেলপমেন্ট</button>
+                <button class="category-tab active" onclick="filterProducts('all', this)">সব প্রোডাক্ট</button>
+                <button class="category-tab" onclick="filterProducts('subscription', this)">সাবস্ক্রিপশন</button>
+                <button class="category-tab" onclick="filterProducts('design', this)">ডিজাইন সার্ভিস</button>
+                <button class="category-tab" onclick="filterProducts('digital', this)">ডিজিটাল কার্ড</button>
             </div>
 
-            <div class="products-grid">
-                <div class="product-card" data-category="design">
-                    <div class="product-image">🎨</div>
+            <div class="products-grid" id="productsGrid">
+                <div class="product-card" data-category="subscription">
+                    <div class="product-image bg-1">
+                        <span class="product-badge hot">🔥 হট</span>
+                        <span class="product-discount">-৭০%</span>
+                        <i class="fas fa-palette"></i>
+                    </div>
                     <div class="product-info">
-                        <span class="product-badge">প্রিমিয়াম</span>
-                        <h3 class="product-name">গ্রাফিক্স ডিজাইন</h3>
-                        <p class="product-desc">লোগো, ব্যানার, পোস্টার সব ধরনের ডিজাইন</p>
-                        <div class="product-price">
-                            <span class="price-amount">৳ ১৫০০</span>
+                        <h3>Canva Pro</h3>
+                        <p class="product-desc">১ বছরের প্রিমিয়াম অ্যাক্সেস</p>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="count">(২৫০)</span>
                         </div>
-                        <button class="product-btn" onclick="openOrderModalWith('গ্রাফিক্স ডিজাইন', '1500')">অর্ডার করুন</button>
+                        <div class="product-footer">
+                            <div class="product-price-wrap">
+                                <span class="product-price">৳২৯৯</span>
+                                <span class="product-old-price">৳৯৯৯</span>
+                            </div>
+                            <button class="btn-cart" onclick="openOrderModalWith('Canva Pro', 299)">
+                                <i class="fas fa-cart-plus"></i> কিনুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="subscription">
+                    <div class="product-image bg-2">
+                        <span class="product-badge new">নতুন</span>
+                        <span class="product-discount">-৬০%</span>
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>CapCut Pro</h3>
+                        <p class="product-desc">ভিডিও এডিটিং প্রিমিয়াম</p>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="count">(১৮০)</span>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-wrap">
+                                <span class="product-price">৳২৪৯</span>
+                                <span class="product-old-price">৳৬৯৯</span>
+                            </div>
+                            <button class="btn-cart" onclick="openOrderModalWith('CapCut Pro', 249)">
+                                <i class="fas fa-cart-plus"></i> কিনুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="subscription">
+                    <div class="product-image bg-3">
+                        <span class="product-badge hot">⭐ বেস্ট</span>
+                        <span class="product-discount">-৭৫%</span>
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Adobe Creative</h3>
+                        <p class="product-desc">সকল Adobe Apps অ্যাক্সেস</p>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="count">(৩২০)</span>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-wrap">
+                                <span class="product-price">৳৯৯৯</span>
+                                <span class="product-old-price">৳৩৫০০</span>
+                            </div>
+                            <button class="btn-cart" onclick="openOrderModalWith('Adobe Creative Cloud', 999)">
+                                <i class="fas fa-cart-plus"></i> কিনুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="subscription">
+                    <div class="product-image bg-4">
+                        <span class="product-badge">পপুলার</span>
+                        <span class="product-discount">-৫০%</span>
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>YouTube Premium</h3>
+                        <p class="product-desc">বিজ্ঞাপন ছাড়া ভিডিও</p>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="count">(২২০)</span>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-wrap">
+                                <span class="product-price">৳১৯৯</span>
+                                <span class="product-old-price">৳৪৯৯</span>
+                            </div>
+                            <button class="btn-cart" onclick="openOrderModalWith('YouTube Premium', 199)">
+                                <i class="fas fa-cart-plus"></i> কিনুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="digital">
+                    <div class="product-image bg-5">
+                        <span class="product-badge new">নতুন</span>
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Digital Card</h3>
+                        <p class="product-desc">প্রফেশনাল ভিজিটিং কার্ড</p>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="count">(১৫০)</span>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-wrap">
+                                <span class="product-price">৳৩৯৯</span>
+                                <span class="product-old-price">৳৭৯৯</span>
+                            </div>
+                            <button class="btn-cart" onclick="openOrderModalWith('Digital Visiting Card', 399)">
+                                <i class="fas fa-cart-plus"></i> কিনুন
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="product-card" data-category="design">
-                    <div class="product-image">🌐</div>
+                    <div class="product-image bg-6">
+                        <span class="product-badge hot">🤖 AI</span>
+                        <i class="fas fa-robot" style="color: #333;"></i>
+                    </div>
                     <div class="product-info">
-                        <span class="product-badge">এক্সক্লুসিভ</span>
-                        <h3 class="product-name">ওয়েবসাইট ডিজাইন</h3>
-                        <p class="product-desc">রেসপন্সিভ এবং আধুনিক ওয়েবসাইট</p>
-                        <div class="product-price">
-                            <span class="price-amount">৳ ৫৯৯৯</span>
+                        <h3>AI Logo Design</h3>
+                        <p class="product-desc">ইউনিক AI জেনারেটেড</p>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="count">(১৯০)</span>
                         </div>
-                        <button class="product-btn" onclick="openOrderModalWith('ওয়েবসাইট ডিজাইন', '5999')">অর্ডার করুন</button>
+                        <div class="product-footer">
+                            <div class="product-price-wrap">
+                                <span class="product-price">৳৪৯৯</span>
+                                <span class="product-old-price">৳১২০০</span>
+                            </div>
+                            <button class="btn-cart" onclick="openOrderModalWith('AI Logo Creation', 499)">
+                                <i class="fas fa-cart-plus"></i> কিনুন
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="product-card" data-category="marketing">
-                    <div class="product-image">📱</div>
+                <div class="product-card" data-category="design">
+                    <div class="product-image bg-7">
+                        <span class="product-badge">টপ</span>
+                        <i class="fas fa-image" style="color: #333;"></i>
+                    </div>
                     <div class="product-info">
-                        <span class="product-badge">জনপ্রিয়</span>
-                        <h3 class="product-name">সোশ্যাল মিডিয়া ম্যানেজমেন্ট</h3>
-                        <p class="product-desc">ফেসবুক, ইনস্টাগ্রাম ম্যানেজমেন্ট</p>
-                        <div class="product-price">
-                            <span class="price-amount">৳ ৯৯৯</span>
+                        <h3>AI Banner Design</h3>
+                        <p class="product-desc">সোশ্যাল মিডিয়া ব্যানার</p>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="count">(১৪০)</span>
                         </div>
-                        <button class="product-btn" onclick="openOrderModalWith('সোশ্যাল মিডিয়া', '999')">অর্ডার করুন</button>
+                        <div class="product-footer">
+                            <div class="product-price-wrap">
+                                <span class="product-price">৳২৯৯</span>
+                                <span class="product-old-price">৳৭০০</span>
+                            </div>
+                            <button class="btn-cart" onclick="openOrderModalWith('AI Banner Design', 299)">
+                                <i class="fas fa-cart-plus"></i> কিনুন
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="product-card" data-category="marketing">
-                    <div class="product-image">📊</div>
+                <div class="product-card" data-category="design">
+                    <div class="product-image bg-8">
+                        <span class="product-badge new">নতুন</span>
+                        <i class="fas fa-camera" style="color: #333;"></i>
+                    </div>
                     <div class="product-info">
-                        <span class="product-badge">কার্যকর</span>
-                        <h3 class="product-name">ডিজিটাল মার্কেটিং</h3>
-                        <p class="product-desc">গুগল অ্যাডস, ফেসবুক অ্যাডস ক্যাম্পেইন</p>
-                        <div class="product-price">
-                            <span class="price-amount">৳ ২৯৯৯</span>
+                        <h3>AI Thumbnail</h3>
+                        <p class="product-desc">YouTube থাম্বনেইল ডিজাইন</p>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="count">(২১০)</span>
                         </div>
-                        <button class="product-btn" onclick="openOrderModalWith('ডিজিটাল মার্কেটিং', '2999')">অর্ডার করুন</button>
+                        <div class="product-footer">
+                            <div class="product-price-wrap">
+                                <span class="product-price">৳১৫০</span>
+                                <span class="product-old-price">৳৪০০</span>
+                            </div>
+                            <button class="btn-cart" onclick="openOrderModalWith('AI Thumbnail Creation', 150)">
+                                <i class="fas fa-cart-plus"></i> কিনুন
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="product-card" data-category="marketing">
-                    <div class="product-image">🔍</div>
-                    <div class="product-info">
-                        <span class="product-badge">দক্ষ</span>
-                        <h3 class="product-name">এসইও অপটিমাইজেশন</h3>
-                        <p class="product-desc">গুগল র‍্যাঙ্কিং উন্নত করুন</p>
-                        <div class="product-price">
-                            <span class="price-amount">৳ ২৪৯৯</span>
+            <div class="features-bar">
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="feature-text">
+                            <h4>দ্রুত ডেলিভারি</h4>
+                            <p>৫-১০ মিনিটে</p>
                         </div>
-                        <button class="product-btn" onclick="openOrderModalWith('এসইও সেবা', '2499')">অর্ডার করুন</button>
                     </div>
-                </div>
-
-                <div class="product-card" data-category="development">
-                    <div class="product-image">💻</div>
-                    <div class="product-info">
-                        <span class="product-badge">উন্নত</span>
-                        <h3 class="product-name">ওয়েব ডেভেলপমেন্ট</h3>
-                        <p class="product-desc">কাস্টম ওয়েব অ্যাপ্লিকেশন</p>
-                        <div class="product-price">
-                            <span class="price-amount">৳ ৮৯৯৯</span>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                        <div class="feature-text">
+                            <h4>নিরাপদ পেমেন্ট</h4>
+                            <p>bKash & Nagad</p>
                         </div>
-                        <button class="product-btn" onclick="openOrderModalWith('ওয়েব ডেভেলপমেন্ট', '8999')">অর্ডার করুন</button>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                        <div class="feature-text">
+                            <h4>২৪/৭ সাপোর্ট</h4>
+                            <p>সবসময় আছি</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-gem"></i></div>
+                        <div class="feature-text">
+                            <h4>অরিজিনাল</h4>
+                            <p>১০০% গ্যারান্টি</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats-section" id="stats">
+    <!-- Categories -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-title-bar"></div>
+                    <h2>আমাদের <span>ক্যাটাগরি</span></h2>
+                </div>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card cat-1" onclick="filterProducts('subscription')">
+                    <div>
+                        <h3>সাবস্ক্রিপশন</h3>
+                        <p>প্রিমিয়াম সফটওয়্যার অ্যাক্সেস</p>
+                    </div>
+                    <a href="#" class="category-arrow">দেখুন <i class="fas fa-arrow-right"></i></a>
+                    <i class="fas fa-tv category-icon-bg"></i>
+                </div>
+                <div class="category-card cat-2" onclick="filterProducts('design')">
+                    <div>
+                        <h3>ডিজাইন সার্ভিস</h3>
+                        <p>AI-পাওয়ার্ড ডিজাইন</p>
+                    </div>
+                    <a href="#" class="category-arrow">দেখুন <i class="fas fa-arrow-right"></i></a>
+                    <i class="fas fa-palette category-icon-bg"></i>
+                </div>
+                <div class="category-card cat-3" onclick="filterProducts('digital')">
+                    <div>
+                        <h3>ডিজিটাল কার্ড</h3>
+                        <p>প্রফেশনাল কার্ড সার্ভিস</p>
+                    </div>
+                    <a href="#" class="category-arrow">দেখুন <i class="fas fa-arrow-right"></i></a>
+                    <i class="fas fa-id-card category-icon-bg"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
         <div class="container">
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number" id="stat1">0</div>
-                    <div class="stat-label">সন্তুষ্ট ক্লায়েন্ট</div>
+                    <div class="stat-label">সন্তুষ্ট কাস্টমার</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="stat2">0</div>
-                    <div class="stat-label">সম্পন্ন প্রজেক্ট</div>
+                    <div class="stat-label">সম্পন্ন অর্ডার</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="stat3">0</div>
-                    <div class="stat-label">বছরের অভিজ্ঞতা</div>
+                    <div class="stat-label">প্রোডাক্ট</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="stat4">0</div>
-                    <div class="stat-label">দক্ষ টিম সদস্য</div>
+                    <div class="stat-label">৫ স্টার রিভিউ</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Order Modal -->
-    <div class="modal" id="orderModal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeOrderModal()">&times;</span>
-            <div class="modal-icon">
-                <i class="fas fa-shopping-bag"></i>
+    <!-- Reviews -->
+    <section class="reviews-section" id="reviews">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-title-bar"></div>
+                    <h2>কাস্টমার <span>রিভিউ</span></h2>
+                </div>
             </div>
-            <h2>অর্ডার ফর্ম</h2>
-            <p>নিচের ফর্ম পূরণ করে অর্ডার করুন</p>
-
-            <form id="orderForm" onsubmit="submitOrder(event)">
-                <div class="form-group">
-                    <label><i class="fas fa-box"></i> সেবা নির্বাচন করুন *</label>
-                    <select name="product" id="productSelect" required onchange="updatePrice()">
-                        <option value="">-- সেবা বেছে নিন --</option>
-                        <option value="গ্রাফিক্স ডিজাইন" data-price="1500">গ্রাফিক্স ডিজাইন - ৳ ১৫০০</option>
-                        <option value="ওয়েবসাইট ডিজাইন" data-price="5999">ওয়েবসাইট ডিজাইন - ৳ ৫৯৯৯</option>
-                        <option value="সোশ্যাল মিডিয়া ম্যানেজমেন্ট" data-price="999">সোশ্যাল মিডিয়া ম্যানেজমেন্ট - ৳ ৯৯৯</option>
-                        <option value="ডিজিটাল মার্কেটিং" data-price="2999">ডিজিটাল মার্কেটিং - ৳ ২৯৯৯</option>
-                        <option value="এসইও সেবা" data-price="2499">এসইও অপটিমাইজেশন - ৳ ২৪৯৯</option>
-                        <option value="ওয়েব ডেভেলপমেন্ট" data-price="8999">ওয়েব ডেভেলপমেন্ট - ৳ ৮৯৯৯</option>
-                    </select>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label><i class="fas fa-user"></i> নাম *</label>
-                        <input type="text" name="name" required placeholder="আপনার পূর্ণ নাম">
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-phone"></i> WhatsApp নম্বর *</label>
-                        <input type="tel" name="whatsapp" required placeholder="01XXXXXXXXX">
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"ASHIKDIগিটাল BD থেকে Canva Pro কিনেছিলাম। ৫ মিনিটে অ্যাকাউন্ট পেয়েছি। অসাধারণ সার্ভিস!"</p>
+                    <div class="reviewer">
+                        <div class="reviewer-avatar">রা</div>
+                        <div class="reviewer-info">
+                            <h4>রাহাত হোসেন</h4>
+                            <p>ফ্রিল্যান্সার</p>
+                        </div>
+                        <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label><i class="fas fa-envelope"></i> ইমেইল *</label>
-                    <input type="email" name="email" required placeholder="আপনার ইমেইল">
-                </div>
-
-                <div class="form-group">
-                    <label><i class="fas fa-coins"></i> মোট মূল্য</label>
-                    <input type="text" id="totalPrice" name="total_price" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label><i class="fas fa-credit-card"></i> পেমেন্ট পদ্ধতি *</label>
-                    <div class="payment-methods-grid">
-                        <div class="payment-option">
-                            <input type="radio" id="nagad" name="payment_method" value="নগদ" required onchange="togglePaymentDetails()">
-                            <label for="nagad" class="payment-label">
-                                <span class="payment-icon">📱</span>
-                                <span class="payment-name">নগদ</span>
-                            </label>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"AI Logo বানিয়েছিলাম, একদম পারফেক্ট! আমার ব্র্যান্ডের জন্য দারুণ লোগো পেয়েছি।"</p>
+                    <div class="reviewer">
+                        <div class="reviewer-avatar">না</div>
+                        <div class="reviewer-info">
+                            <h4>নাজমুল হক</h4>
+                            <p>ব্যবসায়ী</p>
                         </div>
-                        <div class="payment-option">
-                            <input type="radio" id="bkash" name="payment_method" value="বিকাশ" required onchange="togglePaymentDetails()">
-                            <label for="bkash" class="payment-label">
-                                <span class="payment-icon">💳</span>
-                                <span class="payment-name">বিকাশ</span>
-                            </label>
+                        <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Adobe Pro এর জন্য অর্ডার দিয়েছিলাম। ২ ঘন্টায় একাউন্ট পেয়েছি। ধন্যবাদ!"</p>
+                    <div class="reviewer">
+                        <div class="reviewer-avatar">সা</div>
+                        <div class="reviewer-info">
+                            <h4>সাব্বির আহমেদ</h4>
+                            <p>গ্রাফিক ডিজাইনার</p>
                         </div>
-                        <div class="payment-option">
-                            <input type="radio" id="rocket" name="payment_method" value="রকেট" required onchange="togglePaymentDetails()">
-                            <label for="rocket" class="payment-label">
-                                <span class="payment-icon">🚀</span>
-                                <span class="payment-name">রকেট</span>
-                            </label>
+                        <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Digital Visiting Card বানিয়েছিলাম। অনেক স্মার্ট লাগছে। সবাইকে রেকমেন্ড করছি!"</p>
+                    <div class="reviewer">
+                        <div class="reviewer-avatar">মা</div>
+                        <div class="reviewer-info">
+                            <h4>মাহমুদুল ইসলাম</h4>
+                            <p>ইউটিউবার</p>
+                        </div>
+                        <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"YouTube Premium এর জন্য টাকা পাঠিয়েছিলাম। সাথে সাথে একাউন্ট দিয়ে দিয়েছে।"</p>
+                    <div class="reviewer">
+                        <div class="reviewer-avatar">ফা</div>
+                        <div class="reviewer-info">
+                            <h4>ফাহিম আহমেদ</h4>
+                            <p>কন্টেন্ট ক্রিয়েটর</p>
+                        </div>
+                        <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"AI Banner Design করিয়েছিলাম। একদম প্রফেশনাল! অসাধারণ কাজ ASHIKDIগিটাল BD টিমের।"</p>
+                    <div class="reviewer">
+                        <div class="reviewer-avatar">আ</div>
+                        <div class="reviewer-info">
+                            <h4>আরিফুল ইসলাম</h4>
+                            <p>মার্কেটার</p>
+                        </div>
+                        <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section class="payment-section" id="payment">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-title-bar"></div>
+                    <h2>পেমেন্ট <span>মেথড</span></h2>
+                </div>
+            </div>
+            <div class="payment-content">
+                <div class="payment-methods">
+                    <div class="payment-card">
+                        <div class="payment-logo">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/BKash_Logo.svg/2560px-BKash_Logo.svg.png" alt="bKash" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgODAiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iODAiIGZpbGw9IiNFMjEzNkUiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9ImJvbGQiPmJLYXNoPC90ZXh0Pjwvc3ZnPg=='">
+                        </div>
+                        <div class="payment-info">
+                            <h3>bKash</h3>
+                            <p>+880 1XXX-XXXXXX</p>
+                            <span class="type">Personal / Send Money</span>
+                        </div>
+                    </div>
+                    <div class="payment-card">
+                        <div class="payment-logo">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Nagad-Logo.png/640px-Nagad-Logo.png" alt="Nagad" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgODAiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iODAiIGZpbGw9IiNFQjZFMUYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9ImJvbGQiPk5hZ2FkPC90ZXh0Pjwvc3ZnPg=='">
+                        </div>
+                        <div class="payment-info">
+                            <h3>Nagad</h3>
+                            <p>+880 1XXX-XXXXXX</p>
+                            <span class="type">Personal / Send Money</span>
                         </div>
                     </div>
                 </div>
+                <div class="payment-instructions">
+                    <h3><i class="fas fa-circle-info"></i> পেমেন্ট নির্দেশিকা</h3>
+                    <ol>
+                        <li><strong>প্রোডাক্ট সিলেক্ট করুন</strong> - আপনার পছন্দের প্রোডাক্ট বেছে নিন</li>
+                        <li><strong>পেমেন্ট করুন</strong> - bKash বা Nagad এ Send Money করুন</li>
+                        <li><strong>Transaction ID</strong> - পেমেন্টের পর Trx ID সংগ্রহ করুন</li>
+                        <li><strong>অর্ডার করুন</strong> - নিচের "অর্ডার করুন" বাটনে ক্লিক করে ফর্ম পূরণ করুন</li>
+                        <li><strong>ডেলিভারি পান</strong> - WhatsApp/ইমেইলে প্রোডাক্ট পৌঁছে যাবে</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <!-- Nagad Payment Details -->
-                <div class="payment-number-section" id="nagadSection">
-                    <div class="payment-logo">📱</div>
-                    <h4>নগদ পেমেন্ট</h4>
-                    <p><strong>নগদ অ্যাকাউন্ট নম্বর:</strong></p>
-                    <p style="color: var(--primary); font-size: 16px; font-weight: 600;">01700000000</p>
-                    <p style="font-size: 12px; margin-top: 10px; color: var(--text-gray);">অ্যাকাউন্ট হোল্ডার: ASHIKDIGITAl BD</p>
+    <!-- Order CTA Section -->
+    <section class="order-cta" id="order">
+        <div class="container">
+            <div class="order-cta-content">
+                <div class="order-cta-icon">
+                    <i class="fas fa-bag-shopping"></i>
+                </div>
+                <h2>অর্ডার করতে প্রস্তুত? 🛒</h2>
+                <p>মাত্র এক ক্লিকেই অর্ডার করুন আপনার পছন্দের প্রোডাক্ট। দ্রুত ডেলিভারি ও সুরক্ষিত পেমেন্ট গ্যারান্টিড!</p>
+                
+                <div class="order-cta-features">
+                    <div class="cta-feature">
+                        <i class="fas fa-bolt"></i>
+                        <span>৫ মিনিটে ডেলিভারি</span>
+                    </div>
+                    <div class="cta-feature">
+                        <i class="fas fa-shield-halved"></i>
+                        <span>১০০% সিকিউর</span>
+                    </div>
+                    <div class="cta-feature">
+                        <i class="fas fa-headset"></i>
+                        <span>২৪/৭ সাপোর্ট</span>
+                    </div>
+                    <div class="cta-feature">
+                        <i class="fas fa-gem"></i>
+                        <span>অরিজিনাল প্রোডাক্ট</span>
+                    </div>
                 </div>
 
-                <!-- Bkash Payment Details -->
-                <div class="payment-number-section" id="bkashSection">
-                    <div class="payment-logo">💳</div>
-                    <h4>বিকাশ পেমেন্ট</h4>
-                    <p><strong>বিকাশ অ্যাকাউন্ট নম্বর:</strong></p>
-                    <p style="color: var(--primary); font-size: 16px; font-weight: 600;">01700000000</p>
-                    <p style="font-size: 12px; margin-top: 10px; color: var(--text-gray);">অ্যাকাউন্ট হোল্ডার: ASHIKDIGITAl BD</p>
-                </div>
-
-                <!-- Rocket Payment Details -->
-                <div class="payment-number-section" id="rocketSection">
-                    <div class="payment-logo">🚀</div>
-                    <h4>রকেট পেমেন্ট</h4>
-                    <p><strong>রকেট অ্যাকাউন্ট নম্বর:</strong></p>
-                    <p style="color: var(--primary); font-size: 16px; font-weight: 600;">01700000000</p>
-                    <p style="font-size: 12px; margin-top: 10px; color: var(--text-gray);">অ্যাকাউন্ট হোল্ডার: ASHIKDIGIটাল BD</p>
-                </div>
-
-                <div class="form-group">
-                    <label><i class="fas fa-hashtag"></i> ট্রানজেকশন আইডি *</label>
-                    <input type="text" name="transaction_id" required placeholder="পেমেন্ট করার পর ট্রানজেকশন আইডি দিন">
-                </div>
-
-                <div class="form-group">
-                    <label><i class="fas fa-comment"></i> অতিরিক্ত মেসেজ (ঐচ্ছিক)</label>
-                    <textarea name="message" placeholder="বিশেষ নির্দেশনা থাকলে লিখুন..."></textarea>
-                </div>
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-paper-plane"></i> অর্ডার কনফার্ম করুন
+                <button class="btn-order-now" onclick="openOrderModal()">
+                    <i class="fas fa-shopping-cart"></i>
+                    এখনই অর্ডার করুন
                 </button>
-            </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-title-bar"></div>
+                    <h2>যোগাযোগ <span>করুন</span></h2>
+                </div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+                    <h4>WhatsApp</h4>
+                    <p><a href="https://wa.me/8801933489724" target="_blank">+880 1933-489724</a></p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <h4>ইমেইল</h4>
+                    <p><a href="mailto:support@zynxbd.com">support@zynxbd.com</a></p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fab fa-telegram"></i></div>
+                    <h4>Telegram</h4>
+                    <p><a href="#" target="_blank">@zynxbd</a></p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                    <h4>সাপোর্ট</h4>
+                    <p>সকাল ১০টা - রাত ১২টা</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>
+                        <div class="logo-icon" style="width: 38px; height: 38px; font-size: 17px;">A</div>
+                        ASHIKDIগিটাল BD
+                    </h3>
+                    <p>আমরা সেরা মানের ডিজিটাল প্রোডাক্ট ও সার্ভিস প্রদান করি। লক্ষ্য একটাই - কাস্টমার সন্তুষ্টি।</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">হোম</a></li>
+                        <li><a href="#products">প্রোডাক্ট</a></li>
+                        <li><a href="#reviews">রিভিউ</a></li>
+                        <li><a href="#order">অর্ডার</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>সার্ভিস</h4>
+                    <ul>
+                        <li><a href="#">Canva Pro</a></li>
+                        <li><a href="#">Adobe Pro</a></li>
+                        <li><a href="#">AI Design</a></li>
+                        <li><a href="#">Digital Card</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>পেমেন্ট</h4>
+                    <ul>
+                        <li><a href="#">bKash</a></li>
+                        <li><a href="#">Nagad</a></li>
+                        <li><a href="#">পেমেন্ট গাইড</a></li>
+                        <li><a href="#">রিফান্ড পলিসি</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© ২০২৪ ASHIKDIগিটাল BD। সর্বস্বত্ব সংরক্ষিত।</p>
+                <p>Designed & Developed By <a href="https://webnestbd.com" target="_blank">WebNest BD</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/8801933489724" target="_blank" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Order Modal -->
+    <div class="order-modal" id="orderModal">
+        <div class="order-modal-content">
+            <div class="order-modal-header">
+                <h2><i class="fas fa-bag-shopping"></i> অর্ডার ফর্ম</h2>
+                <p>সঠিক তথ্য দিয়ে অর্ডার সম্পন্ন করুন</p>
+                <button class="modal-close-btn" onclick="closeOrderModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="order-modal-body">
+                <form id="orderForm" onsubmit="submitOrder(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> আপনার নাম *</label>
+                            <input type="text" name="name" placeholder="পূর্ণ নাম" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fab fa-whatsapp"></i> WhatsApp *</label>
+                            <input type="tel" name="whatsapp" placeholder="+880 1XXX-XXXXXX" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> ইমেইল ঠিকানা *</label>
+                        <input type="email" name="email" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-box"></i> প্রোডাক্ট *</label>
+                            <select name="product" id="productSelect" required onchange="updatePrice()">
+                                <option value="">-- প্রোডাক্ট বেছে নিন --</option>
+                                <option value="Canva Pro" data-price="299">Canva Pro - ৳২৯৯</option>
+                                <option value="CapCut Pro" data-price="249">CapCut Pro - ৳২৪৯</option>
+                                <option value="Adobe Creative Cloud" data-price="999">Adobe Creative Cloud - ৳৯৯৯</option>
+                                <option value="YouTube Premium" data-price="199">YouTube Premium - ৳১৯৯</option>
+                                <option value="Digital Visiting Card" data-price="399">Digital Visiting Card - ৳৩৯৯</option>
+                                <option value="AI Logo Creation" data-price="499">AI Logo Creation - ৳৪৯৯</option>
+                                <option value="AI Banner Design" data-price="299">AI Banner Design - ৳২৯৯</option>
+                                <option value="AI Thumbnail Creation" data-price="150">AI Thumbnail Creation - ৳১৫০</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-money-bill"></i> মোট মূল্য</label>
+                            <input type="text" id="totalPrice" readonly placeholder="প্রোডাক্ট সিলেক্ট করুন">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-credit-card"></i> পেমেন্ট মেথড *</label>
+                            <div class="payment-methods-container">
+                                <div class="payment-option">
+                                    <input type="radio" id="nagad" name="payment_method" value="নগদ" required onchange="showPaymentDetails(this.value)">
+                                    <label for="nagad" class="payment-label">
+                                        <span class="payment-icon">📱</span>
+                                        <span class="payment-name">নগদ</span>
+                                    </label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="bkash" name="payment_method" value="বিকাশ" required onchange="showPaymentDetails(this.value)">
+                                    <label for="bkash" class="payment-label">
+                                        <span class="payment-icon">💳</span>
+                                        <span class="payment-name">বিকাশ</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-receipt"></i> Transaction ID *</label>
+                            <input type="text" name="transaction_id" placeholder="Trx ID" required>
+                        </div>
+                    </div>
+
+                    <!-- Nagad Payment Details -->
+                    <div class="payment-details-section" id="nagadDetails">
+                        <div class="payment-logo">📱</div>
+                        <h4>নগদ পেমেন্ট</h4>
+                        <p><strong>অ্যাকাউন্ট নম্বর:</strong></p>
+                        <div class="payment-number">01700000000</div>
+                        <p style="margin-top: 10px; font-size: 12px;">অ্যাকাউন্ট হোল্ডার: ASHIKDIগিটাল BD</p>
+                    </div>
+
+                    <!-- Bkash Payment Details -->
+                    <div class="payment-details-section" id="bkashDetails">
+                        <div class="payment-logo">💳</div>
+                        <h4>বিকাশ পেমেন্ট</h4>
+                        <p><strong>অ্যাকাউন্ট নম্বর:</strong></p>
+                        <div class="payment-number">01700000000</div>
+                        <p style="margin-top: 10px; font-size: 12px;">অ্যাকাউন্ট হোল্ডার: ASHIKDIগিটাল BD</p>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-comment"></i> অতিরিক্ত মেসেজ (ঐচ্ছিক)</label>
+                        <textarea name="message" placeholder="বিশেষ নির্দেশনা থাকলে লিখুন..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> অর্ডার কনফার্ম করুন
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -1167,27 +1928,6 @@
             }
         }
 
-        // Toggle Payment Details
-        function togglePaymentDetails() {
-            const nagadSection = document.getElementById('nagadSection');
-            const bkashSection = document.getElementById('bkashSection');
-            const rocketSection = document.getElementById('rocketSection');
-            
-            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
-            
-            nagadSection.classList.remove('active');
-            bkashSection.classList.remove('active');
-            rocketSection.classList.remove('active');
-            
-            if (paymentMethod === 'নগদ') {
-                nagadSection.classList.add('active');
-            } else if (paymentMethod === 'বিকাশ') {
-                bkashSection.classList.add('active');
-            } else if (paymentMethod === 'রকেট') {
-                rocketSection.classList.add('active');
-            }
-        }
-
         function filterProducts(category, btn) {
             const products = document.querySelectorAll('.product-card');
             const tabs = document.querySelectorAll('.category-tab');
@@ -1201,13 +1941,27 @@
             document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
         }
 
+        function showPaymentDetails(method) {
+            const nagadDetails = document.getElementById('nagadDetails');
+            const bkashDetails = document.getElementById('bkashDetails');
+            
+            nagadDetails.classList.remove('active');
+            bkashDetails.classList.remove('active');
+            
+            if (method === 'নগদ') {
+                nagadDetails.classList.add('active');
+            } else if (method === 'বিকাশ') {
+                bkashDetails.classList.add('active');
+            }
+        }
+
         function submitOrder(event) {
             event.preventDefault();
             const form = event.target;
             const formData = new FormData(form);
             
             const orderData = `
-📦 *নতুন অর্ডার - ASHIKDIGIটাল BD!*
+📦 *নতুন অর্ডার - ASHIKDIগিটাল BD!*
 
 👤 নাম: ${formData.get('name')}
 📱 WhatsApp: ${formData.get('whatsapp')}
