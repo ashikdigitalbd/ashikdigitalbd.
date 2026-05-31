@@ -57,6 +57,12 @@
       font-size: clamp(22px, 5vw, 28px);
       display: flex; align-items: center; gap: 10px;
     }
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
     .brand-badge {
       width: 42px; height: 42px; background: linear-gradient(135deg, #ff4f63, #ff9f43);
       border-radius: 12px; display: grid; place-items: center; color: white;
@@ -74,12 +80,13 @@
     }
     .menu-btn { display: none; background: none; border: none; font-size: 24px; cursor: pointer; }
 
-    /* Hero Slider with 5 banners */
+    /* Hero Slider */
     .hero {
       position: relative;
+      background: #0a0f2a;
+      border-radius: 0 0 30px 30px;
       margin-bottom: 30px;
       overflow: hidden;
-      border-radius: 0 0 30px 30px;
     }
     .hero-slider {
       position: relative;
@@ -87,10 +94,11 @@
     }
     .slides {
       display: flex;
-      transition: transform 0.5s ease-in-out;
+      transition: transform 0.6s ease-in-out;
     }
     .slide {
       min-width: 100%;
+      position: relative;
     }
     .slide img {
       width: 100%;
@@ -103,19 +111,18 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.5);
       color: white;
       border: none;
       width: 40px;
       height: 40px;
       border-radius: 50%;
       cursor: pointer;
-      z-index: 2;
+      z-index: 10;
       font-size: 20px;
     }
-    .arrow:hover { background: rgba(0,0,0,0.7); }
-    .prev { left: 15px; }
-    .next { right: 15px; }
+    .arrow.prev { left: 15px; }
+    .arrow.next { right: 15px; }
     .dots {
       position: absolute;
       bottom: 15px;
@@ -124,46 +131,74 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      z-index: 2;
+      z-index: 10;
     }
     .dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       background: rgba(255,255,255,0.5);
       border-radius: 50%;
       cursor: pointer;
       border: none;
     }
-    .dot.active {
-      background: white;
-      transform: scale(1.2);
-    }
+    .dot.active { background: white; width: 24px; border-radius: 20px; }
     @media (max-width: 768px) {
-      .arrow { display: none; }
-      .slide img { max-height: 300px; }
+      .slide img { max-height: 280px; }
+      .arrow { width: 30px; height: 30px; font-size: 14px; }
     }
 
     /* Buttons */
     .btn {
-      border: none; border-radius: 40px; padding: 10px 24px;
+      border: none; border-radius: 40px; padding: 10px 20px;
       font-weight: 700; cursor: pointer; transition: 0.2s;
     }
     .btn-primary {
       background: linear-gradient(135deg, #ff4f63, #ff9f43);
       color: white;
-      box-shadow: 0 6px 14px rgba(255,79,99,0.3);
     }
     .btn-outline {
       background: transparent;
       border: 1px solid white;
       color: white;
     }
-    .btn-primary:hover, .btn-outline:hover { transform: translateY(-2px); }
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 12px;
+    }
 
     /* Products section */
-    .head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 24px; }
+    .head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
     .head h2 { font-size: clamp(24px, 5vw, 28px); }
     .head h2 span { color: var(--primary); }
+    .search-box {
+      display: flex;
+      gap: 8px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 5px 15px;
+      align-items: center;
+    }
+    .search-box input {
+      border: none;
+      outline: none;
+      padding: 8px 0;
+      font-size: 14px;
+      width: 200px;
+      font-family: inherit;
+    }
+    .search-box button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary);
+      font-size: 16px;
+    }
+    @media (max-width: 640px) {
+      .head { flex-direction: column; align-items: stretch; }
+      .search-box { justify-content: space-between; }
+      .search-box input { width: 100%; }
+    }
     .tabs { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
     .tab {
       background: white; border: 1px solid #dbe2ff; border-radius: 40px;
@@ -173,7 +208,7 @@
     .tab.active { background: linear-gradient(135deg, #ff4f63, #ff9f43); color: white; border: none; }
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 22px; margin-bottom: 30px;
     }
     @media (max-width: 640px) { .products { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
@@ -185,43 +220,38 @@
       display: flex;
       flex-direction: column;
       height: 100%;
-      position: relative;
     }
     .product:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
-    .product-top { height: 150px; background: #eef2ff; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+    .product-top { height: 150px; background: #eef2ff; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .product-top img { width: 100%; height: 100%; object-fit: cover; }
     .product-top i { font-size: 44px; color: #5b61ff; }
     .product-body { padding: 14px; flex: 1; display: flex; flex-direction: column; }
-    .product-body h3 { font-size: 17px; margin-bottom: 5px; }
-    .description-preview { font-size: 12px; color: #5e6788; margin-bottom: 8px; line-height: 1.4; }
+    .product-body h3 { font-size: 18px; margin-bottom: 5px; }
+    .muted { font-size: 12px; color: #5e6788; margin-bottom: 8px; }
     .p-foot { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 12px; border-top: 1px solid #edf2ff; gap: 8px; flex-wrap: wrap; }
     .p-price strong { font-size: 20px; color: var(--primary); }
-    .share-buttons {
+    .product-actions {
       display: flex;
       gap: 8px;
       margin-top: 8px;
-      justify-content: flex-start;
+      justify-content: flex-end;
     }
-    .share-buttons a {
-      color: #5e6788;
-      font-size: 16px;
-      transition: 0.2s;
-    }
-    .share-buttons a:hover { color: var(--primary); }
-    .btn-details {
+    .product-actions button {
       background: none;
       border: none;
-      color: #5b61ff;
-      font-size: 12px;
       cursor: pointer;
-      padding: 0;
-      margin-left: 4px;
-      font-weight: 600;
+      font-size: 14px;
+      color: #5e6788;
+      transition: 0.2s;
+      padding: 4px 8px;
+      border-radius: 20px;
     }
+    .product-actions button:hover { background: #eef2ff; color: var(--primary); }
     @media (max-width: 640px) {
-      .p-foot { flex-direction: column; align-items: stretch; }
-      .product .btn-primary { width: 100%; text-align: center; }
-      .share-buttons { justify-content: center; }
+      .p-foot { justify-content: center; flex-direction: column; gap: 8px; }
+      .product .btn-primary { font-size: 12px; padding: 8px 16px; width: 100%; text-align: center; }
+      .p-price strong { font-size: 18px; }
+      .product-actions { justify-content: center; }
     }
     .feature-row {
       display: grid; grid-template-columns: repeat(4,1fr); gap: 15px; margin-top: 20px;
@@ -258,25 +288,91 @@
     /* Modal */
     .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
     .modal.active { display: flex; }
-    .modal-box { background: white; max-width: 700px; width: 100%; border-radius: 28px; max-height: 90vh; overflow: auto; }
+    .modal-box { background: white; max-width: 600px; width: 100%; border-radius: 28px; max-height: 90vh; overflow: auto; }
     .modal-head { padding: 16px 20px; background: #f8faff; border-bottom: 1px solid #eef2ff; display: flex; justify-content: space-between; align-items: center; }
     .close-btn { background: #eef2ff; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
     .modal-body { padding: 20px; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
-    .group { margin-bottom: 16px; }
-    .group label { font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px; }
-    .group input, .group select, .group textarea { width: 100%; padding: 10px 12px; border: 1px solid #dce3ff; border-radius: 12px; font-family: inherit; background: #fbfdff; font-size: 14px; }
-    .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .method-label { display: flex; align-items: center; gap: 8px; border: 1px solid #dce3ff; border-radius: 12px; padding: 8px 10px; cursor: pointer; background: white; }
-    .method-logo { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
-    .method-logo img { width: 24px; height: 24px; object-fit: contain; }
-    .method-item input:checked + .method-label { border-color: #ff4f63; background: #fff0f2; }
-    .pay-detail { display: none; background: #f8faff; padding: 10px; border-radius: 14px; text-align: center; margin-bottom: 15px; }
+    .share-buttons { display: flex; gap: 12px; margin-top: 15px; flex-wrap: wrap; }
+    .share-buttons a { background: #eef2ff; padding: 8px 12px; border-radius: 40px; text-decoration: none; color: #111832; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
+    
+    /* Payment form styles - clean grid */
+    .order-form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-row {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .form-row .group {
+      flex: 1;
+      min-width: 150px;
+    }
+    .group {
+      margin-bottom: 0;
+    }
+    .group label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .group input, .group select, .group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #dce3ff;
+      border-radius: 12px;
+      font-family: inherit;
+      background: #fbfdff;
+      font-size: 14px;
+    }
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .method-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #dce3ff;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      background: white;
+      transition: 0.2s;
+    }
+    .method-logo { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+    .method-logo img { width: 28px; height: 28px; object-fit: contain; }
+    .method-item input:checked + .method-label {
+      border-color: #ff4f63;
+      background: #fff0f2;
+      box-shadow: 0 2px 8px rgba(255,79,99,0.1);
+    }
+    .pay-detail {
+      display: none;
+      background: #f8faff;
+      padding: 12px;
+      border-radius: 16px;
+      text-align: center;
+      margin: 10px 0;
+    }
     .pay-detail.active { display: block; }
-    .submit { width: 100%; background: linear-gradient(135deg, #ff4f63, #ff9f43); border: none; padding: 12px; border-radius: 40px; color: white; font-weight: bold; font-size: 15px; cursor: pointer; }
+    .submit {
+      width: 100%;
+      background: linear-gradient(135deg, #ff4f63, #ff9f43);
+      border: none;
+      padding: 14px;
+      border-radius: 40px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
     footer a { color: #ff4f63; text-decoration: none; font-weight: 600; }
-    footer a:hover { text-decoration: underline; }
     @media (max-width: 768px) {
       nav ul {
         display: none; flex-direction: column; position: absolute; top: 70px;
@@ -285,6 +381,8 @@
       }
       nav ul.active { display: flex; }
       .menu-btn { display: block; }
+      .form-row { flex-direction: column; gap: 12px; }
+      .method-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -293,7 +391,12 @@
 
 <header>
   <div class="container header-row">
-    <a class="brand" href="#"><div class="brand-badge">A</div> ASHIK <span>DIGITAL</span> BD</a>
+    <a class="brand" href="#">
+      <!-- লোগো ছবির জন্য এখানে img ট্যাগ ব্যবহার করুন। নিচে একটি উদাহরণ দেওয়া আছে। আপনি ছবির লিংক বসাতে পারেন -->
+      <div class="brand-badge" id="logoPlaceholder">A</div>
+      <!-- অথবা <img src="আপনার_লোগো_লিংক.png" alt="Logo"> -->
+      ASHIK <span>DIGITAL</span> BD
+    </a>
     <nav>
       <ul id="navMenu">
         <li><a href="#home">হোম</a></li>
@@ -311,18 +414,28 @@
 <section id="home" class="hero">
   <div class="hero-slider">
     <div class="slides" id="heroSlides">
-      <!-- 5 banners will be injected via JS -->
+      <div class="slide"><img src="https://i.postimg.cc/9z3XFmSb/20260531-232841-0000.jpg" alt="Banner 1"></div>
+      <div class="slide"><img src="https://i.postimg.cc/tgYLgk46/20260531-211351-0000.jpg" alt="Banner 2"></div>
+      <div class="slide"><img src="https://i.postimg.cc/HL7gjDwn/AI-Thumbnail-Creation-20260531-233929-0000.jpg" alt="Banner 3"></div>
+      <div class="slide"><img src="https://i.postimg.cc/wxkd1kmZ/AI-Thumbnail-Creation-20260531-234011-0000.jpg" alt="Banner 4"></div>
+      <div class="slide"><img src="https://i.postimg.cc/rssgFc4b/AI-Thumbnail-Creation-20260531-234301-0000.jpg" alt="Banner 5"></div>
     </div>
-    <button class="arrow prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
-    <button class="arrow next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+    <button class="arrow prev" onclick="changeSlide(-1)">❮</button>
+    <button class="arrow next" onclick="changeSlide(1)">❯</button>
     <div class="dots" id="heroDots"></div>
   </div>
 </section>
 
-<!-- Products Section -->
+<!-- Products Section with Search -->
 <section id="products" class="section">
   <div class="container">
-    <div class="head"><h2>সকল <span>প্রোডাক্ট</span></h2></div>
+    <div class="head">
+      <h2>সকল <span>প্রোডাক্ট</span></h2>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 প্রোডাক্ট খুঁজুন..." onkeyup="filterProductsBySearch()">
+        <button onclick="filterProductsBySearch()"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
     <div class="tabs" id="tabsContainer">
       <button class="tab active" data-cat="all">সব</button>
     </div>
@@ -360,86 +473,17 @@
 </footer>
 <a class="whatsapp" href="https://wa.me/8801933489724" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-<!-- Order Modal (same as before) -->
-<div id="orderModal" class="modal"><div class="modal-box"><div class="modal-head"><h3><i class="fas fa-shopping-cart"></i> অর্ডার ফর্ম</h3><button class="close-btn" onclick="closeOrderModal()"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="orderForm"><div class="row"><div class="group"><label>নাম *</label><input name="name" required placeholder="আপনার নাম"></div><div class="group"><label>WhatsApp *</label><input name="whatsapp" required placeholder="+8801XXXXXXXXX"></div></div><div class="group"><label>ইমেইল *</label><input type="email" name="email" required placeholder="example@mail.com"></div><div class="row"><div class="group"><label>প্রোডাক্ট *</label><select id="productSelect" name="product" required onchange="updatePrice()"></select></div><div class="group"><label>মোট মূল্য</label><input id="totalPrice" readonly placeholder="০ টাকা"></div></div><div class="row"><div class="group"><label>পেমেন্ট মেথড *</label><div class="method-grid" id="paymentMethodsGrid"></div></div><div class="group"><label>Trx ID *</label><input name="transaction_id" required placeholder="ট্রানজেকশন আইডি"></div></div><div id="paymentDetailBlock" class="pay-detail">পেমেন্ট মেথড সিলেক্ট করুন</div><div class="group"><label>অতিরিক্ত মেসেজ</label><textarea name="message" rows="2"></textarea></div><button type="submit" class="submit"><i class="fas fa-paper-plane"></i> অর্ডার কনফার্ম করুন</button></form></div></div></div>
+<!-- Order Modal (Clean form) -->
+<div id="orderModal" class="modal"><div class="modal-box"><div class="modal-head"><h3><i class="fas fa-shopping-cart"></i> অর্ডার ফর্ম</h3><button class="close-btn" onclick="closeOrderModal()"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="orderForm"><div class="order-form-grid"><div class="form-row"><div class="group"><label>নাম *</label><input name="name" required placeholder="আপনার নাম"></div><div class="group"><label>WhatsApp *</label><input name="whatsapp" required placeholder="+8801XXXXXXXXX"></div></div><div class="group"><label>ইমেইল *</label><input type="email" name="email" required placeholder="example@mail.com"></div><div class="form-row"><div class="group"><label>প্রোডাক্ট *</label><select id="productSelect" name="product" required onchange="updatePrice()"></select></div><div class="group"><label>মোট মূল্য</label><input id="totalPrice" readonly placeholder="০ টাকা"></div></div><div class="form-row"><div class="group"><label>পেমেন্ট মেথড *</label><div class="method-grid" id="paymentMethodsGrid"></div></div><div class="group"><label>Trx ID *</label><input name="transaction_id" required placeholder="ট্রানজেকশন আইডি"></div></div><div id="paymentDetailBlock" class="pay-detail">পেমেন্ট মেথড সিলেক্ট করুন</div><div class="group"><label>অতিরিক্ত মেসেজ</label><textarea name="message" rows="2"></textarea></div><button type="submit" class="submit"><i class="fas fa-paper-plane"></i> অর্ডার কনফার্ম করুন</button></div></form></div></div></div>
 
 <!-- Success Modal -->
 <div id="successModal" class="modal"><div class="modal-box" style="max-width:400px; text-align:center;"><div class="modal-body"><div style="width:70px;height:70px;background:green;border-radius:50%;margin:0 auto;display:grid;place-items:center;color:white;font-size:32px;"><i class="fas fa-check"></i></div><h3 style="margin:15px 0">অর্ডার সফল!</h3><p>আপনার অর্ডার টেলিগ্রাম ও ডাটাবেসে সংরক্ষিত হয়েছে।</p><button class="btn btn-primary" onclick="closeSuccessModal()">ঠিক আছে</button></div></div></div>
 
-<!-- Description Modal -->
-<div id="descModal" class="modal"><div class="modal-box"><div class="modal-head"><h3>বিস্তারিত তথ্য</h3><button class="close-btn" onclick="closeDescModal()"><i class="fas fa-times"></i></button></div><div class="modal-body"><p id="fullDescriptionText"></p></div></div></div>
+<!-- Detail Modal -->
+<div id="detailModal" class="modal"><div class="modal-box"><div class="modal-head"><h3 id="detailTitle">প্রোডাক্ট ডিটেইলস</h3><button class="close-btn" onclick="closeDetailModal()"><i class="fas fa-times"></i></button></div><div class="modal-body"><p id="detailDescription"></p><div class="share-buttons" id="detailShare"></div></div></div></div>
 
 <script>
-  // Hero banners array
-  const bannerImages = [
-    "https://i.postimg.cc/9z3XFmSb/20260531-232841-0000.jpg",
-    "https://i.postimg.cc/tgYLgk46/20260531-211351-0000.jpg",
-    "https://i.postimg.cc/HL7gjDwn/AI-Thumbnail-Creation-20260531-233929-0000.jpg",
-    "https://i.postimg.cc/wxkd1kmZ/AI-Thumbnail-Creation-20260531-234011-0000.jpg",
-    "https://i.postimg.cc/rssgFc4b/AI-Thumbnail-Creation-20260531-234301-0000.jpg"
-  ];
-
-  let currentSlide = 0;
-  let slideInterval;
-
-  function initHeroSlider() {
-    const slidesContainer = document.getElementById("heroSlides");
-    const dotsContainer = document.getElementById("heroDots");
-    slidesContainer.innerHTML = "";
-    dotsContainer.innerHTML = "";
-    bannerImages.forEach((img, idx) => {
-      const slideDiv = document.createElement("div");
-      slideDiv.className = "slide";
-      const imgEl = document.createElement("img");
-      imgEl.src = img;
-      imgEl.alt = `Banner ${idx+1}`;
-      slideDiv.appendChild(imgEl);
-      slidesContainer.appendChild(slideDiv);
-      const dot = document.createElement("button");
-      dot.className = "dot";
-      if(idx === 0) dot.classList.add("active");
-      dot.addEventListener("click", () => goToSlide(idx));
-      dotsContainer.appendChild(dot);
-    });
-    updateSlider();
-    startAutoSlide();
-    document.getElementById("prevBtn").addEventListener("click", () => changeSlide(-1));
-    document.getElementById("nextBtn").addEventListener("click", () => changeSlide(1));
-  }
-
-  function updateSlider() {
-    const slides = document.querySelectorAll("#heroSlides .slide");
-    const slider = document.getElementById("heroSlides");
-    if(slides.length === 0) return;
-    slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-    document.querySelectorAll(".dot").forEach((dot, i) => {
-      if(i === currentSlide) dot.classList.add("active");
-      else dot.classList.remove("active");
-    });
-  }
-
-  function changeSlide(direction) {
-    const total = bannerImages.length;
-    currentSlide = (currentSlide + direction + total) % total;
-    updateSlider();
-    resetAutoSlide();
-  }
-
-  function goToSlide(index) {
-    currentSlide = index;
-    updateSlider();
-    resetAutoSlide();
-  }
-
-  function startAutoSlide() {
-    slideInterval = setInterval(() => changeSlide(1), 5000);
-  }
-  function resetAutoSlide() {
-    clearInterval(slideInterval);
-    startAutoSlide();
-  }
-
-  // Supabase & Telegram Config (same as before)
+  // Supabase & Telegram Config
   const SUPABASE_URL = "https://rvbdzbqjrsavwdbxutfo.supabase.co";
   const SUPABASE_ANON = "sb_publishable_qt8sN5cY-JrxmaKrxSEv5Q_Q4JJdNra";
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -448,20 +492,14 @@
   let allProductsData = [];
   let currentCat = "all";
   let cartQty = 0;
+  let currentSlide = 0;
+  let totalSlides = 5;
 
   function toggleMenu() { document.getElementById("navMenu").classList.toggle("active"); }
   function openOrderModal() { document.getElementById("orderModal").classList.add("active"); document.body.style.overflow = "hidden"; }
   function closeOrderModal() { document.getElementById("orderModal").classList.remove("active"); document.body.style.overflow = ""; }
   function closeSuccessModal() { document.getElementById("successModal").classList.remove("active"); }
-  function openDescModal(description) {
-    document.getElementById("fullDescriptionText").innerText = description || "কোনো বিস্তারিত তথ্য নেই।";
-    document.getElementById("descModal").classList.add("active");
-    document.body.style.overflow = "hidden";
-  }
-  function closeDescModal() {
-    document.getElementById("descModal").classList.remove("active");
-    document.body.style.overflow = "";
-  }
+  function closeDetailModal() { document.getElementById("detailModal").classList.remove("active"); document.body.style.overflow = ""; }
 
   function quickOrder(name, price) {
     cartQty++; document.getElementById("cartCount").innerText = cartQty;
@@ -474,6 +512,63 @@
     const sel = document.getElementById("productSelect");
     const price = sel.options[sel.selectedIndex]?.getAttribute("data-price") || "0";
     document.getElementById("totalPrice").value = price ? `৳${price}` : "";
+  }
+
+  // Show full description modal
+  function showDetails(product) {
+    document.getElementById("detailTitle").innerText = product.name;
+    const fullDesc = product.full_description || product.description || "বিস্তারিত তথ্য পাওয়া যায়নি।";
+    document.getElementById("detailDescription").innerHTML = fullDesc.replace(/\n/g, "<br>");
+    const shareUrl = encodeURIComponent(window.location.href + "?product=" + encodeURIComponent(product.name));
+    const shareText = encodeURIComponent(`আমি ${product.name} প্রোডাক্টটি দেখছি - ASHIKDIGITAL BD`);
+    document.getElementById("detailShare").innerHTML = `
+      <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank"><i class="fab fa-facebook"></i> ফেসবুক</a>
+      <a href="https://wa.me/?text=${shareText} ${shareUrl}" target="_blank"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+      <a href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank"><i class="fab fa-twitter"></i> টুইটার</a>
+      <a href="#" onclick="copyLink('${decodeURIComponent(shareUrl)}'); return false;"><i class="fas fa-link"></i> লিংক কপি</a>
+    `;
+    document.getElementById("detailModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+  function copyLink(url) {
+    navigator.clipboard.writeText(url);
+    alert("লিংক কপি হয়েছে!");
+  }
+  function shareProduct(product) {
+    const shareUrl = encodeURIComponent(window.location.href + "?product=" + encodeURIComponent(product.name));
+    const shareText = encodeURIComponent(`আমি ${product.name} প্রোডাক্টটি দেখছি - ASHIKDIGITAL BD`);
+    window.open(`https://wa.me/?text=${shareText} ${shareUrl}`, "_blank");
+  }
+
+  // Search filter
+  function filterProductsBySearch() {
+    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+    const filtered = allProductsData.filter(p => 
+      (currentCat === "all" || p.category === currentCat) &&
+      (p.name.toLowerCase().includes(searchTerm) || (p.description && p.description.toLowerCase().includes(searchTerm)))
+    );
+    renderFilteredProducts(filtered);
+  }
+  function renderFilteredProducts(productsArray) {
+    const container = document.getElementById("productsGrid");
+    if(productsArray.length===0) { container.innerHTML = "<div class='text-center'>কোন প্রোডাক্ট নেই</div>"; return; }
+    container.innerHTML = productsArray.map(p => `
+      <div class="product">
+        <div class="product-top">${p.image_url ? `<img src="${p.image_url}" alt="${p.name}">` : `<i class="fas fa-digital-tiling"></i>`}</div>
+        <div class="product-body">
+          <h3>${escapeHtml(p.name)}</h3>
+          <p class="muted">${escapeHtml(p.description?.slice(0,60) || 'প্রিমিয়াম ডিজিটাল প্রোডাক্ট')}...</p>
+          <div class="p-foot">
+            <div class="p-price"><strong>৳${p.price}</strong><del>৳${Math.round(p.price*2.2)}</del></div>
+            <button class="btn btn-primary" style="background:linear-gradient(135deg,#ff4f63,#ff9f43);" onclick="quickOrder('${escapeHtml(p.name)}',${p.price})">কিনুন</button>
+          </div>
+          <div class="product-actions">
+            <button onclick='showDetails(${JSON.stringify(escapeHtmlObj(p))})'><i class="fas fa-info-circle"></i> বিস্তারিত</button>
+            <button onclick='shareProduct(${JSON.stringify(escapeHtmlObj(p))})'><i class="fas fa-share-alt"></i> শেয়ার</button>
+          </div>
+        </div>
+      </div>
+    `).join("");
   }
 
   const paymentMethods = [
@@ -489,7 +584,7 @@
         <input type="radio" name="payment_method" value="${m.value}" id="${m.id}" onchange="showPaymentDetail('${m.value}')">
         <label for="${m.id}" class="method-label">
           <div class="method-logo"><img src="${m.icon}" alt="${m.name}" onerror="this.onerror=null;this.parentElement.innerHTML='${m.name.charAt(0)}'"></div>
-          ${m.name}
+          <span>${m.name}</span>
         </label>
       </div>
     `).join("");
@@ -553,46 +648,52 @@
       document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
       tab.classList.add("active");
       currentCat = tab.getAttribute("data-cat");
-      renderProducts();
+      filterProductsBySearch(); // re-filter with new category
     }));
   }
   function renderProducts() {
-    const filtered = currentCat === "all" ? allProductsData : allProductsData.filter(p => p.category === currentCat);
-    const container = document.getElementById("productsGrid");
-    if(filtered.length===0) { container.innerHTML = "<div class='text-center'>কোন প্রোডাক্ট নেই</div>"; return; }
-    container.innerHTML = filtered.map(p => {
-      const shortDesc = p.description ? (p.description.length > 60 ? p.description.substring(0,60)+"..." : p.description) : "প্রিমিয়াম ডিজিটাল প্রোডাক্ট";
-      const fullDesc = p.description || "প্রিমিয়াম ডিজিটাল প্রোডাক্ট। বিস্তারিত জানতে কল করুন।";
-      const shareText = encodeURIComponent(`${p.name} - всего всего ৳${p.price}! অর্ডার করুন: ${window.location.href}`);
-      const shareUrl = encodeURIComponent(window.location.href);
-      return `
-      <div class="product">
-        <div class="product-top">${p.image_url ? `<img src="${p.image_url}" alt="${p.name}">` : `<i class="fas fa-digital-tiling"></i>`}</div>
-        <div class="product-body">
-          <h3>${escapeHtml(p.name)}</h3>
-          <div class="description-preview">${escapeHtml(shortDesc)} <button class="btn-details" onclick="openDescModal('${escapeHtml(fullDesc).replace(/'/g, "\\'")}')">বিস্তারিত দেখুন</button></div>
-          <div class="p-foot">
-            <div class="p-price"><strong>৳${p.price}</strong><del>৳${Math.round(p.price*2.2)}</del></div>
-            <button class="btn btn-primary" style="background:linear-gradient(135deg,#ff4f63,#ff9f43);" onclick="quickOrder('${escapeHtml(p.name)}',${p.price})">কিনুন</button>
-          </div>
-          <div class="share-buttons">
-            <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" title="Facebook এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://wa.me/?text=${shareText}" target="_blank" title="WhatsApp এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://twitter.com/intent/tweet?text=${shareText}" target="_blank" title="Twitter এ শেয়ার করুন"><i class="fab fa-twitter"></i></a>
-            <a href="#" onclick="copyToClipboard('${window.location.href}'); return false;" title="লিংক কপি করুন"><i class="fas fa-link"></i></a>
-          </div>
-        </div>
-      </div>
-    `}).join("");
-  }
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => alert("লিংক কপি হয়েছে!")).catch(() => alert("কপি করতে ব্যর্থ।"));
+    filterProductsBySearch(); // initial render
   }
   function populateProductSelect() {
     const select = document.getElementById("productSelect");
     select.innerHTML = `<option value="" data-price="">প্রোডাক্ট বেছে নিন</option>` + allProductsData.map(p => `<option value="${escapeHtml(p.name)}" data-price="${p.price}">${escapeHtml(p.name)} - ৳${p.price}</option>`).join("");
   }
   function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m] || m)); }
+  function escapeHtmlObj(obj) {
+    let newObj = {};
+    for(let key in obj) {
+      if(typeof obj[key] === 'string') newObj[key] = escapeHtml(obj[key]);
+      else newObj[key] = obj[key];
+    }
+    return newObj;
+  }
+
+  // Hero slider
+  function initSlider() {
+    const dotsDiv = document.getElementById("heroDots");
+    for(let i=0; i<totalSlides; i++) {
+      let dot = document.createElement("button");
+      dot.classList.add("dot");
+      if(i===0) dot.classList.add("active");
+      dot.onclick = () => goToSlide(i);
+      dotsDiv.appendChild(dot);
+    }
+    updateSlider();
+    setInterval(() => changeSlide(1), 5000);
+  }
+  function updateSlider() {
+    const track = document.getElementById("heroSlides");
+    if(track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    document.querySelectorAll(".dot").forEach((d,i) => d.classList.toggle("active", i===currentSlide));
+  }
+  function changeSlide(dir) {
+    currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+    updateSlider();
+  }
+  function goToSlide(idx) {
+    currentSlide = idx;
+    updateSlider();
+  }
 
   document.getElementById("orderForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -619,19 +720,25 @@
 
   window.addEventListener("load", async () => {
     document.getElementById("loader").classList.add("hidden");
-    initHeroSlider();
     renderPaymentMethods();
+    initSlider();
     await loadProducts();
   });
   document.getElementById("orderModal").addEventListener("click", (e)=> { if(e.target.id === "orderModal") closeOrderModal(); });
   document.getElementById("successModal").addEventListener("click", (e)=> { if(e.target.id === "successModal") closeSuccessModal(); });
-  document.getElementById("descModal").addEventListener("click", (e)=> { if(e.target.id === "descModal") closeDescModal(); });
+  document.getElementById("detailModal").addEventListener("click", (e)=> { if(e.target.id === "detailModal") closeDetailModal(); });
   document.querySelectorAll("a[href^='#']").forEach(link => link.addEventListener("click", function(e){
     let hash = this.getAttribute("href");
     if(hash === "#") return;
     let target = document.querySelector(hash);
     if(target) { e.preventDefault(); target.scrollIntoView({behavior:"smooth"}); document.getElementById("navMenu")?.classList.remove("active"); }
   }));
+  window.changeSlide = changeSlide;
+  window.goToSlide = goToSlide;
+  window.showDetails = showDetails;
+  window.shareProduct = shareProduct;
+  window.copyLink = copyLink;
+  window.filterProductsBySearch = filterProductsBySearch;
 </script>
 </body>
 </html>
