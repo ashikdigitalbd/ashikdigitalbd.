@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASHIKDIGITAL BD - প্রিমিয়াম ডিজিটাল সার্ভিস</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -137,6 +138,14 @@
       font-weight: 700;
       font-size: 11px;
     }
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: none;
+      color: #1e2648;
+      font-size: 22px;
+      cursor: pointer;
+    }
 
     .hero {
       padding: 50px 0 18px;
@@ -220,6 +229,11 @@
       background: rgba(255, 255, 255, .14);
       margin-bottom: 12px;
       font-size: 13px;
+    }
+    .price {
+      margin-bottom: 18px;
+      font-size: clamp(28px, 4.5vw, 40px);
+      font-weight: 700;
     }
 
     .arrow {
@@ -314,7 +328,6 @@
       padding: 16px;
       border: 1px solid #e4e9fb;
       transition: all .3s;
-      cursor: pointer;
     }
     .product:hover {
       transform: translateY(-8px);
@@ -439,7 +452,6 @@
       border-radius: 8px;
       font-family: inherit;
       font-size: 14px;
-      transition: all .3s;
     }
     .form-group input:focus,
     .form-group select:focus,
@@ -482,7 +494,6 @@
       background: #f4f7ff;
       display: grid;
       place-items: center;
-      overflow: hidden;
     }
     .method-logo img {
       width: 100%;
@@ -504,7 +515,6 @@
     .pay-detail strong {
       display: block;
       margin-bottom: 6px;
-      font-size: 14px;
     }
     .num {
       font-weight: 700;
@@ -522,7 +532,6 @@
       font-weight: 700;
       cursor: pointer;
       transition: all .3s;
-      font-size: 16px;
     }
     .submit:hover:not(:disabled) {
       transform: translateY(-2px);
@@ -530,7 +539,11 @@
     }
     .submit:disabled {
       opacity: 0.7;
-      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .menu-btn { display: block; }
     }
   </style>
 </head>
@@ -540,7 +553,7 @@
   </div>
 
   <div class="topbar">
-    <i class="fas fa-truck-fast"></i> বিশ্বস্ত সেবা প্রদানকারী | আমাদের সাথে থাকুন
+    <i class="fas fa-truck-fast"></i> বিশ্বস্ত সেবা প্রদানকারী
   </div>
 
   <header>
@@ -562,6 +575,7 @@
             <i class="fas fa-shopping-cart"></i>
             <div class="cart-count" id="cartCount">0</div>
           </div>
+          <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
         </div>
       </div>
     </div>
@@ -572,43 +586,43 @@
       <div class="hero-box">
         <div class="slides" id="sliderTrack">
           <div class="slide">
-            <img src="https://via.placeholder.com/1200x400/5b61ff/ffffff?text=স্লাইড+1" alt="Slide 1" class="slide-image">
+            <img id="slide-img-1" src="https://via.placeholder.com/1200x400/5b61ff/ffffff?text=স্লাইড+1" alt="Slide 1" class="slide-image">
             <div class="slide-content">
-              <span class="badge">সর্বোত্তম অফার</span>
-              <h1>আপনার ব্যবসা বৃদ্ধি করুন</h1>
-              <p>আমাদের ডিজিটাল সেবা দিয়ে আপনার ব্যবসা পরবর্তী স্তরে নিয়ে যান</p>
+              <span class="badge">অফার ১</span>
+              <h1>স্লাইড ১</h1>
+              <p>আপনার ছবি এখানে দেখাবে</p>
             </div>
           </div>
           <div class="slide">
-            <img src="https://via.placeholder.com/1200x400/ff9f43/ffffff?text=স্লাইড+2" alt="Slide 2" class="slide-image">
+            <img id="slide-img-2" src="https://via.placeholder.com/1200x400/ff9f43/ffffff?text=স্লাইড+2" alt="Slide 2" class="slide-image">
             <div class="slide-content">
-              <span class="badge">বিশেষ ছাড়</span>
-              <h1>মানসম্পন্ন সেবা</h1>
-              <p>প্রতিটি গ্রাহকের জন্য কাস্টমাইজড সমাধান</p>
+              <span class="badge">অফার ২</span>
+              <h1>স্লাইড ২</h1>
+              <p>আপনার ছবি এখানে দেখাবে</p>
             </div>
           </div>
           <div class="slide">
-            <img src="https://via.placeholder.com/1200x400/2fd67d/ffffff?text=স্লাইড+3" alt="Slide 3" class="slide-image">
+            <img id="slide-img-3" src="https://via.placeholder.com/1200x400/2fd67d/ffffff?text=স্লাইড+3" alt="Slide 3" class="slide-image">
             <div class="slide-content">
-              <span class="badge">প্রিমিয়াম প্যাকেজ</span>
-              <h1>সীমাহীন সম্ভাবনা</h1>
-              <p>আপনার স্বপ্নের ডিজিটাল উপস্থিতি তৈরি করুন</p>
+              <span class="badge">অফার ৩</span>
+              <h1>স্লাইড ৩</h1>
+              <p>আপনার ছবি এখানে দেখাবে</p>
             </div>
           </div>
           <div class="slide">
-            <img src="https://via.placeholder.com/1200x400/ff4f63/ffffff?text=স্লাইড+4" alt="Slide 4" class="slide-image">
+            <img id="slide-img-4" src="https://via.placeholder.com/1200x400/ff4f63/ffffff?text=স্লাইড+4" alt="Slide 4" class="slide-image">
             <div class="slide-content">
-              <span class="badge">এক্সক্লুসিভ অফার</span>
-              <h1>নতুন যুগের সমাধান</h1>
-              <p>আধুনিক প্রযুক্তি এবং দক্ষতার সমন্বয়</p>
+              <span class="badge">অফার ৪</span>
+              <h1>স্লাইড ৪</h1>
+              <p>আপনার ছবি এখানে দেখাবে</p>
             </div>
           </div>
           <div class="slide">
-            <img src="https://via.placeholder.com/1200x400/4f3ab8/ffffff?text=স্লাইড+5" alt="Slide 5" class="slide-image">
+            <img id="slide-img-5" src="https://via.placeholder.com/1200x400/4f3ab8/ffffff?text=স্লাইড+5" alt="Slide 5" class="slide-image">
             <div class="slide-content">
-              <span class="badge">লিমিটেড সময়</span>
-              <h1>সেরা মূল্যে সেরা সেবা</h1>
-              <p>এই সুযোগ হাতছাড়া করবেন না</p>
+              <span class="badge">অফার ৫</span>
+              <h1>স্লাইড ৫</h1>
+              <p>আপনার ছবি এখানে দেখাবে</p>
             </div>
           </div>
         </div>
@@ -633,19 +647,18 @@
 
         <div class="tabs" id="categoryTabs">
           <button class="tab active" onclick="filterProducts('all', this)">সব পণ্য</button>
-          <button class="tab" onclick="filterProducts('ওয়েবসাইট', this)">ওয়েবসাইট</button>
-          <button class="tab" onclick="filterProducts('এসইও', this)">এসইও</button>
-          <button class="tab" onclick="filterProducts('অ্যাপ', this)">অ্যাপ</button>
         </div>
 
         <div class="products-grid" id="productsContainer">
-          <!-- পণ্যগুলি এখানে লোড হবে -->
+          <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+            <div style="font-size: 48px; margin-bottom: 16px;"><i class="fas fa-spinner fa-spin"></i></div>
+            <p style="color: #5e6788;">পণ্য লোড হচ্ছে...</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Order Modal -->
   <div id="orderModal" class="modal">
     <div class="modal-box">
       <div class="modal-header">
@@ -668,7 +681,7 @@
 
           <div class="form-group">
             <label>আপনার নাম *</label>
-            <input type="text" name="name" required placeholder="আপনার পূর্ণ নাম">
+            <input type="text" name="name" required placeholder="পূর্ণ নাম">
           </div>
 
           <div class="form-group">
@@ -685,7 +698,7 @@
             <label>পেমেন্ট পদ্ধতি *</label>
             <div class="payment-methods">
               <div class="method-item">
-                <input id="payBkash" type="radio" name="payment_method" value="bKash" onchange="showPaymentDetails(this.value)" required>
+                <input id="payBkash" type="radio" name="payment_method" value="bKash" onchange="showPaymentDetails('Bkash')" required>
                 <label class="method-label" for="payBkash">
                   <div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Bkash_logo.svg/1200px-Bkash_logo.svg.png" alt="bKash"></div>
                   bKash
@@ -693,7 +706,7 @@
               </div>
 
               <div class="method-item">
-                <input id="payNagad" type="radio" name="payment_method" value="Nagad" onchange="showPaymentDetails(this.value)" required>
+                <input id="payNagad" type="radio" name="payment_method" value="Nagad" onchange="showPaymentDetails('Nagad')" required>
                 <label class="method-label" for="payNagad">
                   <div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Nagad_logo.svg/1200px-Nagad_logo.svg.png" alt="Nagad"></div>
                   Nagad
@@ -701,7 +714,7 @@
               </div>
 
               <div class="method-item">
-                <input id="payUpay" type="radio" name="payment_method" value="Upay" onchange="showPaymentDetails(this.value)" required>
+                <input id="payUpay" type="radio" name="payment_method" value="Upay" onchange="showPaymentDetails('Upay')" required>
                 <label class="method-label" for="payUpay">
                   <div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Upay_logo.png/1024px-Upay_logo.png" alt="Upay"></div>
                   Upay
@@ -709,7 +722,7 @@
               </div>
 
               <div class="method-item">
-                <input id="payRocket" type="radio" name="payment_method" value="Rocket" onchange="showPaymentDetails(this.value)" required>
+                <input id="payRocket" type="radio" name="payment_method" value="Rocket" onchange="showPaymentDetails('Rocket')" required>
                 <label class="method-label" for="payRocket">
                   <div class="method-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Rocket_mobile_banking_logo.svg" alt="Rocket"></div>
                   Rocket
@@ -739,7 +752,6 @@
     </div>
   </div>
 
-  <!-- Success Modal -->
   <div id="successModal" class="modal">
     <div class="modal-box" style="max-width:460px;">
       <div class="modal-body" style="padding:40px; text-align:center;">
@@ -747,59 +759,108 @@
           <i class="fas fa-check"></i>
         </div>
         <h3 style="margin:0 0 10px; font-size: 22px;">অর্ডার সফল হয়েছে</h3>
-        <p style="margin:0 0 20px; color:#596384;">আপনার অর্ডার সংরক্ষিত হয়েছে এবং Telegram এ পাঠানো হয়েছে। শীঘ্রই যোগাযোগ করা হবে।</p>
+        <p style="margin:0 0 20px; color:#596384;">আপনার অর্ডার সংরক্ষিত হয়েছে এবং Telegram এ পাঠানো হয়েছে।</p>
         <button class="product-btn" style="width: 100%;" onclick="closeSuccessModal()">ঠিক আছে</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Telegram Configuration
+    // ============ SUPABASE CONFIGURATION ============
+    const SUPABASE_URL = 'https://rvbdzbqjrsavwdbxutfo.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_qt8sN5cY-JrxmaKrxSEv5Q_Q4JJdNra';
+    
+    const { createClient } = window.supabase;
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ============ TELEGRAM CONFIGURATION ============
     const TG_API_ID = "8732766562";
     const TG_TOKEN_PART = "AAEYvZLBWdXf2BmF2zwtddISCy1GDYxMU5g";
     const TG_BOT_TOKEN = `${TG_API_ID}:${TG_TOKEN_PART}`;
     let TG_CHAT_ID = "";
 
-    // Slider Variables
+    // ============ VARIABLES ============
     let currentSlide = 0;
     const totalSlides = 5;
     const sliderTrack = document.getElementById("sliderTrack");
     const dots = document.querySelectorAll(".dot");
     let cartCount = 0;
+    let products = [];
+    let categories = [];
 
-    // টেস্ট ডাটা - Supabase থেকে আসবে পরে
-    const products = [
-      { id: 1, name: "প্রফেশনাল ওয়েবসাইট", category: "ওয়েবসাইট", description: "মানসম্পন্ন ওয়েবসাইট ডিজাইন এবং ডেভেলপমেন্ট", price: 5000 },
-      { id: 2, name: "এসইও অপটিমাইজেশন", category: "এসইও", description: "আপনার ওয়েবসাইটকে গুগল সার্চে প্রথম পাতায় আনুন", price: 3000 },
-      { id: 3, name: "মোবাইল অ্যাপ ডেভেলপমেন্ট", category: "অ্যাপ", description: "iOS এবং Android এর জন্য মোবাইল অ্যাপ তৈরি", price: 15000 },
-      { id: 4, name: "ই-কমার্স সল্যুশন", category: "ওয়েবসাইট", description: "অনলাইন স্টোর সেটআপ এবং ম্যানেজমেন্ট", price: 8000 },
-      { id: 5, name: "কন্টেন্ট এসইও", category: "এসইও", description: "এসইও ফ্রেন্ডলি কন্টেন্ট লেখা এবং অপটিমাইজেশন", price: 2000 },
-      { id: 6, name: "ব্র্যান্ডিং প্যাকেজ", category: "অ্যাপ", description: "লোগো, ব্র্যান্ড আইডেন্টিটি ডিজাইন", price: 4000 }
-    ];
-
-    // Initialize
-    window.addEventListener("load", () => {
-      displayProducts('all');
-      populateProductSelect();
+    // ============ INITIALIZE ============
+    window.addEventListener("load", async () => {
+      await loadProducts();
       setTimeout(() => document.getElementById("loader").classList.add("hidden"), 650);
     });
 
-    // Display Products
+    // ============ LOAD PRODUCTS FROM SUPABASE ============
+    async function loadProducts() {
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        products = data || [];
+        
+        if (products.length === 0) {
+          throw new Error("কোনো পণ্য পাওয়া যায়নি");
+        }
+
+        categories = [...new Set(products.map(p => p.category || 'General'))];
+        buildCategoryTabs();
+        displayProducts('all');
+        populateProductSelect();
+
+      } catch (error) {
+        console.error('Supabase Error:', error);
+        document.getElementById("productsContainer").innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: red;">
+            <p><i class="fas fa-exclamation-circle"></i> পণ্য লোড করতে সমস্যা হয়েছে</p>
+            <p style="font-size: 12px; color: #999;">ত্রুটি: ${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    // ============ BUILD CATEGORY TABS ============
+    function buildCategoryTabs() {
+      const tabsContainer = document.getElementById("categoryTabs");
+      tabsContainer.innerHTML = '<button class="tab active" onclick="filterProducts(\'all\', this)">সব পণ্য</button>';
+      
+      categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'tab';
+        btn.textContent = cat;
+        btn.onclick = function() { filterProducts(cat, this); };
+        tabsContainer.appendChild(btn);
+      });
+    }
+
+    // ============ DISPLAY PRODUCTS ============
     function displayProducts(category) {
       const container = document.getElementById("productsContainer");
       let filtered = products;
       
       if (category !== 'all') {
-        filtered = products.filter(p => p.category === category);
+        filtered = products.filter(p => (p.category || 'General') === category);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><p>এই ক্যাটাগরিতে কোনো পণ্য নেই।</p></div>';
+        return;
       }
 
       container.innerHTML = filtered.map(product => `
-        <div class="product" data-category="${product.category}">
+        <div class="product" data-category="${product.category || 'General'}">
           <div class="product-img">
-            <i class="fas fa-box" style="font-size: 48px; color: #ccc;"></i>
+            ${product.image_url ? `<img src="${product.image_url}" alt="${product.name}" onerror="this.style.display='none'">` : `<i class="fas fa-box" style="font-size: 48px; color: #ccc;"></i>`}
           </div>
-          <div class="product-name">${product.name}</div>
-          <div class="product-desc">${product.description}</div>
+          <div class="product-name">${escapeHtml(product.name)}</div>
+          <div class="product-desc">${escapeHtml(product.description || '')}</div>
           <div class="product-footer">
             <div class="product-price">৳${product.price}</div>
             <button class="product-btn" onclick="openOrderModalWith('${product.name}', ${product.price})">অর্ডার করুন</button>
@@ -808,7 +869,7 @@
       `).join('');
     }
 
-    // Populate Product Select
+    // ============ POPULATE PRODUCT SELECT ============
     function populateProductSelect() {
       const select = document.getElementById("productSelect");
       select.innerHTML = '<option value="">পণ্য বেছে নিন</option>';
@@ -822,14 +883,14 @@
       });
     }
 
-    // Filter Products
+    // ============ FILTER PRODUCTS ============
     function filterProducts(category, btn) {
       document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
       if (btn) btn.classList.add("active");
       displayProducts(category);
     }
 
-    // Slider Functions
+    // ============ SLIDER FUNCTIONS ============
     function updateSlider() {
       sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
       dots.forEach((dot, i) => dot.classList.toggle("active", i === currentSlide));
@@ -847,7 +908,11 @@
 
     setInterval(() => changeSlide(1), 5000);
 
-    // Modal Functions
+    function toggleMenu() {
+      // Menu toggle function
+    }
+
+    // ============ MODAL FUNCTIONS ============
     function openOrderModal() {
       document.getElementById("orderModal").classList.add("active");
       document.body.style.overflow = "hidden";
@@ -882,22 +947,22 @@
         const el = document.getElementById(`detail${key}`);
         if (el) el.classList.remove("active");
       });
-      if (method === "bKash") document.getElementById("detailBkash").classList.add("active");
-      if (method === "Nagad") document.getElementById("detailNagad").classList.add("active");
-      if (method === "Upay") document.getElementById("detailUpay").classList.add("active");
-      if (method === "Rocket") document.getElementById("detailRocket").classList.add("active");
+      const el = document.getElementById(`detail${method}`);
+      if (el) el.classList.add("active");
     }
 
     function escapeHtml(text) {
-      return String(text || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return String(text || "").replace(/[&<>"']/g, m => map[m]);
     }
 
-    // Resolve Telegram Chat ID
+    // ============ TELEGRAM FUNCTIONS ============
     async function resolveChatId() {
       if (TG_CHAT_ID) return TG_CHAT_ID;
       try {
@@ -905,13 +970,13 @@
         const data = await response.json();
 
         if (!data.ok || !data.result || data.result.length === 0) {
-          throw new Error("Chat ID পাওয়া যায়নি। Telegram Bot এ /start করুন প্রথমে।");
+          throw new Error("Telegram Bot এ /start করুন প্রথমে");
         }
 
         const last = data.result[data.result.length - 1];
         const chat = last.message?.chat || last.channel_post?.chat || last.callback_query?.message?.chat;
         if (!chat?.id) {
-          throw new Error("Chat ID পাওয়া যায়নি।");
+          throw new Error("Chat ID পাওয়া যায়নি");
         }
 
         TG_CHAT_ID = String(chat.id);
@@ -921,7 +986,6 @@
       }
     }
 
-    // Send to Telegram
     async function sendToTelegram(orderData) {
       const chatId = await resolveChatId();
       const text = [
@@ -932,7 +996,7 @@
         `<b>ইমেইল:</b> ${escapeHtml(orderData.email)}`,
         `<b>প্রোডাক্ট:</b> ${escapeHtml(orderData.product)}`,
         `<b>মোট মূল্য:</b> ${escapeHtml(orderData.price)}`,
-        `<b>পেমেন্ট মেথড:</b> ${escapeHtml(orderData.payment_method)}`,
+        `<b>পেমেন্ট:</b> ${escapeHtml(orderData.payment_method)}`,
         `<b>Transaction ID:</b> ${escapeHtml(orderData.transaction_id)}`,
         `<b>মেসেজ:</b> ${escapeHtml(orderData.message || "N/A")}`,
         `<b>সময়:</b> ${new Date().toLocaleString("bn-BD")}`
@@ -949,10 +1013,10 @@
       });
 
       const out = await res.json();
-      if (!out.ok) throw new Error(out.description || "Telegram API error");
+      if (!out.ok) throw new Error(out.description || "Telegram error");
     }
 
-    // Form Submit
+    // ============ FORM SUBMIT ============
     document.getElementById("orderForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const form = e.target;
@@ -960,14 +1024,14 @@
       const selected = document.getElementById("productSelect").selectedOptions[0];
       
       const orderData = {
-        name: fd.get("name"),
-        whatsapp: fd.get("whatsapp"),
+        customer_name: fd.get("name"),
+        whatsapp_number: fd.get("whatsapp"),
         email: fd.get("email"),
-        product: fd.get("product"),
-        price: `৳${selected?.dataset.price || 0}`,
+        product_name: fd.get("product"),
+        total_price: parseInt(selected?.dataset.price || 0),
         payment_method: fd.get("payment_method"),
         transaction_id: fd.get("transaction_id"),
-        message: fd.get("message")
+        additional_message: fd.get("message")
       };
 
       const btn = form.querySelector("button[type='submit']");
@@ -976,22 +1040,41 @@
       btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> পাঠানো হচ্ছে...";
 
       try {
-        await sendToTelegram(orderData);
+        // Save to Supabase
+        const { error: insertError } = await supabase
+          .from('orders')
+          .insert([orderData]);
+
+        if (insertError) throw insertError;
+
+        // Send to Telegram
+        await sendToTelegram({
+          name: orderData.customer_name,
+          whatsapp: orderData.whatsapp_number,
+          email: orderData.email,
+          product: orderData.product_name,
+          price: `৳${orderData.total_price}`,
+          payment_method: orderData.payment_method,
+          transaction_id: orderData.transaction_id,
+          message: orderData.additional_message
+        });
+
         closeOrderModal();
         document.getElementById("successModal").classList.add("active");
         form.reset();
         updatePrice();
         cartCount = 0;
         document.getElementById("cartCount").textContent = "0";
+
       } catch (err) {
-        alert("অর্ডার পাঠাতে সমস্যা হয়েছে:\n\n" + err.message);
+        alert("অর্ডার সংরক্ষণে ত্রুটি:\n\n" + err.message);
       } finally {
         btn.disabled = false;
         btn.innerHTML = original;
       }
     });
 
-    // Modal Close Events
+    // ============ MODAL EVENTS ============
     document.getElementById("orderModal").addEventListener("click", (e) => {
       if (e.target.id === "orderModal") closeOrderModal();
     });
@@ -1000,7 +1083,6 @@
       if (e.target.id === "successModal") closeSuccessModal();
     });
 
-    // Escape Key
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         closeOrderModal();
