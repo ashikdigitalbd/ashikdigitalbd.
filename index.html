@@ -3,25 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASHIKDIGITAl BD - PREMIUM ACCESS SERVICES AND DESIGN</title>
+    <title>ASHIKDIGIТАЛ BD - প্রিমিয়াম ডিজিটাল সার্ভিস</title>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /*
-        ================================
-        ইমেজ সাইজ গাইডলাইন:
-        ================================
-        
-        🖼️ হিরো ব্যানার ইমেজ সাইজ: 1920x400 পিক্সেল (Full HD)
-           - ব্যানার যোগ করার সময় এই সাইজে রিসাইজ করুন
-           - PNG বা JPG ফরম্যাট ব্যবহার করুন
-        
-        📦 প্রোডাক্ট কার্ড ইমেজ সাইজ: 400x300 পিক্সেল (Landscape)
-           - কার্ড ইমেজ এই সাইজে হওয়া উচিত
-           - অনুপাত 4:3 বজায় রাখুন
-        
-        ================================
-        */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
@@ -148,17 +133,11 @@
             overflow: hidden;
         }
 
-        /* Default gradient backgrounds - You can replace with your own images */
         .slide-1 { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); }
         .slide-2 { background: linear-gradient(135deg, #FF4757 0%, #FFA502 100%); }
         .slide-3 { background: linear-gradient(135deg, #11998E 0%, #38EF7D 100%); }
         .slide-4 { background: linear-gradient(135deg, #F12711 0%, #F5AF19 100%); }
         .slide-5 { background: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%); }
-
-        /* If you want to use images, uncomment and add image URLs:
-        .slide-1 { background: url('your-image-1.jpg') center/cover; }
-        .slide-2 { background: url('your-image-2.jpg') center/cover; }
-        */
 
         .slide::before {
             content: '';
@@ -479,32 +458,6 @@
         /* Payment Section */
         .payment-section { padding: 50px 0; background: var(--bg-darker); }
         .payment-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .payment-methods { display: flex; flex-direction: column; gap: 15px; }
-        .payment-card {
-            background: var(--bg-card); padding: 20px; border-radius: 12px;
-            display: flex; align-items: center; gap: 18px;
-            border: 1px solid var(--border); transition: all 0.3s;
-        }
-        .payment-card:hover { border-color: var(--primary); transform: translateX(8px); }
-        
-        .payment-logo {
-            width: 75px; height: 60px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; padding: 8px; background: white;
-        }
-        .payment-logo img {
-            max-width: 100%; max-height: 100%; object-fit: contain;
-        }
-
-        .payment-info h3 { font-size: 17px; margin-bottom: 5px; }
-        .payment-info p {
-            color: var(--primary); font-size: 18px;
-            font-weight: 700; letter-spacing: 1px;
-        }
-        .payment-info .type {
-            color: var(--text-gray); font-size: 12px;
-            font-weight: 400; letter-spacing: 0; margin-top: 3px;
-        }
         .payment-instructions {
             background: var(--bg-card); padding: 25px;
             border-radius: 15px; border: 1px solid var(--border);
@@ -874,64 +827,6 @@
         .modal h2 { font-size: 24px; margin-bottom: 12px; }
         .modal p { color: var(--text-gray); margin-bottom: 12px; font-size: 14px; }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .products-grid { grid-template-columns: repeat(3, 1fr); }
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 768px) {
-            nav ul { display: none; }
-            nav ul.active {
-                display: flex; flex-direction: column;
-                position: absolute; top: 65px; left: 0; right: 0;
-                background: var(--bg-card); padding: 20px; gap: 15px;
-                border-top: 1px solid var(--border);
-            }
-            .mobile-menu-btn { display: block; }
-
-            .hero-slider { height: 360px; }
-            .slide-content h2 { font-size: 28px; }
-            .slide-content p { font-size: 14px; }
-            .slide-price .new-price { font-size: 30px; }
-            .slide-icon { font-size: 150px; right: -20px; opacity: 0.1; }
-            .slider-arrow { width: 36px; height: 36px; font-size: 14px; }
-            .slider-arrow.prev { left: 10px; }
-            .slider-arrow.next { right: 10px; }
-
-            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .product-image { height: 130px; font-size: 45px; }
-            .product-info { padding: 12px; }
-            .product-info h3 { font-size: 14px; }
-            .product-price { font-size: 16px; }
-            .btn-cart { padding: 6px 10px; font-size: 11px; }
-
-            .categories-grid { grid-template-columns: 1fr; }
-            .reviews-grid { grid-template-columns: 1fr; }
-            .payment-content { grid-template-columns: 1fr; }
-            .contact-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-content { grid-template-columns: 1fr 1fr; }
-            .form-row { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .features-grid { grid-template-columns: 1fr; }
-            .section-title h2 { font-size: 20px; }
-            .order-modal-body { padding: 20px; }
-            .order-modal-header { padding: 20px; }
-            .order-modal-header h2 { font-size: 20px; }
-            .order-cta h2 { font-size: 28px; }
-            .order-cta-features { gap: 10px; }
-            .cta-feature { padding: 8px 14px; font-size: 12px; }
-            .btn-order-now { padding: 14px 32px; font-size: 15px; }
-        }
-
-        @media (max-width: 480px) {
-            .footer-content { grid-template-columns: 1fr; text-align: center; }
-            .social-links { justify-content: center; }
-            .footer-about h3 { justify-content: center; }
-            .contact-grid { grid-template-columns: 1fr; }
-        }
-
-        /* Payment Method Styles */
         .payment-methods-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -1018,6 +913,63 @@
             background: rgba(255, 71, 87, 0.1);
             border-radius: 8px;
         }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .products-grid { grid-template-columns: repeat(3, 1fr); }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            nav ul.active {
+                display: flex; flex-direction: column;
+                position: absolute; top: 65px; left: 0; right: 0;
+                background: var(--bg-card); padding: 20px; gap: 15px;
+                border-top: 1px solid var(--border);
+            }
+            .mobile-menu-btn { display: block; }
+
+            .hero-slider { height: 360px; }
+            .slide-content h2 { font-size: 28px; }
+            .slide-content p { font-size: 14px; }
+            .slide-price .new-price { font-size: 30px; }
+            .slide-icon { font-size: 150px; right: -20px; opacity: 0.1; }
+            .slider-arrow { width: 36px; height: 36px; font-size: 14px; }
+            .slider-arrow.prev { left: 10px; }
+            .slider-arrow.next { right: 10px; }
+
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .product-image { height: 130px; font-size: 45px; }
+            .product-info { padding: 12px; }
+            .product-info h3 { font-size: 14px; }
+            .product-price { font-size: 16px; }
+            .btn-cart { padding: 6px 10px; font-size: 11px; }
+
+            .categories-grid { grid-template-columns: 1fr; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .payment-content { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: 1fr; }
+            .section-title h2 { font-size: 20px; }
+            .order-modal-body { padding: 20px; }
+            .order-modal-header { padding: 20px; }
+            .order-modal-header h2 { font-size: 20px; }
+            .order-cta h2 { font-size: 28px; }
+            .order-cta-features { gap: 10px; }
+            .cta-feature { padding: 8px 14px; font-size: 12px; }
+            .btn-order-now { padding: 14px 32px; font-size: 15px; }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+            .social-links { justify-content: center; }
+            .footer-about h3 { justify-content: center; }
+            .contact-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -1043,7 +995,7 @@
             <div class="header-content">
                 <a href="#" class="logo">
                     <div class="logo-icon">Z</div>
-                    <span>ASHIKDIGITAl BD</span>
+                    <span>ASHIKDIGIТАЛ BD</span>
                 </a>
                 <nav>
                     <ul id="navMenu">
@@ -1068,25 +1020,9 @@
     </header>
 
     <!-- Hero Slider -->
-    <!-- 
-    📌 নতুন ব্যানার স্লাইড যোগ করার নিয়ম:
-    
-    ১. নিচে নতুন <div> এলিমেন্ট যোগ করুন:
-       <div class="slide slide-N"> (N = নম্বর, যেমন slide-6, slide-7)
-    
-    ২. স্লাইড স্টাইল ক্লাস যোগ করুন CSS তে:
-       .slide-6 { background: linear-gradient(135deg, #color1 0%, #color2 100%); }
-    
-    ৩. স্লাইডার ডট যোগ করুন নিচে:
-       <button class="dot" onclick="goToSlide(N-1)"></button>
-    
-    ৪. JavaScript এ totalSlides সংখ্যা বাড়ান
-    
-    ৫. ব্যানার ইমেজ সাইজ: 1920x400 পিক্সেল
-    -->
     <section class="hero-slider" id="home">
         <div class="slider-track" id="sliderTrack">
-            <!-- Slide 1: Adobe -->
+            <!-- Slide 1 -->
             <div class="slide slide-1">
                 <div class="slide-content">
                     <span class="slide-badge">🔥 আজকের সেরা অফার</span>
@@ -1103,7 +1039,7 @@
                 <i class="fas fa-wand-magic-sparkles slide-icon"></i>
             </div>
 
-            <!-- Slide 2: Canva -->
+            <!-- Slide 2 -->
             <div class="slide slide-2">
                 <div class="slide-content">
                     <span class="slide-badge">⚡ ফ্ল্যাশ সেল</span>
@@ -1120,7 +1056,7 @@
                 <i class="fas fa-palette slide-icon"></i>
             </div>
 
-            <!-- Slide 3: CapCut -->
+            <!-- Slide 3 -->
             <div class="slide slide-3">
                 <div class="slide-content">
                     <span class="slide-badge">🎬 হট ডিল</span>
@@ -1137,7 +1073,7 @@
                 <i class="fas fa-video slide-icon"></i>
             </div>
 
-            <!-- Slide 4: YouTube -->
+            <!-- Slide 4 -->
             <div class="slide slide-4">
                 <div class="slide-content">
                     <span class="slide-badge">📺 জনপ্রিয়</span>
@@ -1154,7 +1090,7 @@
                 <i class="fab fa-youtube slide-icon"></i>
             </div>
 
-            <!-- Slide 5: AI Logo -->
+            <!-- Slide 5 -->
             <div class="slide slide-5">
                 <div class="slide-content">
                     <span class="slide-badge">🤖 AI পাওয়ার্ড</span>
@@ -1189,18 +1125,6 @@
     </section>
 
     <!-- Products Section -->
-    <!-- 
-    📌 নতুন প্রোডাক্ট কার্ড যোগ করার নিয়ম:
-    
-    ১. নিচে নতুন কার্ড <div> যোগ করুন
-    ২. ইমেজ ক্লাস ব্যবহার করুন: bg-1 থেকে bg-8 (রঙিন ব্যাকগ্রাউন্ড)
-    ৩. প্রোডাক্ট ইমেজ সাইজ: 400x300 পিক্সেল
-    ৪. ইমেজ এলিমেন্ট যোগ করলে:
-       <img src="your-image.jpg" alt="Product" style="width: 100%; height: 100%; object-fit: cover;">
-    ৫. data-category নির্ধারণ করুন ফিল্টারিং এর জন্য
-    
-    বর্তমান স্টাইল ক্লাস: bg-1, bg-2, bg-3, bg-4, bg-5, bg-6, bg-7, bg-8
-    -->
     <section class="products-section" id="products">
         <div class="container">
             <div class="section-header">
@@ -1429,7 +1353,7 @@
                         <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
                         <div class="feature-text">
                             <h4>নিরাপদ পেমেন্ট</h4>
-                            <p>bKash & Nagad</p>
+                            <p>নগদ & বিকাশ</p>
                         </div>
                     </div>
                     <div class="feature-item">
@@ -1525,7 +1449,7 @@
             <div class="reviews-grid">
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"ASHIKDIGITAl BD থেকে Canva Pro কিনেছিলাম। ৫ মিনিটে অ্যাকাউন্ট পেয়েছি। অসাধারণ সার্ভিস!"</p>
+                    <p class="review-text">"ASHIKDIГИТАЛь BD থেকে Canva Pro কিনেছিলাম। ৫ মিনিটে অ্যাকাউন্ট পেয়েছি। অসাধারণ সার্ভিস!"</p>
                     <div class="reviewer">
                         <div class="reviewer-avatar">রা</div>
                         <div class="reviewer-info">
@@ -1555,42 +1479,6 @@
                         <div class="reviewer-info">
                             <h4>সাব্বির আহমেদ</h4>
                             <p>গ্রাফিক ডিজাইনার</p>
-                        </div>
-                        <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
-                    </div>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"Digital Visiting Card বানিয়েছিলাম। অনেক স্মার্ট লাগছে। সবাইকে রেকমেন্ড করছি!"</p>
-                    <div class="reviewer">
-                        <div class="reviewer-avatar">মা</div>
-                        <div class="reviewer-info">
-                            <h4>মাহমুদুল ইসলাম</h4>
-                            <p>ইউটিউবার</p>
-                        </div>
-                        <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
-                    </div>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"YouTube Premium এর জন্য টাকা পাঠিয়েছিলাম। সাথে সাথে একাউন্ট দিয়ে দিয়েছে।"</p>
-                    <div class="reviewer">
-                        <div class="reviewer-avatar">ফা</div>
-                        <div class="reviewer-info">
-                            <h4>ফাহিম আহমেদ</h4>
-                            <p>কন্টেন্ট ক্রিয়েটর</p>
-                        </div>
-                        <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
-                    </div>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"AI Banner Design করিয়েছিলাম। একদম প্রফেশনাল! অসাধারণ কাজ ASHIKDIগিটাল BD টিমের।"</p>
-                    <div class="reviewer">
-                        <div class="reviewer-avatar">আ</div>
-                        <div class="reviewer-info">
-                            <h4>আরিফুল ইসলাম</h4>
-                            <p>মার্কেটার</p>
                         </div>
                         <span class="verified-badge"><i class="fas fa-circle-check"></i> Verified</span>
                     </div>
@@ -1678,12 +1566,12 @@
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                     <h4>ইমেইল</h4>
-                    <p><a href="mailto:support@zynxbd.com">support@zynxbd.com</a></p>
+                    <p><a href="mailto:support@ashikdigital.com">support@ashikdigital.com</a></p>
                 </div>
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fab fa-telegram"></i></div>
                     <h4>Telegram</h4>
-                    <p><a href="#" target="_blank">@zynxbd</a></p>
+                    <p><a href="https://t.me/ASHIKHELPDESK" target="_blank">@ASHIKHELPDESK</a></p>
                 </div>
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-clock"></i></div>
@@ -1701,7 +1589,7 @@
                 <div class="footer-about">
                     <h3>
                         <div class="logo-icon" style="width: 38px; height: 38px; font-size: 17px;">A</div>
-                        ASHIKDIGITAl BD
+                        ASHIKDIГИТАЛь BD
                     </h3>
                     <p>আমরা সেরা মানের ডিজিটাল প্রোডাক্ট ও সার্ভিস প্রদান করি। লক্ষ্য একটাই - কাস্টমার সন্তুষ্টি।</p>
                     <div class="social-links">
@@ -1732,16 +1620,16 @@
                 <div class="footer-links">
                     <h4>পেমেন্ট</h4>
                     <ul>
-                        <li><a href="#">bKash</a></li>
-                        <li><a href="#">Nagad</a></li>
+                        <li><a href="#">নগদ</a></li>
+                        <li><a href="#">বিকাশ</a></li>
                         <li><a href="#">পেমেন্ট গাইড</a></li>
                         <li><a href="#">রিফান্ড পলিসি</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© ২০২৬ ASHIKDIGITAl BD। সর্বস্বত্ব সংরক্ষিত।</p>
-                <p>Designed & Developed By <a href="https://phonelab360.github.io/webnestbd/" target="_blank">WebNest BD</a></p>
+                <p>© ২০২৬ ASHIKDIГИТАЛь BD। সর্বস্বত্ব সংরক্ষিত।</p>
+                <p>Designed & Developed By <a href="#" target="_blank">WebNest BD</a></p>
             </div>
         </div>
     </footer>
@@ -1783,13 +1671,13 @@
                             <select name="product" id="productSelect" required onchange="updatePrice()">
                                 <option value="">-- প্রোডাক্ট বেছে নিন --</option>
                                 <option value="Canva Pro" data-price="299">Canva Pro - ৳২৯৯</option>
-                                <option value="CapCut Pro" data-price="249">CapCut Pro - ৳২৪৯</option>
-                                <option value="Adobe Creative Cloud" data-price="999">Adobe Creative Cloud - ৳৯৯৯</option>
-                                <option value="YouTube Premium" data-price="199">YouTube Premium - ৳১৯৯</option>
-                                <option value="Digital Visiting Card" data-price="399">Digital Visiting Card - ৳৩৯৯</option>
-                                <option value="AI Logo Creation" data-price="499">AI Logo Creation - ৳৪৯৯</option>
-                                <option value="AI Banner Design" data-price="299">AI Banner Design - ৳২৯৯</option>
-                                <option value="AI Thumbnail Creation" data-price="150">AI Thumbnail Creation - ৳১৫০</option>
+                                <option value="CapCut Pro" data-price="249">CapCut Pro - ৳२४९</option>
+                                <option value="Adobe Creative Cloud" data-price="999">Adobe Creative Cloud - ৳୯୯୯</option>
+                                <option value="YouTube Premium" data-price="199">YouTube Premium - ৳१९९</option>
+                                <option value="Digital Visiting Card" data-price="399">Digital Visiting Card - ৳३९९</option>
+                                <option value="AI Logo Creation" data-price="499">AI Logo Creation - ৳४९९</option>
+                                <option value="AI Banner Design" data-price="299">AI Banner Design - ৳२९९</option>
+                                <option value="AI Thumbnail Creation" data-price="150">AI Thumbnail Creation - ৳१५०</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1825,30 +1713,20 @@
 
                     <!-- Nagad Payment Details -->
                     <div class="payment-details-section" id="nagadDetails">
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
-                            <div class="payment-logo" style="font-size: 48px;">📱</div>
-                            <div style="text-align: left;">
-                                <h4 style="color: var(--primary); font-size: 18px; margin-bottom: 5px;">নগদ পেমেন্ট</h4>
-                                <p style="color: var(--text-gray); font-size: 12px;">Personal / Send Money</p>
-                            </div>
-                        </div>
-                        <p style="text-align: center; margin-bottom: 8px;"><strong>অ্যাকাউন্ট নম্বর:</strong></p>
-                        <div class="payment-number" style="text-align: center; font-size: 20px; font-weight: 700;">01700000000</div>
-                        <p style="margin-top: 10px; font-size: 12px; text-align: center; color: var(--text-gray);">অ্যাকাউন্ট হোল্ডার: ASHIKDIগিটাল BD</p>
+                        <div class="payment-logo">📱</div>
+                        <h4>নগদ পেমেন্ট</h4>
+                        <p><strong>অ্যাকাউন্ট নম্বর:</strong></p>
+                        <div class="payment-number">01700000000</div>
+                        <p style="margin-top: 10px; font-size: 12px;">অ্যাকাউন্ট হোল্ডার: ASHIKDIГИТАЛь BD</p>
                     </div>
 
                     <!-- Bkash Payment Details -->
                     <div class="payment-details-section" id="bkashDetails">
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
-                            <div class="payment-logo" style="font-size: 48px;">💳</div>
-                            <div style="text-align: left;">
-                                <h4 style="color: var(--primary); font-size: 18px; margin-bottom: 5px;">বিকাশ পেমেন্ট</h4>
-                                <p style="color: var(--text-gray); font-size: 12px;">Personal / Send Money</p>
-                            </div>
-                        </div>
-                        <p style="text-align: center; margin-bottom: 8px;"><strong>অ্যাকাউন্ট নম্বর:</strong></p>
-                        <div class="payment-number" style="text-align: center; font-size: 20px; font-weight: 700;">01700000000</div>
-                        <p style="margin-top: 10px; font-size: 12px; text-align: center; color: var(--text-gray);">অ্যাকাউন্ট হোল্ডার: ASHIKDIগিটাল BD</p>
+                        <div class="payment-logo">💳</div>
+                        <h4>বিকাশ পেমেন্ট</h4>
+                        <p><strong>অ্যাকাউন্ট নম্বর:</strong></p>
+                        <div class="payment-number">01700000000</div>
+                        <p style="margin-top: 10px; font-size: 12px;">অ্যাকাউন্ট হোল্ডার: ASHIKDIГИТАЛь BD</p>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-comment"></i> অতিরিক্ত মেসেজ (ঐচ্ছিক)</label>
@@ -1869,65 +1747,18 @@
             <div class="modal-icon">
                 <i class="fas fa-check" style="color: white;"></i>
             </div>
-            <h2>অর্ডার সফল! 🎉</h2>
+            <h2>অর্ডার সফল!</h2>
             <p>আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে। শীঘ্রই আমরা আপনার সাথে যোগাযোগ করব।</p>
-            <p style="color: var(--primary); margin: 15px 0;">
-                <i class="fab fa-telegram"></i> আপনার অর্ডার ডিটেইলস Telegram Bot এ পাঠানো হয়েছে।
+            <p style="color: var(--primary);">
+                <i class="fab fa-telegram"></i> অর্ডার ডিটেইলস Telegram এ পাঠানো হয়েছে।
             </p>
-            
-            <div style="display: flex; gap: 10px; margin: 20px 0;">
-                <a href="https://t.me/ASHIKHELPDESK" target="_blank" class="slide-btn" 
-                   style="flex: 1; background: #0088cc; color: white; text-align: center; text-decoration: none; padding: 12px;">
-                    <i class="fab fa-telegram"></i> টেলিগ্রামে যান
-                </a>
-                <button class="slide-btn" style="flex: 1; background: var(--gradient-1); color: white;" onclick="closeModal()">
-                    <i class="fas fa-check"></i> ঠিক আছে
-                </button>
-            </div>
-            
-            <p style="font-size: 12px; color: var(--text-gray); text-align: center; margin-top: 15px;">
-                ✓ পেমেন্ট সম্পূর্ণ হওয়ার পর আপনার প্রোডাক্ট টেলিগ্রামে পাঠানো হবে।
-            </p>
+            <button class="slide-btn" style="margin-top: 15px; background: var(--gradient-1); color: white;" onclick="closeModal()">
+                <i class="fas fa-check"></i> ঠিক আছে
+            </button>
         </div>
     </div>
 
     <script>
-        // ════════════════════════════════════════════════════════════════
-        // 🎨 হিরো ব্যানার ইমেজ কনফিগারেশন
-        // ════════════════════════════════════════════════════════════════
-        // নিচের ইমেজ লিঙ্কগুলি পরিবর্তন করুন আপনার ব্যানারের সাথে
-        // প্রতিটি ইমেজ ১৯২০×৪০০ পিক্সেল হতে হবে
-        // ════════════════════════════════════════════════════════════════
-        
-        const heroSlideImages = {
-            // Slide 1: Adobe Creative Cloud
-            slide1: 'https://via.placeholder.com/1920x400?text=Adobe+Creative+Cloud+-%E0%A7%A981999',
-            
-            // Slide 2: Canva Pro
-            slide2: 'https://via.placeholder.com/1920x400?text=Canva+Pro+-%E0%A7%A982299',
-            
-            // Slide 3: CapCut Pro
-            slide3: 'https://via.placeholder.com/1920x400?text=CapCut+Pro+-%E0%A7%A982249',
-            
-            // Slide 4: YouTube Premium
-            slide4: 'https://via.placeholder.com/1920x400?text=YouTube+Premium+-%E0%A7%A982199',
-            
-            // Slide 5: AI Logo Design
-            slide5: 'https://via.placeholder.com/1920x400?text=AI+Logo+Design+-%E0%A7%A984499'
-        };
-        
-        // ════════════════════════════════════════════════════════════════
-        // 📧 টেলিগ্রাম বট কনফিগারেশন
-        // ════════════════════════════════════════════════════════════════
-        // টেলিগ্রাম বট সেটআপের জন্য প্রয়োজনীয় তথ্য
-        // ════════════════════════════════════════════════════════════════
-        
-        const telegramConfig = {
-            botToken: 'আপনার_বট_টোকেন_এখানে', // https://t.me/BotFather থেকে পান
-            chatId: '-1001234567890', // আপনার চ্যানেল বা গ্রুপ ID
-            supportLink: 'https://t.me/ASHIKHELPDESK' // সাপোর্ট লিঙ্ক
-        };
-        
         // Loader
         window.addEventListener('load', function() {
             setTimeout(() => {
@@ -2039,7 +1870,7 @@
             const formData = new FormData(form);
             
             const orderData = `
-📦 *নতুন অর্ডার - ASHIKDIগিটাল BD!*
+📦 *নতুন অর্ডার - ASHIKDIГИТАЛь BD!*
 
 👤 নাম: ${formData.get('name')}
 📱 WhatsApp: ${formData.get('whatsapp')}
@@ -2050,36 +1881,9 @@
 💬 মেসেজ: ${formData.get('message') || 'N/A'}
 ⏰ সময়: ${new Date().toLocaleString('bn-BD')}
             `;
+            console.log('Order Data:', orderData);
+            console.log('Note: You need to integrate this with a Telegram Bot API or backend service');
             
-            console.log('Telegram Bot Data:', orderData);
-            
-            // ════════════════════════════════════════════════════════
-            // টেলিগ্রাম বট API কনফিগারেশন
-            // ════════════════════════════════════════════════════════
-            const TELEGRAM_BOT_TOKEN = telegramConfig.botToken;
-            const TELEGRAM_CHAT_ID = telegramConfig.chatId;
-            
-            // টেলিগ্রাম API এ পাঠানো
-            const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            
-            fetch(telegramUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    text: orderData,
-                    parse_mode: 'Markdown'
-                })
-            }).then(response => {
-                console.log('✓ Telegram message sent successfully');
-            }).catch(error => {
-                console.log('ℹ️ টেলিগ্রাম কনফিগারেশন: script এর শুরুতে telegramConfig এ বট টোকেন এবং চ্যাট ID যোগ করুন');
-                console.error('Error:', error);
-            });
-            
-            // সাফল্য মেসেজ দেখান এবং ফর্ম রিসেট করুন
             closeOrderModal();
             setTimeout(() => {
                 document.getElementById('successModal').classList.add('active');
