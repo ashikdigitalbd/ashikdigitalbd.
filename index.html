@@ -142,7 +142,6 @@
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 22px; margin-bottom: 30px;
     }
-    /* responsive product grid: mobile default 2 columns, tablet 3, desktop 4 */
     @media (max-width: 640px) {
       .products { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     }
@@ -271,7 +270,7 @@
       .container { width: 92%; }
       .section { padding: 40px 0; }
       .hero-box, .slides { min-height: 420px; }
-      .arrow { display: none; }  /* hide arrows on mobile, dots only */
+      .arrow { display: none; }
       nav ul {
         display: none; flex-direction: column; position: absolute; top: 70px;
         left: 0; right: 0; background: white; padding: 20px; border-bottom: 1px solid #eef;
@@ -279,6 +278,15 @@
       }
       nav ul.active { display: flex; }
       .menu-btn { display: block; }
+    }
+    /* footer link style */
+    footer a {
+      color: #ff4f63;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -301,7 +309,7 @@
   </div>
 </header>
 
-<!-- Hero Slider with image placeholders (replace URLs anytime) -->
+<!-- Hero Slider -->
 <section id="home" class="hero">
   <div class="container">
     <div class="hero-box">
@@ -354,7 +362,10 @@
 <!-- Contact -->
 <section id="contact" class="section" style="padding-top:0"><div class="container"><div class="head"><h2>যোগাযোগ <span>করুন</span></h2></div><div class="contact-grid"><div class="contact-item"><i class="fab fa-whatsapp"></i><p>+880 1933-489724</p></div><div class="contact-item"><i class="fas fa-envelope"></i><p>support@ashikdigital.com</p></div><div class="contact-item"><i class="fab fa-telegram"></i><p>@ASHIKHELPDESK</p></div><div class="contact-item"><i class="fas fa-clock"></i><p>সকাল ১০টা - রাত ১২টা</p></div></div></div></section>
 
-<footer>© ২০২৬ ASHIKDIGITAL BD | All rights reserved</footer>
+<footer>
+  © ২০২৬ ASHIKDIGITAL BD | All rights reserved | 
+  <a href="https://phonelab360.github.io/webnestbd/" target="_blank" rel="noopener noreferrer">Designed & Developed By WebNest BD</a>
+</footer>
 <a class="whatsapp" href="https://wa.me/8801933489724" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <!-- Order Modal -->
@@ -396,12 +407,12 @@
     document.getElementById("totalPrice").value = price ? `৳${price}` : "";
   }
 
-  // Payment methods with reliable SVG icons from simpleicons CDN (fallback text)
+  // Payment methods with reliable simpleicons CDN (bKash, Nagad, Upay, Rocket)
   const paymentMethods = [
-    { id: "bkash", name: "bKash", value: "bKash", icon: "https://cdn.simpleicons.org/bkash/red?viewbox=auto" },
-    { id: "nagad", name: "Nagad", value: "Nagad", icon: "https://cdn.simpleicons.org/nagad/orange?viewbox=auto" },
+    { id: "bkash", name: "bKash", value: "bKash", icon: "https://cdn.simpleicons.org/bkash/red" },
+    { id: "nagad", name: "Nagad", value: "Nagad", icon: "https://cdn.simpleicons.org/nagad/orange" },
     { id: "upay", name: "Upay", value: "Upay", icon: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Upay_logo.svg" },
-    { id: "rocket", name: "Rocket", value: "Rocket", icon: "https://cdn.simpleicons.org/rocket/blue?viewbox=auto" }
+    { id: "rocket", name: "Rocket", value: "Rocket", icon: "https://cdn.simpleicons.org/rocket/blue" }
   ];
 
   function renderPaymentMethods() {
