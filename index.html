@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASHIKDIGITAL BD - প্রিমিয়াম ডিজিটাল সার্ভিস</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -138,14 +137,6 @@
       font-weight: 700;
       font-size: 11px;
     }
-    .menu-btn {
-      display: none;
-      border: 0;
-      background: none;
-      color: #1e2648;
-      font-size: 22px;
-      cursor: pointer;
-    }
 
     .hero {
       padding: 50px 0 18px;
@@ -229,17 +220,6 @@
       background: rgba(255, 255, 255, .14);
       margin-bottom: 12px;
       font-size: 13px;
-    }
-    .price {
-      margin-bottom: 18px;
-      font-size: clamp(28px, 4.5vw, 40px);
-      font-weight: 700;
-    }
-    .price del {
-      font-size: 20px;
-      margin-left: 8px;
-      opacity: .7;
-      font-weight: 500;
     }
 
     .arrow {
@@ -552,14 +532,6 @@
       opacity: 0.7;
       cursor: not-allowed;
     }
-
-    @media (max-width: 768px) {
-      nav ul { display: none; }
-      .menu-btn { display: block; }
-      .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      }
-    }
   </style>
 </head>
 <body>
@@ -578,7 +550,7 @@
           <div class="brand-badge"><i class="fas fa-digital-tachograph"></i></div>
           ASHIK<span>DIGITAL</span>
         </a>
-        <nav id="navMenu" class="nav-menu">
+        <nav>
           <ul>
             <li><a href="#products">প্রোডাক্ট</a></li>
             <li><a href="#about">সম্পর্কে</a></li>
@@ -590,7 +562,6 @@
             <i class="fas fa-shopping-cart"></i>
             <div class="cart-count" id="cartCount">0</div>
           </div>
-          <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
         </div>
       </div>
     </div>
@@ -600,49 +571,44 @@
     <div class="container">
       <div class="hero-box">
         <div class="slides" id="sliderTrack">
-          <div class="slide" id="slide0">
-            <img src="https://via.placeholder.com/1200x400/5b61ff/ffffff?text=প্রোডাক্ট+1" alt="Slide 1" class="slide-image">
+          <div class="slide">
+            <img src="https://via.placeholder.com/1200x400/5b61ff/ffffff?text=স্লাইড+1" alt="Slide 1" class="slide-image">
             <div class="slide-content">
               <span class="badge">সর্বোত্তম অফার</span>
               <h1>আপনার ব্যবসা বৃদ্ধি করুন</h1>
               <p>আমাদের ডিজিটাল সেবা দিয়ে আপনার ব্যবসা পরবর্তী স্তরে নিয়ে যান</p>
-              <button class="product-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">এখনই দেখুন</button>
             </div>
           </div>
-          <div class="slide" id="slide1">
-            <img src="https://via.placeholder.com/1200x400/ff9f43/ffffff?text=প্রোডাক্ট+2" alt="Slide 2" class="slide-image">
+          <div class="slide">
+            <img src="https://via.placeholder.com/1200x400/ff9f43/ffffff?text=স্লাইড+2" alt="Slide 2" class="slide-image">
             <div class="slide-content">
               <span class="badge">বিশেষ ছাড়</span>
               <h1>মানসম্পন্ন সেবা</h1>
               <p>প্রতিটি গ্রাহকের জন্য কাস্টমাইজড সমাধান</p>
-              <button class="product-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">এখনই দেখুন</button>
             </div>
           </div>
-          <div class="slide" id="slide2">
-            <img src="https://via.placeholder.com/1200x400/2fd67d/ffffff?text=প্রোডাক্ট+3" alt="Slide 3" class="slide-image">
+          <div class="slide">
+            <img src="https://via.placeholder.com/1200x400/2fd67d/ffffff?text=স্লাইড+3" alt="Slide 3" class="slide-image">
             <div class="slide-content">
               <span class="badge">প্রিমিয়াম প্যাকেজ</span>
               <h1>সীমাহীন সম্ভাবনা</h1>
               <p>আপনার স্বপ্নের ডিজিটাল উপস্থিতি তৈরি করুন</p>
-              <button class="product-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">এখনই দেখুন</button>
             </div>
           </div>
-          <div class="slide" id="slide3">
-            <img src="https://via.placeholder.com/1200x400/ff4f63/ffffff?text=প্রোডাক্ট+4" alt="Slide 4" class="slide-image">
+          <div class="slide">
+            <img src="https://via.placeholder.com/1200x400/ff4f63/ffffff?text=স্লাইড+4" alt="Slide 4" class="slide-image">
             <div class="slide-content">
               <span class="badge">এক্সক্লুসিভ অফার</span>
               <h1>নতুন যুগের সমাধান</h1>
               <p>আধুনিক প্রযুক্তি এবং দক্ষতার সমন্বয়</p>
-              <button class="product-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">এখনই দেখুন</button>
             </div>
           </div>
-          <div class="slide" id="slide4">
-            <img src="https://via.placeholder.com/1200x400/4f3ab8/ffffff?text=প্রোডাক্ট+5" alt="Slide 5" class="slide-image">
+          <div class="slide">
+            <img src="https://via.placeholder.com/1200x400/4f3ab8/ffffff?text=স্লাইড+5" alt="Slide 5" class="slide-image">
             <div class="slide-content">
               <span class="badge">লিমিটেড সময়</span>
               <h1>সেরা মূল্যে সেরা সেবা</h1>
               <p>এই সুযোগ হাতছাড়া করবেন না</p>
-              <button class="product-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">এখনই দেখুন</button>
             </div>
           </div>
         </div>
@@ -667,13 +633,13 @@
 
         <div class="tabs" id="categoryTabs">
           <button class="tab active" onclick="filterProducts('all', this)">সব পণ্য</button>
+          <button class="tab" onclick="filterProducts('ওয়েবসাইট', this)">ওয়েবসাইট</button>
+          <button class="tab" onclick="filterProducts('এসইও', this)">এসইও</button>
+          <button class="tab" onclick="filterProducts('অ্যাপ', this)">অ্যাপ</button>
         </div>
 
         <div class="products-grid" id="productsContainer">
-          <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
-            <div style="font-size: 48px; margin-bottom: 16px;"><i class="fas fa-spinner fa-spin"></i></div>
-            <p style="color: #5e6788;">পণ্য লোড হচ্ছে...</p>
-          </div>
+          <!-- পণ্যগুলি এখানে লোড হবে -->
         </div>
       </div>
     </div>
@@ -788,12 +754,6 @@
   </div>
 
   <script>
-    // Supabase Configuration
-    const SUPABASE_URL = 'https://rvbdzbqjrsavwdbxutfo.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2YmR6YnFqcnNhdndkYnh1dGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcxMTc4OTksImV4cCI6MjAzMjY5Mzg5OX0.xxxx'; // This is public key, safe to use
-    const { createClient } = window.supabase;
-    const supabase = createClient(SUPABASE_URL, 'sb_publishable_qt8sN5cY-JrxmaKrxSEv5Q_Q4JJdNra');
-
     // Telegram Configuration
     const TG_API_ID = "8732766562";
     const TG_TOKEN_PART = "AAEYvZLBWdXf2BmF2zwtddISCy1GDYxMU5g";
@@ -806,61 +766,23 @@
     const sliderTrack = document.getElementById("sliderTrack");
     const dots = document.querySelectorAll(".dot");
     let cartCount = 0;
-    let products = [];
-    let categories = [];
+
+    // টেস্ট ডাটা - Supabase থেকে আসবে পরে
+    const products = [
+      { id: 1, name: "প্রফেশনাল ওয়েবসাইট", category: "ওয়েবসাইট", description: "মানসম্পন্ন ওয়েবসাইট ডিজাইন এবং ডেভেলপমেন্ট", price: 5000 },
+      { id: 2, name: "এসইও অপটিমাইজেশন", category: "এসইও", description: "আপনার ওয়েবসাইটকে গুগল সার্চে প্রথম পাতায় আনুন", price: 3000 },
+      { id: 3, name: "মোবাইল অ্যাপ ডেভেলপমেন্ট", category: "অ্যাপ", description: "iOS এবং Android এর জন্য মোবাইল অ্যাপ তৈরি", price: 15000 },
+      { id: 4, name: "ই-কমার্স সল্যুশন", category: "ওয়েবসাইট", description: "অনলাইন স্টোর সেটআপ এবং ম্যানেজমেন্ট", price: 8000 },
+      { id: 5, name: "কন্টেন্ট এসইও", category: "এসইও", description: "এসইও ফ্রেন্ডলি কন্টেন্ট লেখা এবং অপটিমাইজেশন", price: 2000 },
+      { id: 6, name: "ব্র্যান্ডিং প্যাকেজ", category: "অ্যাপ", description: "লোগো, ব্র্যান্ড আইডেন্টিটি ডিজাইন", price: 4000 }
+    ];
 
     // Initialize
-    window.addEventListener("load", async () => {
-      await loadProducts();
+    window.addEventListener("load", () => {
+      displayProducts('all');
+      populateProductSelect();
       setTimeout(() => document.getElementById("loader").classList.add("hidden"), 650);
     });
-
-    // Load Products from Supabase
-    async function loadProducts() {
-      try {
-        const { data, error } = await supabase
-          .from('products')
-          .select('*')
-          .order('id', { ascending: true });
-
-        if (error) throw error;
-
-        products = data || [];
-        
-        // Extract categories
-        categories = [...new Set(products.map(p => p.category || 'General'))];
-        
-        // Build category tabs
-        buildCategoryTabs();
-        
-        // Display products
-        displayProducts('all');
-        
-        // Populate product select
-        populateProductSelect();
-      } catch (error) {
-        console.error('Error loading products:', error);
-        document.getElementById("productsContainer").innerHTML = `
-          <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: red;">
-            <p>পণ্য লোড করতে সমস্যা হয়েছে। পরে চেষ্টা করুন।</p>
-          </div>
-        `;
-      }
-    }
-
-    // Build Category Tabs
-    function buildCategoryTabs() {
-      const tabsContainer = document.getElementById("categoryTabs");
-      tabsContainer.innerHTML = '<button class="tab active" onclick="filterProducts(\'all\', this)">সব পণ্য</button>';
-      
-      categories.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = 'tab';
-        btn.textContent = cat;
-        btn.onclick = function() { filterProducts(cat, this); };
-        tabsContainer.appendChild(btn);
-      });
-    }
 
     // Display Products
     function displayProducts(category) {
@@ -868,24 +790,19 @@
       let filtered = products;
       
       if (category !== 'all') {
-        filtered = products.filter(p => (p.category || 'General') === category);
-      }
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><p>এই ক্যাটাগরিতে কোনো পণ্য নেই।</p></div>';
-        return;
+        filtered = products.filter(p => p.category === category);
       }
 
       container.innerHTML = filtered.map(product => `
-        <div class="product" data-category="${product.category || 'General'}">
+        <div class="product" data-category="${product.category}">
           <div class="product-img">
-            ${product.image_url ? `<img src="${product.image_url}" alt="${product.name}">` : `<i class="fas fa-image" style="font-size: 48px; color: #ccc;"></i>`}
+            <i class="fas fa-box" style="font-size: 48px; color: #ccc;"></i>
           </div>
-          <div class="product-name">${escapeHtml(product.name)}</div>
-          <div class="product-desc">${escapeHtml(product.description || '')}</div>
+          <div class="product-name">${product.name}</div>
+          <div class="product-desc">${product.description}</div>
           <div class="product-footer">
             <div class="product-price">৳${product.price}</div>
-            <button class="product-btn" onclick="openOrderModalWith(${product.id}, '${product.name}', ${product.price})">অর্ডার করুন</button>
+            <button class="product-btn" onclick="openOrderModalWith('${product.name}', ${product.price})">অর্ডার করুন</button>
           </div>
         </div>
       `).join('');
@@ -900,7 +817,6 @@
         const opt = document.createElement('option');
         opt.value = product.name;
         opt.dataset.price = product.price;
-        opt.dataset.id = product.id;
         opt.textContent = `${product.name} - ৳${product.price}`;
         select.appendChild(opt);
       });
@@ -931,10 +847,6 @@
 
     setInterval(() => changeSlide(1), 5000);
 
-    function toggleMenu() {
-      document.getElementById("navMenu").classList.toggle("active");
-    }
-
     // Modal Functions
     function openOrderModal() {
       document.getElementById("orderModal").classList.add("active");
@@ -950,7 +862,7 @@
       document.getElementById("successModal").classList.remove("active");
     }
 
-    function openOrderModalWith(productId, productName, price) {
+    function openOrderModalWith(productName, price) {
       cartCount += 1;
       document.getElementById("cartCount").textContent = cartCount;
       const select = document.getElementById("productSelect");
@@ -988,21 +900,25 @@
     // Resolve Telegram Chat ID
     async function resolveChatId() {
       if (TG_CHAT_ID) return TG_CHAT_ID;
-      const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/getUpdates`);
-      const data = await response.json();
+      try {
+        const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/getUpdates`);
+        const data = await response.json();
 
-      if (!data.ok || !data.result || data.result.length === 0) {
-        throw new Error("CHAT ID পাওয়া যায়নি। Bot-এ আগে /start দিন, তারপর আবার অর্ডার সাবমিট করুন।");
+        if (!data.ok || !data.result || data.result.length === 0) {
+          throw new Error("Chat ID পাওয়া যায়নি। Telegram Bot এ /start করুন প্রথমে।");
+        }
+
+        const last = data.result[data.result.length - 1];
+        const chat = last.message?.chat || last.channel_post?.chat || last.callback_query?.message?.chat;
+        if (!chat?.id) {
+          throw new Error("Chat ID পাওয়া যায়নি।");
+        }
+
+        TG_CHAT_ID = String(chat.id);
+        return TG_CHAT_ID;
+      } catch (error) {
+        throw error;
       }
-
-      const last = data.result[data.result.length - 1];
-      const chat = last.message?.chat || last.channel_post?.chat || last.callback_query?.message?.chat;
-      if (!chat?.id) {
-        throw new Error("Telegram chat id detect করা যায়নি।");
-      }
-
-      TG_CHAT_ID = String(chat.id);
-      return TG_CHAT_ID;
     }
 
     // Send to Telegram
@@ -1044,14 +960,14 @@
       const selected = document.getElementById("productSelect").selectedOptions[0];
       
       const orderData = {
-        customer_name: fd.get("name"),
-        whatsapp_number: fd.get("whatsapp"),
+        name: fd.get("name"),
+        whatsapp: fd.get("whatsapp"),
         email: fd.get("email"),
-        product_name: fd.get("product"),
-        total_price: selected?.dataset.price ? parseInt(selected.dataset.price) : 0,
+        product: fd.get("product"),
+        price: `৳${selected?.dataset.price || 0}`,
         payment_method: fd.get("payment_method"),
         transaction_id: fd.get("transaction_id"),
-        additional_message: fd.get("message")
+        message: fd.get("message")
       };
 
       const btn = form.querySelector("button[type='submit']");
@@ -1060,25 +976,7 @@
       btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> পাঠানো হচ্ছে...";
 
       try {
-        // Save to Supabase
-        const { error: insertError } = await supabase
-          .from('orders')
-          .insert([orderData]);
-
-        if (insertError) throw insertError;
-
-        // Send to Telegram
-        await sendToTelegram({
-          name: orderData.customer_name,
-          whatsapp: orderData.whatsapp_number,
-          email: orderData.email,
-          product: orderData.product_name,
-          price: `৳${orderData.total_price}`,
-          payment_method: orderData.payment_method,
-          transaction_id: orderData.transaction_id,
-          message: orderData.additional_message
-        });
-
+        await sendToTelegram(orderData);
         closeOrderModal();
         document.getElementById("successModal").classList.add("active");
         form.reset();
@@ -1086,7 +984,7 @@
         cartCount = 0;
         document.getElementById("cartCount").textContent = "0";
       } catch (err) {
-        alert("অর্ডার সংরক্ষণে ত্রুটি হয়েছে।\n\n" + err.message);
+        alert("অর্ডার পাঠাতে সমস্যা হয়েছে:\n\n" + err.message);
       } finally {
         btn.disabled = false;
         btn.innerHTML = original;
@@ -1100,19 +998,6 @@
 
     document.getElementById("successModal").addEventListener("click", (e) => {
       if (e.target.id === "successModal") closeSuccessModal();
-    });
-
-    // Smooth Scroll
-    document.querySelectorAll("a[href^='#']").forEach((link) => {
-      link.addEventListener("click", function (e) {
-        const href = this.getAttribute("href");
-        if (href === "#") return;
-        const target = document.querySelector(href);
-        if (!target) return;
-        e.preventDefault();
-        target.scrollIntoView({ behavior: "smooth" });
-        document.getElementById("navMenu").classList.remove("active");
-      });
     });
 
     // Escape Key
