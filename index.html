@@ -7,6 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /*
+        ================================
+        ইমেজ সাইজ গাইডলাইন:
+        ================================
+        
+        🖼️ হিরো ব্যানার ইমেজ সাইজ: 1920x400 পিক্সেল (Full HD)
+           - ব্যানার যোগ করার সময় এই সাইজে রিসাইজ করুন
+           - PNG বা JPG ফরম্যাট ব্যবহার করুন
+        
+        📦 প্রোডাক্ট কার্ড ইমেজ সাইজ: 400x300 পিক্সেল (Landscape)
+           - কার্ড ইমেজ এই সাইজে হওয়া উচিত
+           - অনুপাত 4:3 বজায় রাখুন
+        
+        ================================
+        */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
@@ -1053,6 +1068,22 @@
     </header>
 
     <!-- Hero Slider -->
+    <!-- 
+    📌 নতুন ব্যানার স্লাইড যোগ করার নিয়ম:
+    
+    ১. নিচে নতুন <div> এলিমেন্ট যোগ করুন:
+       <div class="slide slide-N"> (N = নম্বর, যেমন slide-6, slide-7)
+    
+    ২. স্লাইড স্টাইল ক্লাস যোগ করুন CSS তে:
+       .slide-6 { background: linear-gradient(135deg, #color1 0%, #color2 100%); }
+    
+    ৩. স্লাইডার ডট যোগ করুন নিচে:
+       <button class="dot" onclick="goToSlide(N-1)"></button>
+    
+    ৪. JavaScript এ totalSlides সংখ্যা বাড়ান
+    
+    ৫. ব্যানার ইমেজ সাইজ: 1920x400 পিক্সেল
+    -->
     <section class="hero-slider" id="home">
         <div class="slider-track" id="sliderTrack">
             <!-- Slide 1: Adobe -->
@@ -1158,6 +1189,18 @@
     </section>
 
     <!-- Products Section -->
+    <!-- 
+    📌 নতুন প্রোডাক্ট কার্ড যোগ করার নিয়ম:
+    
+    ১. নিচে নতুন কার্ড <div> যোগ করুন
+    ২. ইমেজ ক্লাস ব্যবহার করুন: bg-1 থেকে bg-8 (রঙিন ব্যাকগ্রাউন্ড)
+    ৩. প্রোডাক্ট ইমেজ সাইজ: 400x300 পিক্সেল
+    ৪. ইমেজ এলিমেন্ট যোগ করলে:
+       <img src="your-image.jpg" alt="Product" style="width: 100%; height: 100%; object-fit: cover;">
+    ৫. data-category নির্ধারণ করুন ফিল্টারিং এর জন্য
+    
+    বর্তমান স্টাইল ক্লাস: bg-1, bg-2, bg-3, bg-4, bg-5, bg-6, bg-7, bg-8
+    -->
     <section class="products-section" id="products">
         <div class="container">
             <div class="section-header">
@@ -1566,33 +1609,11 @@
                 </div>
             </div>
             <div class="payment-content">
-                <div class="payment-methods">
-                    <div class="payment-card">
-                        <div class="payment-logo">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/BKash_Logo.svg/2560px-BKash_Logo.svg.png" alt="bKash" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgODAiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iODAiIGZpbGw9IiNFMjEzNkUiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9ImJvbGQiPmJLYXNoPC90ZXh0Pjwvc3ZnPg=='">
-                        </div>
-                        <div class="payment-info">
-                            <h3>bKash</h3>
-                            <p>+880 1XXX-XXXXXX</p>
-                            <span class="type">Personal / Send Money</span>
-                        </div>
-                    </div>
-                    <div class="payment-card">
-                        <div class="payment-logo">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Nagad-Logo.png/640px-Nagad-Logo.png" alt="Nagad" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgODAiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iODAiIGZpbGw9IiNFQjZFMUYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9ImJvbGQiPk5hZ2FkPC90ZXh0Pjwvc3ZnPg=='">
-                        </div>
-                        <div class="payment-info">
-                            <h3>Nagad</h3>
-                            <p>+880 1XXX-XXXXXX</p>
-                            <span class="type">Personal / Send Money</span>
-                        </div>
-                    </div>
-                </div>
                 <div class="payment-instructions">
                     <h3><i class="fas fa-circle-info"></i> পেমেন্ট নির্দেশিকা</h3>
                     <ol>
                         <li><strong>প্রোডাক্ট সিলেক্ট করুন</strong> - আপনার পছন্দের প্রোডাক্ট বেছে নিন</li>
-                        <li><strong>পেমেন্ট করুন</strong> - bKash বা Nagad এ Send Money করুন</li>
+                        <li><strong>পেমেন্ট মেথড বেছে নিন</strong> - নগদ বা বিকাশ পেমেন্ট করুন</li>
                         <li><strong>Transaction ID</strong> - পেমেন্টের পর Trx ID সংগ্রহ করুন</li>
                         <li><strong>অর্ডার করুন</strong> - নিচের "অর্ডার করুন" বাটনে ক্লিক করে ফর্ম পূরণ করুন</li>
                         <li><strong>ডেলিভারি পান</strong> - WhatsApp/ইমেইলে প্রোডাক্ট পৌঁছে যাবে</li>
@@ -1804,9 +1825,7 @@
 
                     <!-- Nagad Payment Details -->
                     <div class="payment-details-section" id="nagadDetails">
-                        <div class="payment-logo">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Nagad-Logo.png/640px-Nagad-Logo.png" alt="Nagad" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgODAiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iODAiIGZpbGw9IiNFQjZFMUYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9ImJvbGQiPk5hZ2FkPC90ZXh0Pjwvc3ZnPg=='">
-                        </div>
+                        <div class="payment-logo">📱</div>
                         <h4>নগদ পেমেন্ট</h4>
                         <p><strong>অ্যাকাউন্ট নম্বর:</strong></p>
                         <div class="payment-number">01700000000</div>
