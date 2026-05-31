@@ -295,7 +295,7 @@
     .share-buttons { display: flex; gap: 12px; margin-top: 15px; flex-wrap: wrap; }
     .share-buttons a { background: #eef2ff; padding: 8px 12px; border-radius: 40px; text-decoration: none; color: #111832; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
     
-    /* Payment form styles - clean grid */
+    /* Payment form styles */
     .order-form-grid {
       display: flex;
       flex-direction: column;
@@ -354,12 +354,40 @@
     .pay-detail {
       display: none;
       background: #f8faff;
-      padding: 12px;
-      border-radius: 16px;
-      text-align: center;
+      padding: 16px;
+      border-radius: 20px;
+      text-align: left;
       margin: 10px 0;
+      border: 1px solid #e0e7ff;
     }
     .pay-detail.active { display: block; }
+    .pay-detail h4 {
+      margin: 0 0 12px 0;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pay-detail .steps {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .pay-detail .steps li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .copy-number {
+      display: inline-block;
+      background: #eef2ff;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: 0.2s;
+    }
+    .copy-number:hover { background: #dce3ff; }
     .submit {
       width: 100%;
       background: linear-gradient(135deg, #ff4f63, #ff9f43);
@@ -384,17 +412,35 @@
       .form-row { flex-direction: column; gap: 12px; }
       .method-grid { grid-template-columns: 1fr; }
     }
+    /* Toast notification style */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: #2a1a5e;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-size: 14px;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .toast.show {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
 <div id="loader" class="loader"><div class="ring"></div></div>
+<div id="toastMessage" class="toast">✅ কপি হয়েছে!</div>
 
 <header>
   <div class="container header-row">
     <a class="brand" href="#">
-      <!-- লোগো ছবির জন্য এখানে img ট্যাগ ব্যবহার করুন। নিচে একটি উদাহরণ দেওয়া আছে। আপনি ছবির লিংক বসাতে পারেন -->
       <div class="brand-badge" id="logoPlaceholder">A</div>
-      <!-- অথবা <img src="https://i.postimg.cc/8ztrbY0v/1000018158-removebg-preview.png" alt="Logo"> -->
       ASHIK <span>DIGITAL</span> BD
     </a>
     <nav>
@@ -475,7 +521,7 @@
 </footer>
 <a class="whatsapp" href="https://wa.me/8801933489724" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-<!-- Order Modal (Clean form) -->
+<!-- Order Modal -->
 <div id="orderModal" class="modal"><div class="modal-box"><div class="modal-head"><h3><i class="fas fa-shopping-cart"></i> অর্ডার ফর্ম</h3><button class="close-btn" onclick="closeOrderModal()"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="orderForm"><div class="order-form-grid"><div class="form-row"><div class="group"><label>নাম *</label><input name="name" required placeholder="আপনার নাম"></div><div class="group"><label>WhatsApp *</label><input name="whatsapp" required placeholder="+8801XXXXXXXXX"></div></div><div class="group"><label>ইমেইল *</label><input type="email" name="email" required placeholder="example@mail.com"></div><div class="form-row"><div class="group"><label>প্রোডাক্ট *</label><select id="productSelect" name="product" required onchange="updatePrice()"></select></div><div class="group"><label>মোট মূল্য</label><input id="totalPrice" readonly placeholder="০ টাকা"></div></div><div class="form-row"><div class="group"><label>পেমেন্ট মেথড *</label><div class="method-grid" id="paymentMethodsGrid"></div></div><div class="group"><label>Trx ID *</label><input name="transaction_id" required placeholder="ট্রানজেকশন আইডি"></div></div><div id="paymentDetailBlock" class="pay-detail">পেমেন্ট মেথড সিলেক্ট করুন</div><div class="group"><label>অতিরিক্ত মেসেজ</label><textarea name="message" rows="2"></textarea></div><button type="submit" class="submit"><i class="fas fa-paper-plane"></i> অর্ডার কনফার্ম করুন</button></div></form></div></div></div>
 
 <!-- Success Modal -->
@@ -513,10 +559,92 @@
   function updatePrice() {
     const sel = document.getElementById("productSelect");
     const price = sel.options[sel.selectedIndex]?.getAttribute("data-price") || "0";
-    document.getElementById("totalPrice").value = price ? `৳${price}` : "";
+    const priceNum = price ? parseInt(price) : 0;
+    document.getElementById("totalPrice").value = price ? `৳${priceNum}` : "";
+    const activeMethod = document.querySelector('input[name="payment_method"]:checked');
+    if(activeMethod) showPaymentDetail(activeMethod.value);
   }
 
-  // Show full description modal
+  // Improved copy function with toast instead of alert
+  function showToast(message) {
+    const toast = document.getElementById("toastMessage");
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2000);
+  }
+  function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast("✅ কপি হয়েছে: " + text);
+    }).catch(() => {
+      // Fallback
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      showToast("✅ কপি হয়েছে: " + text);
+    });
+  }
+
+  function showPaymentDetail(method) {
+    const block = document.getElementById("paymentDetailBlock");
+    const totalPriceElem = document.getElementById("totalPrice");
+    let amount = "99";
+    if(totalPriceElem && totalPriceElem.value) {
+      let match = totalPriceElem.value.match(/\d+/);
+      if(match) amount = match[0];
+    }
+    const number = "018933489724";
+    let html = "";
+    if(method === "bKash") {
+      html = `<h4><i class="fas fa-mobile-alt"></i> bKash পেমেন্ট নির্দেশনা</h4>
+      <ul class="steps">
+        <li>আপনার bKash অ্যাপ খুলুন</li>
+        <li><strong>Send Money</strong> অপশন সিলেক্ট করুন</li>
+        <li>প্রাপকের নম্বর: <strong>${number}</strong> <span class="copy-number" onclick="copyText('${number}')">কপি করুন</span></li>
+        <li>টাকার পরিমাণ: <strong>${amount} টাকা</strong> <span class="copy-number" onclick="copyText('${amount}')">কপি করুন</span></li>
+        <li>আপনার bKash পিন দিন ও সাবমিট করুন</li>
+        <li>সফল হলে যে Transaction ID পাবেন তা নিচের ফর্মে লিখুন</li>
+      </ul>`;
+    } else if(method === "Nagad") {
+      html = `<h4><i class="fas fa-mobile-alt"></i> Nagad পেমেন্ট নির্দেশনা</h4>
+      <ul class="steps">
+        <li>Nagad অ্যাপ খুলুন</li>
+        <li><strong>Send Money</strong> নির্বাচন করুন</li>
+        <li>প্রাপক নম্বর: <strong>${number}</strong> <span class="copy-number" onclick="copyText('${number}')">কপি করুন</span></li>
+        <li>টাকার পরিমাণ: <strong>${amount} টাকা</strong> <span class="copy-number" onclick="copyText('${amount}')">কপি করুন</span></li>
+        <li>Nagad পিন দিন এবং নিশ্চিত করুন</li>
+        <li>প্রাপ্ত Transaction ID ফর্মে লিখুন</li>
+      </ul>`;
+    } else if(method === "Upay") {
+      html = `<h4><i class="fas fa-mobile-alt"></i> Upay পেমেন্ট নির্দেশনা</h4>
+      <ul class="steps">
+        <li>Upay অ্যাপ লগইন করুন</li>
+        <li><strong>Send Money</strong> এ ক্লিক করুন</li>
+        <li>প্রাপক নম্বর: <strong>${number}</strong> <span class="copy-number" onclick="copyText('${number}')">কপি করুন</span></li>
+        <li>টাকার পরিমাণ: <strong>${amount} টাকা</strong> <span class="copy-number" onclick="copyText('${amount}')">কপি করুন</span></li>
+        <li>Upay পিন লিখুন এবং লেনদেন সম্পন্ন করুন</li>
+        <li>Transaction ID নিচের বক্সে লিখুন</li>
+      </ul>`;
+    } else if(method === "Rocket") {
+      html = `<h4><i class="fas fa-mobile-alt"></i> Rocket পেমেন্ট নির্দেশনা</h4>
+      <ul class="steps">
+        <li>Rocket অ্যাপ চালু করুন</li>
+        <li><strong>Send Money</strong> সিলেক্ট করুন</li>
+        <li>প্রাপক নম্বর: <strong>${number}</strong> <span class="copy-number" onclick="copyText('${number}')">কপি করুন</span></li>
+        <li>টাকার পরিমাণ: <strong>${amount} টাকা</strong> <span class="copy-number" onclick="copyText('${amount}')">কপি করুন</span></li>
+        <li>Rocket পিন দিন এবং টাকা পাঠান</li>
+        <li>প্রাপ্ত Trx ID ফর্মে লিখুন</li>
+      </ul>`;
+    }
+    block.innerHTML = html;
+    block.classList.add("active");
+  }
+
+  // Share and Details functions (unchanged)
   function showDetails(product) {
     document.getElementById("detailTitle").innerText = product.name;
     const fullDesc = product.full_description || product.description || "বিস্তারিত তথ্য পাওয়া যায়নি।";
@@ -533,8 +661,7 @@
     document.body.style.overflow = "hidden";
   }
   function copyLink(url) {
-    navigator.clipboard.writeText(url);
-    alert("লিংক কপি হয়েছে!");
+    copyText(url);
   }
   function shareProduct(product) {
     const shareUrl = encodeURIComponent(window.location.href + "?product=" + encodeURIComponent(product.name));
@@ -545,7 +672,7 @@
   // Search filter
   function filterProductsBySearch() {
     const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-    const filtered = allProductsData.filter(p => 
+    let filtered = allProductsData.filter(p => 
       (currentCat === "all" || p.category === currentCat) &&
       (p.name.toLowerCase().includes(searchTerm) || (p.description && p.description.toLowerCase().includes(searchTerm)))
     );
@@ -590,15 +717,8 @@
         </label>
       </div>
     `).join("");
-  }
-  function showPaymentDetail(method) {
-    const block = document.getElementById("paymentDetailBlock");
-    const number = "018933489724";
-    if(method === "bKash") block.innerHTML = `<strong>bKash</strong><div class="num">${number}</div>`;
-    else if(method === "Nagad") block.innerHTML = `<strong>Nagad</strong><div class="num">${number}</div>`;
-    else if(method === "Upay") block.innerHTML = `<strong>Upay</strong><div class="num">${number}</div>`;
-    else if(method === "Rocket") block.innerHTML = `<strong>Rocket</strong><div class="num">${number}</div>`;
-    block.classList.add("active");
+    const checked = document.querySelector('input[name="payment_method"]:checked');
+    if(checked) showPaymentDetail(checked.value);
   }
 
   async function getTelegramChatId() {
@@ -650,11 +770,11 @@
       document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
       tab.classList.add("active");
       currentCat = tab.getAttribute("data-cat");
-      filterProductsBySearch(); // re-filter with new category
+      filterProductsBySearch();
     }));
   }
   function renderProducts() {
-    filterProductsBySearch(); // initial render
+    filterProductsBySearch();
   }
   function populateProductSelect() {
     const select = document.getElementById("productSelect");
@@ -741,6 +861,7 @@
   window.shareProduct = shareProduct;
   window.copyLink = copyLink;
   window.filterProductsBySearch = filterProductsBySearch;
+  window.copyText = copyText;
 </script>
 </body>
 </html>
