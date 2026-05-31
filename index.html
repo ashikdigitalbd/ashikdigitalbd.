@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>ASHIKDIGITAL BD - প্রিমিয়াম ডিজিটাল সার্ভিস</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -54,7 +54,8 @@
     }
     .brand {
       text-decoration: none; color: #111832; font-weight: 700;
-      font-size: 28px; display: flex; align-items: center; gap: 10px;
+      font-size: clamp(22px, 5vw, 28px);
+      display: flex; align-items: center; gap: 10px;
     }
     .brand-badge {
       width: 42px; height: 42px; background: linear-gradient(135deg, #ff4f63, #ff9f43);
@@ -96,8 +97,8 @@
       margin-bottom: 12px;
     }
     .slide h1 { font-size: clamp(28px, 6vw, 48px); margin: 0 0 8px; }
-    .price { font-size: 32px; font-weight: 700; margin: 12px 0 16px; }
-    .price del { font-size: 20px; opacity: 0.7; margin-left: 8px; }
+    .price { font-size: clamp(24px, 5vw, 32px); font-weight: 700; margin: 12px 0 16px; }
+    .price del { font-size: 18px; opacity: 0.7; margin-left: 8px; }
     .arrow {
       position: absolute; top: 50%; transform: translateY(-50%);
       background: rgba(255,255,255,0.2); border: none; width: 40px; height: 40px;
@@ -127,17 +128,29 @@
 
     /* Products */
     .head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 24px; }
-    .head h2 { font-size: 28px; }
+    .head h2 { font-size: clamp(24px, 5vw, 28px); }
     .head h2 span { color: var(--primary); }
     .tabs { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
     .tab {
       background: white; border: 1px solid #dbe2ff; border-radius: 40px;
       padding: 8px 20px; font-weight: 600; cursor: pointer; transition: 0.2s;
+      font-size: 14px;
     }
     .tab.active { background: linear-gradient(135deg, #ff4f63, #ff9f43); color: white; border: none; }
     .products {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 22px; margin-bottom: 30px;
+    }
+    /* responsive product grid: mobile default 2 columns, tablet 3, desktop 4 */
+    @media (max-width: 640px) {
+      .products { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .products { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 1025px) {
+      .products { grid-template-columns: repeat(4, 1fr); }
     }
     .product {
       background: var(--surface); border: 1px solid var(--border);
@@ -151,7 +164,7 @@
     .product-top img { width: 100%; height: 100%; object-fit: cover; }
     .product-top i { font-size: 48px; color: #5b61ff; }
     .product-body { padding: 15px; }
-    .product-body h3 { margin-bottom: 6px; font-size: 18px; }
+    .product-body h3 { margin-bottom: 6px; font-size: 18px; line-height: 1.3; }
     .muted { color: #5e6788; font-size: 13px; }
     .p-foot {
       display: flex; justify-content: space-between; align-items: center;
@@ -159,8 +172,12 @@
     }
     .p-price strong { font-size: 22px; color: var(--primary); }
     .feature-row {
-      display: grid; grid-template-columns: repeat(4,1fr); gap: 15px;
+      display: grid;
+      grid-template-columns: repeat(4,1fr); gap: 15px;
       margin-top: 20px;
+    }
+    @media (max-width: 768px) {
+      .feature-row { grid-template-columns: repeat(2,1fr); }
     }
     .feature {
       background: white; border: 1px solid var(--border); border-radius: 16px;
@@ -171,18 +188,28 @@
       border-radius: 12px; display: grid; place-items: center; color: white;
     }
 
-    /* Reviews, Contact, CTA */
+    /* Reviews, Contact */
     .review-grid {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(3,1fr); gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .review-grid { grid-template-columns: 1fr; gap: 16px; }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .review-grid { grid-template-columns: repeat(2,1fr); }
     }
     .review {
       background: white; border: 1px solid var(--border); border-radius: 20px;
       padding: 18px; transition: 0.2s;
     }
-    .review:hover { transform: translateY(-3px); }
     .stars { color: #f7b500; margin-bottom: 8px; }
     .contact-grid {
-      display: grid; grid-template-columns: repeat(4,1fr); gap: 15px;
+      display: grid;
+      grid-template-columns: repeat(4,1fr); gap: 15px;
+    }
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: repeat(2,1fr); }
     }
     .contact-item {
       background: white; border: 1px solid var(--border); border-radius: 18px;
@@ -218,18 +245,20 @@
     .close-btn { background: #eef2ff; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
     .modal-body { padding: 20px; }
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    @media (max-width: 640px) { .row { grid-template-columns: 1fr; gap: 8px; } }
     .group { margin-bottom: 16px; }
-    .group label { font-weight: 600; display: block; margin-bottom: 6px; }
+    .group label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; }
     .group input, .group select, .group textarea {
       width: 100%; padding: 12px; border: 1px solid #dce3ff; border-radius: 14px;
-      font-family: inherit; background: #fbfdff;
+      font-family: inherit; background: #fbfdff; font-size: 14px;
     }
     .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .method-label {
       display: flex; align-items: center; gap: 8px; border: 1px solid #dce3ff;
-      border-radius: 14px; padding: 8px 10px; cursor: pointer;
+      border-radius: 14px; padding: 8px 10px; cursor: pointer; background: white;
     }
-    .method-logo img { height: 28px; width: auto; max-width: 60px; object-fit: contain; }
+    .method-logo { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+    .method-logo img { width: 28px; height: 28px; object-fit: contain; }
     .method-item input:checked + .method-label { border-color: #ff4f63; background: #fff0f2; }
     .pay-detail { display: none; background: #f8faff; padding: 12px; border-radius: 16px; text-align: center; margin-bottom: 15px; }
     .pay-detail.active { display: block; }
@@ -238,15 +267,18 @@
       border: none; padding: 14px; border-radius: 40px; color: white;
       font-weight: bold; font-size: 16px; cursor: pointer;
     }
-
     @media (max-width: 768px) {
-      nav ul { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: white; padding: 20px; border-bottom: 1px solid #eef; z-index: 99; }
+      .container { width: 92%; }
+      .section { padding: 40px 0; }
+      .hero-box, .slides { min-height: 420px; }
+      .arrow { display: none; }  /* hide arrows on mobile, dots only */
+      nav ul {
+        display: none; flex-direction: column; position: absolute; top: 70px;
+        left: 0; right: 0; background: white; padding: 20px; border-bottom: 1px solid #eef;
+        z-index: 99; gap: 16px; text-align: center;
+      }
       nav ul.active { display: flex; }
       .menu-btn { display: block; }
-      .products { grid-template-columns: 1fr 1fr; }
-      .feature-row, .review-grid, .contact-grid { grid-template-columns: 1fr 1fr; }
-      .row { grid-template-columns: 1fr; }
-      .arrow { display: none; }
     }
   </style>
 </head>
@@ -269,7 +301,7 @@
   </div>
 </header>
 
-<!-- Hero Slider with 5 image placeholders (replace URLs anytime) -->
+<!-- Hero Slider with image placeholders (replace URLs anytime) -->
 <section id="home" class="hero">
   <div class="container">
     <div class="hero-box">
@@ -287,7 +319,7 @@
   </div>
 </section>
 
-<!-- Products Section (loaded from Supabase) -->
+<!-- Products Section -->
 <section id="products" class="section">
   <div class="container">
     <div class="head"><h2>সকল <span>প্রোডাক্ট</span></h2></div>
@@ -364,12 +396,12 @@
     document.getElementById("totalPrice").value = price ? `৳${price}` : "";
   }
 
-  // Fixed payment methods with reliable logo URLs
+  // Payment methods with reliable SVG icons from simpleicons CDN (fallback text)
   const paymentMethods = [
-    { id: "bkash", name: "bKash", value: "bKash", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/BKash_logo.svg/320px-BKash_logo.svg.png" },
-    { id: "nagad", name: "Nagad", value: "Nagad", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Nagad_Logo.wine.svg/320px-Nagad_Logo.wine.svg.png" },
-    { id: "upay", name: "Upay", value: "Upay", logo: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Upay_logo.svg" },
-    { id: "rocket", name: "Rocket", value: "Rocket", logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Rocket_mobile_banking_logo.svg" }
+    { id: "bkash", name: "bKash", value: "bKash", icon: "https://cdn.simpleicons.org/bkash/red?viewbox=auto" },
+    { id: "nagad", name: "Nagad", value: "Nagad", icon: "https://cdn.simpleicons.org/nagad/orange?viewbox=auto" },
+    { id: "upay", name: "Upay", value: "Upay", icon: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Upay_logo.svg" },
+    { id: "rocket", name: "Rocket", value: "Rocket", icon: "https://cdn.simpleicons.org/rocket/blue?viewbox=auto" }
   ];
 
   function renderPaymentMethods() {
@@ -378,7 +410,7 @@
       <div class="method-item">
         <input type="radio" name="payment_method" value="${m.value}" id="${m.id}" onchange="showPaymentDetail('${m.value}')">
         <label for="${m.id}" class="method-label">
-          <div class="method-logo"><img src="${m.logo}" alt="${m.name}" onerror="this.onerror=null;this.parentElement.innerHTML='${m.name}'"></div>
+          <div class="method-logo"><img src="${m.icon}" alt="${m.name}" onerror="this.onerror=null;this.parentElement.innerHTML='${m.name.charAt(0)}'"></div>
           ${m.name}
         </label>
       </div>
@@ -387,10 +419,11 @@
 
   function showPaymentDetail(method) {
     const block = document.getElementById("paymentDetailBlock");
-    if(method === "bKash") block.innerHTML = `<strong>bKash</strong><div class="num" style="font-size:18px;color:#ff4f63;">018933489724</div>`;
-    else if(method === "Nagad") block.innerHTML = `<strong>Nagad</strong><div class="num" style="font-size:18px;color:#ff4f63;">018933489724</div>`;
-    else if(method === "Upay") block.innerHTML = `<strong>Upay</strong><div class="num" style="font-size:18px;color:#ff4f63;">018933489724</div>`;
-    else if(method === "Rocket") block.innerHTML = `<strong>Rocket</strong><div class="num" style="font-size:18px;color:#ff4f63;">018933489724</div>`;
+    const number = "018933489724";
+    if(method === "bKash") block.innerHTML = `<strong>bKash</strong><div class="num" style="font-size:18px;color:#ff4f63;">${number}</div>`;
+    else if(method === "Nagad") block.innerHTML = `<strong>Nagad</strong><div class="num" style="font-size:18px;color:#ff4f63;">${number}</div>`;
+    else if(method === "Upay") block.innerHTML = `<strong>Upay</strong><div class="num" style="font-size:18px;color:#ff4f63;">${number}</div>`;
+    else if(method === "Rocket") block.innerHTML = `<strong>Rocket</strong><div class="num" style="font-size:18px;color:#ff4f63;">${number}</div>`;
     block.classList.add("active");
   }
 
@@ -404,7 +437,7 @@
         const chat = last.message?.chat || last.channel_post?.chat;
         if(chat?.id) { tgChatId = String(chat.id); return tgChatId; }
       }
-      throw new Error("Chat ID not found. Please send /start to your bot.");
+      throw new Error("Chat ID পাওয়া যায়নি। অনুগ্রহ করে আপনার বটে /start পাঠান।");
     } catch(e) { throw new Error("Telegram chat ID error: "+e.message); }
   }
 
@@ -433,8 +466,7 @@
     });
     if(error) {
       if(error.message.includes("row-level security policy")) {
-        throw new Error(`Supabase RLS policy missing. Please follow: Go to Supabase Dashboard → SQL Editor → Run:
-CREATE POLICY "Enable insert for all users" ON orders FOR INSERT WITH CHECK (true);`);
+        throw new Error(`Supabase RLS policy নেই। দয়া করে SQL এ রান করুন:\nCREATE POLICY "Enable insert for all users" ON orders FOR INSERT WITH CHECK (true);`);
       } else {
         throw new Error("Supabase error: "+error.message);
       }
@@ -537,7 +569,7 @@ CREATE POLICY "Enable insert for all users" ON orders FOR INSERT WITH CHECK (tru
 
   window.addEventListener("load", async () => {
     document.getElementById("loader").classList.add("hidden");
-    renderPaymentMethods();   // load payment method logos
+    renderPaymentMethods();
     initSlider();
     await loadProducts();
   });
