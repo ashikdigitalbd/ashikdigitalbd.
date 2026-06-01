@@ -7,215 +7,248 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, sans-serif; background: #f3f4f6; padding: 16px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 12px 20px; border-radius: 24px; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .logo { font-size: 22px; font-weight: bold; color: #ff4f63; }
-        .btn { padding: 8px 18px; border-radius: 40px; border: none; cursor: pointer; font-weight: 600; }
-        .btn-primary { background: #ff4f63; color: white; }
-        .btn-outline { background: transparent; border: 1px solid #ff4f63; color: #ff4f63; }
-        .btn-danger { background: #dc2626; color: white; }
-        .card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
-        .product-item { background: #f9fafb; border-radius: 16px; padding: 16px; border: 1px solid #e5e7eb; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-        .modal.active { display: flex; }
-        .modal-content { background: white; padding: 24px; border-radius: 28px; width: 90%; max-width: 380px; }
-        .modal-content input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 16px; }
-        .message { padding: 8px; border-radius: 12px; margin: 8px 0; display: none; font-size: 14px; }
-        .message.error { background: #fee2e2; color: #dc2626; display: block; }
-        .message.success { background: #dcfce7; color: #16a34a; display: block; }
-        .admin-layout { display: flex; gap: 20px; flex-wrap: wrap; }
-        .sidebar { width: 250px; background: #1f2937; color: white; border-radius: 24px; padding: 20px; }
-        .sidebar a { display: block; color: white; padding: 10px; margin: 5px 0; border-radius: 12px; cursor: pointer; }
-        .sidebar a:hover { background: #374151; }
-        .main-content { flex: 1; }
-        .stats { display: flex; gap: 16px; flex-wrap: wrap; }
-        .stat-card { background: linear-gradient(135deg, #ff4f63, #ff9f43); color: white; padding: 20px; border-radius: 20px; min-width: 140px; text-align: center; }
-        @media (max-width: 700px) { .sidebar { width: 100%; } }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .card { background: white; border-radius: 20px; padding: 30px; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        button { padding: 12px 24px; margin: 10px; border: none; border-radius: 40px; font-size: 16px; cursor: pointer; background: #ff4f63; color: white; font-weight: bold; }
+        button.outline { background: transparent; border: 1px solid #ff4f63; color: #ff4f63; }
+        input { padding: 12px; margin: 10px 0; width: 100%; border: 1px solid #ddd; border-radius: 12px; }
+        .hidden { display: none; }
+        #message { padding: 10px; margin: 10px 0; border-radius: 10px; }
+        .error { background: #ffe0e0; color: red; }
+        .success { background: #e0ffe0; color: green; }
+        @media (max-width: 600px) { body { padding: 10px; } }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <div class="logo">ASHIK DIGITAL BD</div>
-        <div id="authButtons">
-            <button class="btn btn-primary" onclick="showLoginModal()">লগইন</button>
-            <button class="btn btn-outline" onclick="showRegisterModal()">রেজিস্টার</button>
-        </div>
-        <div id="userInfo" style="display: none;">
-            <span id="userEmail" style="margin-right: 10px;"></span>
-            <button class="btn btn-danger" onclick="logout()">লগআউট</button>
+
+<div class="container" id="app">
+    <!-- লগইন/রেজিস্টার বাটন -->
+    <div id="authSection">
+        <div class="card">
+            <h2>ASHIK DIGITAL BD</h2>
+            <button id="loginBtn">লগইন</button>
+            <button id="registerBtn" class="outline">রেজিস্টার</button>
         </div>
     </div>
-    <div id="appContent"></div>
-</div>
 
-<!-- Login Modal -->
-<div id="loginModal" class="modal">
-    <div class="modal-content">
-        <h3>লগইন</h3>
+    <!-- লগইন ফর্ম -->
+    <div id="loginForm" class="card hidden">
+        <h3>লগইন করুন</h3>
         <input type="email" id="loginEmail" placeholder="ইমেইল">
         <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড">
-        <div id="loginMessage" class="message"></div>
-        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="login()">লগইন</button>
-        <button class="btn btn-outline" style="width:100%; margin-top:8px;" onclick="closeModal('loginModal')">বন্ধ</button>
+        <button id="doLogin">লগইন</button>
+        <button id="cancelLogin" class="outline">বাতিল</button>
+        <div id="loginMsg"></div>
     </div>
-</div>
 
-<!-- Register Modal -->
-<div id="registerModal" class="modal">
-    <div class="modal-content">
-        <h3>রেজিস্টার</h3>
+    <!-- রেজিস্টার ফর্ম -->
+    <div id="registerForm" class="card hidden">
+        <h3>রেজিস্টার করুন</h3>
         <input type="email" id="regEmail" placeholder="ইমেইল">
         <input type="password" id="regPassword" placeholder="পাসওয়ার্ড">
-        <div id="registerMessage" class="message"></div>
-        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="register()">রেজিস্টার</button>
-        <button class="btn btn-outline" style="width:100%; margin-top:8px;" onclick="closeModal('registerModal')">বন্ধ</button>
+        <button id="doRegister">রেজিস্টার</button>
+        <button id="cancelRegister" class="outline">বাতিল</button>
+        <div id="regMsg"></div>
+    </div>
+
+    <!-- অ্যাডমিন প্যানেল -->
+    <div id="adminPanel" class="hidden">
+        <div class="card">
+            <h2>👋 অ্যাডমিন প্যানেল</h2>
+            <p id="adminEmail"></p>
+            <button id="logoutBtn">লগআউট</button>
+            <hr style="margin: 20px 0;">
+            <h3>প্রোডাক্ট লিস্ট</h3>
+            <div id="productList"></div>
+            <button id="addProductBtn">+ নতুন প্রোডাক্ট</button>
+        </div>
+    </div>
+
+    <!-- সাধারণ ইউজার প্যানেল -->
+    <div id="userPanel" class="hidden">
+        <div class="card">
+            <h2>স্বাগতম!</h2>
+            <p id="userEmailDisplay"></p>
+            <button id="userLogoutBtn">লগআউট</button>
+            <hr>
+            <h3>প্রোডাক্ট সমূহ</h3>
+            <div id="userProductList"></div>
+        </div>
     </div>
 </div>
 
 <script>
+    // Supabase সেটআপ
     const SUPABASE_URL = "https://rvbdzbqjrsavwdbxutfo.supabase.co";
     const SUPABASE_ANON = "sb_publishable_qt8sN5cY-JrxmaKrxSEv5Q_Q4JJdNra";
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-    
+
+    // DOM এলিমেন্টস
+    const authSection = document.getElementById('authSection');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const adminPanel = document.getElementById('adminPanel');
+    const userPanel = document.getElementById('userPanel');
+
     let currentUser = null;
     let isAdmin = false;
 
-    function showModal(id) { document.getElementById(id).classList.add('active'); }
-    window.closeModal = (id) => document.getElementById(id).classList.remove('active');
-    
-    function showMessage(el, msg, type) {
-        let d = document.getElementById(el);
-        d.textContent = msg;
-        d.className = `message ${type}`;
-        setTimeout(() => d.className = 'message', 2500);
+    // মেসেজ দেখানোর ফাংশন
+    function showMessage(elementId, msg, type) {
+        let div = document.getElementById(elementId);
+        div.innerHTML = msg;
+        div.className = type;
+        setTimeout(() => { div.innerHTML = ''; div.className = ''; }, 3000);
     }
 
-    window.showLoginModal = () => { showModal('loginModal'); };
-    window.showRegisterModal = () => { showModal('registerModal'); };
-
-    window.login = async () => {
-        let email = document.getElementById('loginEmail').value;
-        let pwd = document.getElementById('loginPassword').value;
-        let { error } = await supabase.auth.signInWithPassword({ email, password: pwd });
-        if (error) { showMessage('loginMessage', error.message, 'error'); return; }
-        closeModal('loginModal');
-        await loadUser();
-        loadAppContent();
-    };
-
-    window.register = async () => {
-        let email = document.getElementById('regEmail').value;
-        let pwd = document.getElementById('regPassword').value;
-        let { data, error } = await supabase.auth.signUp({ email, password: pwd });
-        if (error) { showMessage('registerMessage', error.message, 'error'); return; }
-        if (data.user) {
-            await supabase.from('profiles').upsert({ id: data.user.id, email, role: 'customer' });
-        }
-        showMessage('registerMessage', '✅ রেজিস্টার সফল! এখন লগইন করুন', 'success');
-        setTimeout(() => { closeModal('registerModal'); showLoginModal(); }, 1200);
-    };
-
-    window.logout = async () => {
-        await supabase.auth.signOut();
-        currentUser = null;
-        isAdmin = false;
-        loadAppContent();
-        updateUI();
-    };
-
-    async function loadUser() {
-        let { data: { user } } = await supabase.auth.getUser();
+    // UI আপডেট
+    async function updateUI() {
+        const { data: { user } } = await supabase.auth.getUser();
         currentUser = user;
+        
         if (user) {
-            let { data: p } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-            isAdmin = p?.role === 'admin';
-        } else { isAdmin = false; }
-        updateUI();
-    }
-
-    function updateUI() {
-        let authDiv = document.getElementById('authButtons');
-        let userDiv = document.getElementById('userInfo');
-        let emailSpan = document.getElementById('userEmail');
-        if (currentUser) {
-            authDiv.style.display = 'none';
-            userDiv.style.display = 'block';
-            emailSpan.textContent = currentUser.email;
+            const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+            isAdmin = profile?.role === 'admin';
+            
+            authSection.classList.add('hidden');
+            loginForm.classList.add('hidden');
+            registerForm.classList.add('hidden');
+            
+            if (isAdmin) {
+                adminPanel.classList.remove('hidden');
+                userPanel.classList.add('hidden');
+                document.getElementById('adminEmail').innerText = user.email;
+                loadAdminProducts();
+            } else {
+                adminPanel.classList.add('hidden');
+                userPanel.classList.remove('hidden');
+                document.getElementById('userEmailDisplay').innerText = user.email;
+                loadUserProducts();
+            }
         } else {
-            authDiv.style.display = 'flex';
-            userDiv.style.display = 'none';
+            authSection.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            registerForm.classList.add('hidden');
+            adminPanel.classList.add('hidden');
+            userPanel.classList.add('hidden');
         }
     }
 
-    // Public view
-    async function loadPublic() {
-        let { data: products } = await supabase.from('products').select('*');
-        let html = `<div class="card"><h2>🌟 স্বাগতম</h2><p>ডিজিটাল প্রোডাক্ট পেতে অর্ডার করুন।</p></div><div class="card"><h2>📦 প্রোডাক্ট</h2><div class="product-grid">`;
-        if (products?.length) {
-            products.forEach(p => {
-                html += `<div class="product-item"><h3>${p.name}</h3><p style="color:#ff4f63;font-size:20px;">৳${p.price}</p><button class="btn btn-primary" onclick="alert('অর্ডার করতে লগইন করুন')">অর্ডার</button></div>`;
+    // প্রোডাক্ট লোড (সবাই)
+    async function loadUserProducts() {
+        const { data } = await supabase.from('products').select('*');
+        let html = '<ul style="text-align:left;">';
+        if (data && data.length) {
+            data.forEach(p => {
+                html += `<li><strong>${p.name}</strong> - ৳${p.price}</li>`;
             });
-        } else { html += '<p>কোন প্রোডাক্ট নেই</p>'; }
-        html += `</div></div>`;
-        return html;
+        } else {
+            html += '<li>কোন প্রোডাক্ট নেই</li>';
+        }
+        html += '</ul>';
+        document.getElementById('userProductList').innerHTML = html;
     }
 
-    // Admin dashboard
-    async function loadAdminDashboard() {
-        let { count: prod } = await supabase.from('products').select('*', { count: 'exact', head: true });
-        let { count: ord } = await supabase.from('orders').select('*', { count: 'exact', head: true });
-        return `<div class="card"><h2>📊 ড্যাশবোর্ড</h2><div class="stats"><div class="stat-card"><h3>📦 প্রোডাক্ট</h3><p style="font-size:28px;">${prod || 0}</p></div><div class="stat-card"><h3>🛒 অর্ডার</h3><p style="font-size:28px;">${ord || 0}</p></div></div></div>`;
-    }
-
+    // অ্যাডমিন প্রোডাক্ট ম্যানেজ
     async function loadAdminProducts() {
-        let { data: products } = await supabase.from('products').select('*');
-        let html = `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;"><h2>📦 প্রোডাক্ট ম্যানেজ</h2><button class="btn btn-primary" onclick="addProduct()">+ নতুন</button></div><div class="product-grid">`;
-        if (products?.length) {
-            products.forEach(p => {
-                html += `<div class="product-item"><h3>${p.name}</h3><p>৳${p.price}</p><button class="btn btn-danger" onclick="deleteProduct(${p.id})">ডিলিট</button></div>`;
+        const { data } = await supabase.from('products').select('*');
+        let html = '<div style="text-align:left;">';
+        if (data && data.length) {
+            data.forEach(p => {
+                html += `<div style="border:1px solid #ddd; padding:10px; margin:10px 0; border-radius:10px;">
+                            <strong>${p.name}</strong> - ৳${p.price}
+                            <button onclick="deleteProduct(${p.id})" style="background:#dc2626; padding:5px 10px; float:right;">ডিলিট</button>
+                         </div>`;
             });
-        } else { html += '<p>কোন প্রোডাক্ট নেই</p>'; }
-        html += `</div></div>`;
-        return html;
-    }
-
-    window.addProduct = async () => {
-        let name = prompt('প্রোডাক্ট নাম');
-        if (!name) return;
-        let price = parseInt(prompt('মূল্য'));
-        if (isNaN(price)) return;
-        await supabase.from('products').insert([{ name, price }]);
-        loadAppContent();
-    };
-
-    window.deleteProduct = async (id) => {
-        if (!confirm('ডিলিট করবেন?')) return;
-        await supabase.from('products').delete().eq('id', id);
-        loadAppContent();
-    };
-
-    let currentView = 'dashboard';
-    window.navigateTo = (view) => { currentView = view; loadAppContent(); };
-
-    async function loadAppContent() {
-        await loadUser();
-        let container = document.getElementById('appContent');
-        if (!currentUser) {
-            container.innerHTML = await loadPublic();
-            return;
-        }
-        if (isAdmin) {
-            let content = currentView === 'dashboard' ? await loadAdminDashboard() : await loadAdminProducts();
-            container.innerHTML = `<div class="admin-layout"><div class="sidebar"><h3>ASHIK ADMIN</h3><a onclick="navigateTo('dashboard')">📊 ড্যাশবোর্ড</a><a onclick="navigateTo('products')">📦 প্রোডাক্ট</a><hr><a onclick="logout()">🚪 লগআউট</a></div><div class="main-content">${content}</div></div>`;
         } else {
-            container.innerHTML = await loadPublic();
+            html += '<p>কোন প্রোডাক্ট নেই</p>';
         }
+        html += '</div>';
+        document.getElementById('productList').innerHTML = html;
     }
 
-    loadAppContent();
+    // প্রোডাক্ট ডিলিট
+    window.deleteProduct = async (id) => {
+        if (confirm('ডিলিট করবেন?')) {
+            await supabase.from('products').delete().eq('id', id);
+            loadAdminProducts();
+        }
+    };
+
+    // নতুন প্রোডাক্ট যোগ
+    document.getElementById('addProductBtn')?.addEventListener('click', async () => {
+        let name = prompt('প্রোডাক্ট নাম:');
+        if (!name) return;
+        let price = parseInt(prompt('মূল্য:'));
+        if (!price) return;
+        await supabase.from('products').insert([{ name, price }]);
+        loadAdminProducts();
+    });
+
+    // লগইন বাটন
+    document.getElementById('loginBtn')?.addEventListener('click', () => {
+        authSection.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+    });
+    
+    document.getElementById('cancelLogin')?.addEventListener('click', () => {
+        loginForm.classList.add('hidden');
+        authSection.classList.remove('hidden');
+    });
+    
+    document.getElementById('registerBtn')?.addEventListener('click', () => {
+        authSection.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+    });
+    
+    document.getElementById('cancelRegister')?.addEventListener('click', () => {
+        registerForm.classList.add('hidden');
+        authSection.classList.remove('hidden');
+    });
+    
+    // লগইন একশন
+    document.getElementById('doLogin')?.addEventListener('click', async () => {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+            showMessage('loginMsg', error.message, 'error');
+        } else {
+            await updateUI();
+        }
+    });
+    
+    // রেজিস্টার একশন
+    document.getElementById('doRegister')?.addEventListener('click', async () => {
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) {
+            showMessage('regMsg', error.message, 'error');
+        } else {
+            if (data.user) {
+                await supabase.from('profiles').upsert({ id: data.user.id, email, role: 'customer' });
+            }
+            showMessage('regMsg', '✅ রেজিস্টার সফল! এখন লগইন করুন', 'success');
+            setTimeout(() => {
+                registerForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+            }, 1500);
+        }
+    });
+    
+    // লগআউট
+    async function logout() {
+        await supabase.auth.signOut();
+        await updateUI();
+    }
+    
+    document.getElementById('logoutBtn')?.addEventListener('click', logout);
+    document.getElementById('userLogoutBtn')?.addEventListener('click', logout);
+    
+    // শুরু করা
+    updateUI();
 </script>
 </body>
 </html>
