@@ -34,6 +34,7 @@
     .menu-btn { display: none; background: none; border: none; font-size: 24px; cursor: pointer; }
     .btn-login { background: linear-gradient(135deg, #ff4f63, #ff9f43); color: white; border: none; border-radius: 40px; padding: 8px 20px; font-weight: 600; cursor: pointer; }
     .btn-logout { background: #dc2626; color: white; border: none; border-radius: 40px; padding: 8px 20px; font-weight: 600; cursor: pointer; }
+    .btn-secondary { background: #4b5563; color: white; border: none; border-radius: 40px; padding: 8px 20px; font-weight: 600; cursor: pointer; }
     .hero { position: relative; background: #0a0f2a; border-radius: 0 0 30px 30px; margin-bottom: 30px; overflow: hidden; }
     .hero-slider { position: relative; width: 100%; }
     .slides { display: flex; transition: transform 0.6s ease-in-out; }
@@ -91,7 +92,7 @@
     .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
     .modal.active { display: flex; }
     .modal-box { background: white; max-width: 500px; width: 100%; border-radius: 28px; max-height: 90vh; overflow: auto; padding: 25px; }
-    .modal-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; }
+    .modal-box input, .modal-box select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; }
     .close-modal { float: right; font-size: 24px; cursor: pointer; background: none; border: none; }
     .order-form-grid { display: flex; flex-direction: column; gap: 16px; }
     .form-row { display: flex; gap: 15px; flex-wrap: wrap; }
@@ -111,120 +112,51 @@
     @media (max-width: 768px) { nav ul { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: white; padding: 20px; border-bottom: 1px solid #eef; z-index: 99; gap: 16px; text-align: center; } nav ul.active { display: flex; } .menu-btn { display: block; } .form-row { flex-direction: column; gap: 12px; } .method-grid { grid-template-columns: 1fr; } }
     .toast { position: fixed; bottom: 80px; right: 20px; background: #2a1a5e; color: white; padding: 10px 20px; border-radius: 40px; font-size: 14px; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
     .toast.show { opacity: 1; }
+    /* Admin Sidebar */
+    .admin-sidebar { background: #0a0f2a; color: white; width: 280px; min-height: 100vh; position: fixed; left: 0; top: 0; transform: translateX(-100%); transition: 0.3s; z-index: 1001; padding: 20px; overflow-y: auto; }
+    .admin-sidebar.open { transform: translateX(0); }
+    .admin-content { margin-left: 0; transition: 0.3s; padding: 20px; }
+    @media (min-width: 768px) { .admin-sidebar { transform: translateX(0); } .admin-content { margin-left: 280px; } .menu-toggle { display: none; } }
+    .menu-toggle { position: fixed; bottom: 20px; left: 20px; background: var(--primary); color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1002; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .admin-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th, .admin-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    .admin-table th { background: #f9fafb; font-weight: 600; }
+    .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+    .status-pending { background: #fef3c7; color: #d97706; }
+    .status-completed { background: #d1fae5; color: #059669; }
   </style>
 </head>
 <body>
 <div id="loader" class="loader"><div class="ring"></div></div>
 <div id="toastMessage" class="toast">✅ কপি হয়েছে!</div>
 
-<header>
-  <div class="container header-row">
-    <a class="brand" href="#"><div class="brand-badge">A</div>ASHIK <span>DIGITAL</span> BD</a>
-    <nav>
-      <ul id="navMenu">
-        <li><a href="#home">হোম</a></li>
-        <li><a href="#products">প্রোডাক্ট</a></li>
-        <li><a href="#reviews">রিভিউ</a></li>
-        <li><a href="#contact">যোগাযোগ</a></li>
-        <li><div class="cart" onclick="openOrderModal()"><i class="fas fa-shopping-cart"></i><span id="cartCount" class="cart-count">0</span></div></li>
-      </ul>
-    </nav>
-    <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-    <div id="authSection">
-      <button id="loginBtn" class="btn-login" onclick="showLoginModal()">লগইন</button>
-    </div>
-    <div id="userSection" style="display: none;">
-      <span id="userEmail" style="margin-right: 10px; font-size: 14px;"></span>
-      <button id="logoutBtn" class="btn-logout" onclick="logout()">লগআউট</button>
-    </div>
-  </div>
-</header>
+<div class="menu-toggle" id="menuToggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+<div class="admin-sidebar" id="adminSidebar">
+  <div style="margin-bottom: 30px; font-size: 24px; font-weight: bold;">ASHIK<span style="color:#ff9f43;">ADMIN</span></div>
+  <ul style="list-style: none; padding: 0;">
+    <li><a href="#" onclick="loadAdminDashboard()" style="color:white; text-decoration: none; display: block; padding: 12px 0; border-radius: 8px;"><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড</a></li>
+    <li><a href="#" onclick="loadAdminProducts()" style="color:white; text-decoration: none; display: block; padding: 12px 0; border-radius: 8px;"><i class="fas fa-boxes"></i> প্রোডাক্ট ম্যানেজ</a></li>
+    <li><a href="#" onclick="loadAdminOrders()" style="color:white; text-decoration: none; display: block; padding: 12px 0; border-radius: 8px;"><i class="fas fa-shopping-cart"></i> অর্ডার লিস্ট</a></li>
+    <li><a href="#" onclick="showChangePassword()" style="color:white; text-decoration: none; display: block; padding: 12px 0; border-radius: 8px;"><i class="fas fa-key"></i> পাসওয়ার্ড পরিবর্তন</a></li>
+    <li><a href="#" onclick="logout()" style="color:white; text-decoration: none; display: block; padding: 12px 0; border-radius: 8px;"><i class="fas fa-sign-out-alt"></i> লগআউট</a></li>
+  </ul>
+</div>
 
-<!-- Hero Slider -->
-<section id="home" class="hero">
-  <div class="hero-slider">
-    <div class="slides" id="heroSlides">
-      <div class="slide"><img src="https://i.postimg.cc/1z9mt5Rs/1780256831364.png" alt="Banner 1"></div>
-      <div class="slide"><img src="https://i.postimg.cc/tgYLgk46/20260531-211351-0000.jpg" alt="Banner 2"></div>
-      <div class="slide"><img src="https://i.postimg.cc/HL7gjDwn/AI-Thumbnail-Creation-20260531-233929-0000.jpg" alt="Banner 3"></div>
-      <div class="slide"><img src="https://i.postimg.cc/wxkd1kmZ/AI-Thumbnail-Creation-20260531-234011-0000.jpg" alt="Banner 4"></div>
-      <div class="slide"><img src="https://i.postimg.cc/rssgFc4b/AI-Thumbnail-Creation-20260531-234301-0000.jpg" alt="Banner 5"></div>
-    </div>
-    <button class="arrow prev" onclick="changeSlide(-1)">❮</button>
-    <button class="arrow next" onclick="changeSlide(1)">❯</button>
-    <div class="dots" id="heroDots"></div>
-  </div>
-</section>
+<div class="admin-content" id="mainContent"></div>
 
-<!-- Products Section -->
-<section id="products" class="section">
-  <div class="container">
-    <div class="head">
-      <h2>সকল <span>প্রোডাক্ট</span></h2>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="🔍 প্রোডাক্ট খুঁজুন..." onkeyup="filterProductsBySearch()">
-        <button onclick="filterProductsBySearch()"><i class="fas fa-search"></i></button>
-      </div>
-    </div>
-    <div class="tabs" id="tabsContainer">
-      <button class="tab active" data-cat="all">সব</button>
-    </div>
-    <div id="productsGrid" class="products"><div class="text-center py-10">প্রোডাক্ট লোড হচ্ছে...</div></div>
-    <div class="feature-row">
-      <div class="feature"><i class="fas fa-bolt"></i> ৫-১০ মিনিটে ডেলিভারি</div>
-      <div class="feature"><i class="fas fa-shield-halved"></i> ১০০% সিকিউর পেমেন্ট</div>
-      <div class="feature"><i class="fas fa-headset"></i> ২৪/৭ সাপোর্ট</div>
-      <div class="feature"><i class="fas fa-gem"></i> অরিজিনাল গ্যারান্টি</div>
-    </div>
-  </div>
-</section>
-
-<!-- Reviews -->
-<section id="reviews" class="section">
-  <div class="container">
-    <div class="head"><h2>কাস্টমার <span>রিভিউ</span></h2></div>
-    <div class="review-grid">
-      <div class="review"><div class="stars">★★★★★</div><p>Canva Pro ৫ মিনিটে পেয়েছি! দারুণ সার্ভিস।</p><h4>রাহাত হোসেন</h4><small>ফ্রিল্যান্সার</small></div>
-      <div class="review"><div class="stars">★★★★★</div><p>টেলিগ্রাম আপডেট খুব ভালো, দ্রুত ডেলিভারি।</p><h4>নাজমুল হক</h4><small>ব্যবসায়ী</small></div>
-      <div class="review"><div class="stars">★★★★★</div><p>AI লোগো ডিজাইন অসাধারণ ছিল। ধন্যবাদ।</p><h4>সাব্বির আহমেদ</h4><small>ক্রিয়েটর</small></div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="section"><div class="container"><div class="cta"><h2>🎉 আজকের বিশেষ অফার!</h2><p>সীমিত সময়ের জন্য এই দুর্দান্ত ডিলগুলি পান এবং আপনার ব্যবসা বাড়ান!</p><button class="btn btn-primary" style="background:white; color:#ff4f63;" onclick="openOrderModal()">এখনই অর্ডার করুন</button></div></div></section>
-
-<!-- Contact -->
-<section id="contact" class="section" style="padding-top:0"><div class="container"><div class="head"><h2>যোগাযোগ <span>করুন</span></h2></div><div class="contact-grid"><div class="contact-item"><i class="fab fa-whatsapp"></i><p>+880 1933-489724</p></div><div class="contact-item"><i class="fas fa-envelope"></i><p>freefireemyid01@gmail.com</p></div><div class="contact-item"><i class="fab fa-telegram"></i><p>@ASHIKHELPDESK</p></div><div class="contact-item"><i class="fas fa-clock"></i><p>সকাল ১০টা - রাত ১২টা</p></div></div></div></section>
-
-<footer>
-  <div style="text-align: center;">
-    © ২০২৬ ASHIKDIGITAL BD | All rights reserved | 
-    <a href="https://phonelab360.github.io/webnestbd/" target="_blank">Designed & Developed By WebNest BD</a>
-  </div>
-</footer>
-<a class="whatsapp" href="https://wa.me/8801933489724" target="_blank"><i class="fab fa-whatsapp"></i></a>
-
-<!-- Order Modal -->
-<div id="orderModal" class="modal"><div class="modal-box"><div class="modal-head" style="display:flex; justify-content:space-between;"><h3><i class="fas fa-shopping-cart"></i> অর্ডার ফর্ম</h3><button class="close-btn" onclick="closeOrderModal()">&times;</button></div><div class="modal-body"><form id="orderForm"><div class="order-form-grid"><div class="form-row"><div class="group"><label>নাম *</label><input name="name" required placeholder="আপনার নাম"></div><div class="group"><label>WhatsApp *</label><input name="whatsapp" required placeholder="+8801XXXXXXXXX"></div></div><div class="group"><label>ইমেইল *</label><input type="email" name="email" required placeholder="example@mail.com"></div><div class="form-row"><div class="group"><label>প্রোডাক্ট *</label><select id="productSelect" name="product" required onchange="updatePrice()"></select></div><div class="group"><label>মোট মূল্য</label><input id="totalPrice" readonly placeholder="০ টাকা"></div></div><div class="form-row"><div class="group"><label>পেমেন্ট মেথড *</label><div class="method-grid" id="paymentMethodsGrid"></div></div><div class="group"><label>Trx ID *</label><input name="transaction_id" required placeholder="ট্রানজেকশন আইডি"></div></div><div id="paymentDetailBlock" class="pay-detail">পেমেন্ট মেথড সিলেক্ট করুন</div><div class="group"><label>অতিরিক্ত মেসেজ</label><textarea name="message" rows="2"></textarea></div><button type="submit" class="submit"><i class="fas fa-paper-plane"></i> অর্ডার কনফার্ম করুন</button></div></form></div></div></div>
-
-<!-- Success Modal -->
-<div id="successModal" class="modal"><div class="modal-box" style="max-width:400px; text-align:center;"><div class="modal-body"><div style="width:70px;height:70px;background:green;border-radius:50%;margin:0 auto;display:grid;place-items:center;color:white;font-size:32px;"><i class="fas fa-check"></i></div><h3 style="margin:15px 0">অর্ডার সফল!</h3><p>আপনার অর্ডার টেলিগ্রাম ও ডাটাবেসে সংরক্ষিত হয়েছে।</p><button class="btn btn-primary" onclick="closeSuccessModal()">ঠিক আছে</button></div></div></div>
-
-<!-- Detail Modal -->
-<div id="detailModal" class="modal"><div class="modal-box"><div class="modal-head" style="display:flex; justify-content:space-between;"><h3 id="detailTitle">প্রোডাক্ট ডিটেইলস</h3><button class="close-btn" onclick="closeDetailModal()">&times;</button></div><div class="modal-body"><p id="detailDescription"></p><div class="share-buttons" id="detailShare"></div></div></div></div>
-
-<!-- Login Modal -->
-<div id="loginModal" class="modal">
+<!-- Change Password Modal -->
+<div id="changePasswordModal" class="modal">
   <div class="modal-box">
     <div style="display: flex; justify-content: space-between;">
-      <h3>লগইন / রেজিস্টার</h3>
-      <button class="close-modal" onclick="closeLoginModal()">&times;</button>
+      <h3>পাসওয়ার্ড পরিবর্তন</h3>
+      <button class="close-modal" onclick="closeChangePasswordModal()">&times;</button>
     </div>
-    <input type="email" id="loginEmail" placeholder="ইমেইল">
-    <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড">
-    <button class="btn-primary" style="width:100%; margin-top:10px;" onclick="login()">লগইন</button>
-    <button class="btn-primary" style="width:100%; margin-top:10px; background:#6b7280;" onclick="register()">রেজিস্টার</button>
+    <input type="password" id="oldPassword" placeholder="পুরনো পাসওয়ার্ড">
+    <input type="password" id="newPassword" placeholder="নতুন পাসওয়ার্ড">
+    <input type="password" id="confirmPassword" placeholder="নতুন পাসওয়ার্ড আবার লিখুন">
+    <button class="btn-primary" style="width:100%; margin-top:10px;" onclick="changePassword()">পাসওয়ার্ড পরিবর্তন করুন</button>
+    <div id="passwordMsg" style="margin-top:10px; text-align:center;"></div>
   </div>
 </div>
 
@@ -240,22 +172,45 @@
   let currentSlide = 0;
   let totalSlides = 5;
   let currentUser = null;
+  let isAdmin = false;
 
-  // Auth Functions
+  // ========== AUTH FUNCTIONS ==========
   async function checkUser() {
     const { data: { user } } = await supabaseClient.auth.getUser();
     currentUser = user;
+    if (user) {
+      const { data: profile } = await supabaseClient.from("profiles").select("role").eq("id", user.id).single();
+      isAdmin = profile?.role === "admin";
+    } else {
+      isAdmin = false;
+    }
+    updateUIBasedOnAuth();
+  }
+
+  function updateUIBasedOnAuth() {
     const authSection = document.getElementById("authSection");
     const userSection = document.getElementById("userSection");
     const userEmailSpan = document.getElementById("userEmail");
+    const adminSidebar = document.getElementById("adminSidebar");
+    const menuToggle = document.getElementById("menuToggle");
     
-    if (user) {
-      authSection.style.display = "none";
-      userSection.style.display = "block";
-      userEmailSpan.innerText = user.email;
+    if (currentUser) {
+      if (authSection) authSection.style.display = "none";
+      if (userSection) userSection.style.display = "block";
+      if (userEmailSpan) userEmailSpan.innerText = currentUser.email;
+      
+      if (isAdmin) {
+        if (adminSidebar) adminSidebar.style.display = "block";
+        if (menuToggle) menuToggle.style.display = "flex";
+      } else {
+        if (adminSidebar) adminSidebar.style.display = "none";
+        if (menuToggle) menuToggle.style.display = "none";
+      }
     } else {
-      authSection.style.display = "block";
-      userSection.style.display = "none";
+      if (authSection) authSection.style.display = "block";
+      if (userSection) userSection.style.display = "none";
+      if (adminSidebar) adminSidebar.style.display = "none";
+      if (menuToggle) menuToggle.style.display = "none";
     }
   }
 
@@ -282,8 +237,8 @@
   }
 
   async function register() {
-    const email = document.getElementById("loginEmail").value;
-    const pwd = document.getElementById("loginPassword").value;
+    const email = document.getElementById("regEmail").value;
+    const pwd = document.getElementById("regPassword").value;
     const { data, error } = await supabaseClient.auth.signUp({ email, password: pwd });
     if (error) { alert(error.message); return; }
     if (data.user) {
@@ -294,7 +249,126 @@
     showLoginModal();
   }
 
-  // Order Functions
+  // ========== PASSWORD CHANGE ==========
+  function showChangePassword() {
+    document.getElementById("changePasswordModal").classList.add("active");
+  }
+
+  function closeChangePasswordModal() {
+    document.getElementById("changePasswordModal").classList.remove("active");
+    document.getElementById("oldPassword").value = "";
+    document.getElementById("newPassword").value = "";
+    document.getElementById("confirmPassword").value = "";
+    document.getElementById("passwordMsg").innerHTML = "";
+  }
+
+  async function changePassword() {
+    const oldPwd = document.getElementById("oldPassword").value;
+    const newPwd = document.getElementById("newPassword").value;
+    const confirmPwd = document.getElementById("confirmPassword").value;
+    const msgDiv = document.getElementById("passwordMsg");
+    
+    if (newPwd !== confirmPwd) {
+      msgDiv.innerHTML = '<span style="color:red;">নতুন পাসওয়ার্ড মেলেনি!</span>';
+      return;
+    }
+    if (newPwd.length < 6) {
+      msgDiv.innerHTML = '<span style="color:red;">পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে!</span>';
+      return;
+    }
+    
+    const { error } = await supabaseClient.auth.updateUser({ password: newPwd });
+    if (error) {
+      msgDiv.innerHTML = '<span style="color:red;">' + error.message + '</span>';
+    } else {
+      msgDiv.innerHTML = '<span style="color:green;">✅ পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে!</span>';
+      setTimeout(() => closeChangePasswordModal(), 2000);
+    }
+  }
+
+  // ========== ADMIN FUNCTIONS ==========
+  function toggleSidebar() { document.getElementById("adminSidebar").classList.toggle("open"); }
+
+  async function loadAdminDashboard() {
+    if (!isAdmin) { alert("আপনি অ্যাডমিন নন"); return; }
+    const { count: productCount } = await supabaseClient.from("Products").select("*", { count: "exact", head: true });
+    const { count: orderCount } = await supabaseClient.from("orders").select("*", { count: "exact", head: true });
+    document.getElementById("mainContent").innerHTML = `
+      <div class="container">
+        <div class="admin-card">
+          <h2 class="text-2xl font-bold mb-4">📊 অ্যাডমিন ড্যাশবোর্ড</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            <div style="background: linear-gradient(135deg, #ff4f63, #ff9f43); color: white; padding: 20px; border-radius: 16px;">
+              <h3 style="font-size: 32px;">${productCount || 0}</h3>
+              <p>📦 মোট প্রোডাক্ট</p>
+            </div>
+            <div style="background: linear-gradient(135deg, #5b61ff, #8b5cf6); color: white; padding: 20px; border-radius: 16px;">
+              <h3 style="font-size: 32px;">${orderCount || 0}</h3>
+              <p>🛒 মোট অর্ডার</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  async function loadAdminProducts() {
+    if (!isAdmin) { alert("আপনি অ্যাডমিন নন"); return; }
+    const { data: products } = await supabaseClient.from("Products").select("*");
+    let html = `<div class="container"><div class="admin-card"><div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"><h2 class="text-2xl font-bold">📦 প্রোডাক্ট ম্যানেজ</h2><button class="btn-primary" onclick="addProduct()">+ নতুন প্রোডাক্ট</button></div>
+    <table class="admin-table"><thead><tr><th>নাম</th><th>মূল্য</th><th>ক্যাটাগরি</th><th>অ্যাকশন</th></tr></thead><tbody>`;
+    products.forEach(p => {
+      html += `<tr><td>${escapeHtml(p.name)}</td><td>৳${p.price}</td><td>${p.category || ''}</td><td><button class="btn-secondary" style="padding: 4px 12px; font-size: 12px;" onclick="editProduct(${p.id})">এডিট</button> <button style="background:#dc2626; color:white; padding: 4px 12px; border: none; border-radius: 20px; font-size: 12px; cursor: pointer;" onclick="deleteProduct(${p.id})">ডিলিট</button></td></tr>`;
+    });
+    html += `</tbody></table></div></div>`;
+    document.getElementById("mainContent").innerHTML = html;
+  }
+
+  async function loadAdminOrders() {
+    if (!isAdmin) { alert("আপনি অ্যাডমিন নন"); return; }
+    const { data: orders } = await supabaseClient.from("orders").select("*").order("id", { ascending: false });
+    let html = `<div class="container"><div class="admin-card"><h2 class="text-2xl font-bold mb-4">🛒 অর্ডার লিস্ট</h2>
+    <table class="admin-table"><thead><tr><th>নাম</th><th>পণ্য</th><th>মূল্য</th><th>স্ট্যাটাস</th><th>TrxID</th><th>অ্যাকশন</th></tr></thead><tbody>`;
+    orders.forEach(o => {
+      html += `<tr><td>${escapeHtml(o.customer_name)}</td><td>${escapeHtml(o.product_name)}</td><td>৳${o.total_price}</td><td><select onchange="updateOrderStatus(${o.id}, this.value)" style="padding: 4px 8px; border-radius: 20px;"><option ${o.status === 'pending' ? 'selected' : ''} value="pending">⏳ pending</option><option ${o.status === 'completed' ? 'selected' : ''} value="completed">✅ completed</option></select></td><td>${o.transaction_id}</td><td><button style="background:#dc2626; color:white; padding: 4px 12px; border: none; border-radius: 20px; cursor: pointer;" onclick="deleteOrder(${o.id})">ডিলিট</button></td></tr>`;
+    });
+    html += `</tbody></table></div></div>`;
+    document.getElementById("mainContent").innerHTML = html;
+  }
+
+  window.addProduct = async () => {
+    let name = prompt("প্রোডাক্ট নাম");
+    if (!name) return;
+    let price = parseInt(prompt("মূল্য"));
+    if (!price) return;
+    let category = prompt("ক্যাটাগরি (ঐচ্ছিক)");
+    await supabaseClient.from("Products").insert([{ name, price, category }]);
+    loadAdminProducts();
+  };
+  
+  window.editProduct = async (id) => {
+    let newName = prompt("নতুন নাম");
+    let newPrice = parseInt(prompt("নতুন মূল্য"));
+    if (newName && newPrice) await supabaseClient.from("Products").update({ name: newName, price: newPrice }).eq("id", id);
+    loadAdminProducts();
+  };
+  
+  window.deleteProduct = async (id) => {
+    if (confirm("ডিলিট করবেন?")) await supabaseClient.from("Products").delete().eq("id", id);
+    loadAdminProducts();
+  };
+  
+  window.updateOrderStatus = async (id, status) => {
+    await supabaseClient.from("orders").update({ status }).eq("id", id);
+    loadAdminOrders();
+  };
+  
+  window.deleteOrder = async (id) => {
+    if (confirm("ডিলিট করবেন?")) await supabaseClient.from("orders").delete().eq("id", id);
+    loadAdminOrders();
+  };
+
+  // ========== PUBLIC SITE FUNCTIONS ==========
   function toggleMenu() { document.getElementById("navMenu").classList.toggle("active"); }
   function openOrderModal() { document.getElementById("orderModal").classList.add("active"); document.body.style.overflow = "hidden"; }
   function closeOrderModal() { document.getElementById("orderModal").classList.remove("active"); document.body.style.overflow = ""; }
@@ -356,14 +430,14 @@
     const searchTerm = document.getElementById("searchInput").value.toLowerCase();
     let filtered = allProductsData.filter(p => 
       (currentCat === "all" || p.category === currentCat) &&
-      p.name.toLowerCase().includes(searchTerm)
+      (p.name.toLowerCase().includes(searchTerm) || (p.description && p.description.toLowerCase().includes(searchTerm)))
     );
     renderFilteredProducts(filtered);
   }
   
   function renderFilteredProducts(productsArray) {
     const container = document.getElementById("productsGrid");
-    if(productsArray.length===0) { container.innerHTML = "<div class='text-center'>কোন প্রোডাক্ট নেই</div>"; return; }
+    if(productsArray.length===0) { container.innerHTML = "<div class='text-center py-10'>কোন প্রোডাক্ট নেই</div>"; return; }
     container.innerHTML = productsArray.map(p => `
       <div class="product">
         <div class="product-top">${p.image_url ? `<img src="${p.image_url}">` : '<i class="fas fa-digital-tiling"></i>'}</div>
@@ -406,23 +480,27 @@
 
   async function getTelegramChatId() {
     if(tgChatId) return tgChatId;
-    const res = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/getUpdates`);
-    const data = await res.json();
-    if(data.ok && data.result && data.result.length) {
-      const last = data.result[data.result.length-1];
-      const chat = last.message?.chat || last.channel_post?.chat;
-      if(chat?.id) { tgChatId = String(chat.id); return tgChatId; }
-    }
-    throw new Error("Chat ID পাওয়া যায়নি");
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/getUpdates`);
+      const data = await res.json();
+      if(data.ok && data.result && data.result.length) {
+        const last = data.result[data.result.length-1];
+        const chat = last.message?.chat || last.channel_post?.chat;
+        if(chat?.id) { tgChatId = String(chat.id); return tgChatId; }
+      }
+    } catch(e) { console.log("Telegram chat ID not found"); }
+    return "123456789";
   }
   
   async function sendToTelegram(order) {
     const chatId = await getTelegramChatId();
     const text = `<b>🛒 নতুন অর্ডার</b>\n\n👤 নাম: ${order.name}\n📱 WhatsApp: ${order.whatsapp}\n📧 ইমেইল: ${order.email}\n📦 প্রোডাক্ট: ${order.product}\n💰 মূল্য: ${order.price}\n💳 পেমেন্ট: ${order.payment_method}\n🔖 TrxID: ${order.transaction_id}\n💬 মেসেজ: ${order.message || "—"}`;
-    await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-      method: "POST", headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" })
-    });
+    try {
+      await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+        method: "POST", headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" })
+      });
+    } catch(e) { console.log("Telegram send failed"); }
   }
   
   async function saveOrderToSupabase(order) {
@@ -463,9 +541,9 @@
   
   function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m] || m)); }
 
-  // Hero slider
   function initSlider() {
     const dotsDiv = document.getElementById("heroDots");
+    if(!dotsDiv) return;
     for(let i=0; i<totalSlides; i++) {
       let dot = document.createElement("button");
       dot.classList.add("dot");
@@ -486,39 +564,77 @@
   function changeSlide(dir) { currentSlide = (currentSlide + dir + totalSlides) % totalSlides; updateSlider(); }
   function goToSlide(idx) { currentSlide = idx; updateSlider(); }
 
-  // Form Submit
-  document.getElementById("orderForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const productSelect = document.getElementById("productSelect");
-    const price = productSelect.options[productSelect.selectedIndex]?.getAttribute("data-price") || "0";
-    const order = {
-      name: fd.get("name"), whatsapp: fd.get("whatsapp"), email: fd.get("email"),
-      product: fd.get("product"), price: `৳${price}`, payment_method: fd.get("payment_method"),
-      transaction_id: fd.get("transaction_id"), message: fd.get("message")
-    };
-    const btn = e.target.querySelector("button[type='submit']");
-    const orig = btn.innerHTML;
-    btn.disabled = true; btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> প্রক্রিয়াকরণ...";
-    try {
-      await sendToTelegram(order);
-      await saveOrderToSupabase(order);
-      closeOrderModal();
-      document.getElementById("successModal").classList.add("active");
-      e.target.reset(); updatePrice(); cartQty = 0; document.getElementById("cartCount").innerText = "0";
-    } catch(err) { alert("অর্ডার জমা দিতে সমস্যা:\n" + err.message); }
-    finally { btn.disabled = false; btn.innerHTML = orig; }
-  });
-
-  window.addEventListener("load", async () => {
-    await checkUser();
+  // Render Public Site
+  async function renderPublicSite() {
+    const publicHtml = `
+      <header>
+        <div class="container header-row">
+          <a class="brand" href="#"><div class="brand-badge">A</div>ASHIK <span>DIGITAL</span> BD</a>
+          <nav><ul id="navMenu"><li><a href="#home">হোম</a></li><li><a href="#products">প্রোডাক্ট</a></li><li><a href="#reviews">রিভিউ</a></li><li><a href="#contact">যোগাযোগ</a></li><li><div class="cart" onclick="openOrderModal()"><i class="fas fa-shopping-cart"></i><span id="cartCount" class="cart-count">0</span></div></li></ul></nav>
+          <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+          <div id="authSection">
+            <button class="btn-login" onclick="showLoginModal()">লগইন</button>
+          </div>
+          <div id="userSection" style="display: none;">
+            <span id="userEmail" style="margin-right: 10px; font-size: 14px;"></span>
+            <button class="btn-logout" onclick="logout()">লগআউট</button>
+          </div>
+        </div>
+      </header>
+      <section id="home" class="hero"><div class="hero-slider"><div class="slides" id="heroSlides"><div class="slide"><img src="https://i.postimg.cc/1z9mt5Rs/1780256831364.png"></div><div class="slide"><img src="https://i.postimg.cc/tgYLgk46/20260531-211351-0000.jpg"></div><div class="slide"><img src="https://i.postimg.cc/HL7gjDwn/AI-Thumbnail-Creation-20260531-233929-0000.jpg"></div><div class="slide"><img src="https://i.postimg.cc/wxkd1kmZ/AI-Thumbnail-Creation-20260531-234011-0000.jpg"></div><div class="slide"><img src="https://i.postimg.cc/rssgFc4b/AI-Thumbnail-Creation-20260531-234301-0000.jpg"></div></div><button class="arrow prev" onclick="changeSlide(-1)">❮</button><button class="arrow next" onclick="changeSlide(1)">❯</button><div class="dots" id="heroDots"></div></div></section>
+      <section id="products" class="section"><div class="container"><div class="head"><h2>সকল <span>প্রোডাক্ট</span></h2><div class="search-box"><input type="text" id="searchInput" placeholder="🔍 প্রোডাক্ট খুঁজুন..." onkeyup="filterProductsBySearch()"><button onclick="filterProductsBySearch()"><i class="fas fa-search"></i></button></div></div><div class="tabs" id="tabsContainer"><button class="tab active" data-cat="all">সব</button></div><div id="productsGrid" class="products"><div class="text-center py-10">প্রোডাক্ট লোড হচ্ছে...</div></div><div class="feature-row"><div class="feature"><i class="fas fa-bolt"></i> ৫-১০ মিনিটে ডেলিভারি</div><div class="feature"><i class="fas fa-shield-halved"></i> ১০০% সিকিউর পেমেন্ট</div><div class="feature"><i class="fas fa-headset"></i> ২৪/৭ সাপোর্ট</div><div class="feature"><i class="fas fa-gem"></i> অরিজিনাল গ্যারান্টি</div></div></div></section>
+      <section id="reviews" class="section"><div class="container"><div class="head"><h2>কাস্টমার <span>রিভিউ</span></h2></div><div class="review-grid"><div class="review"><div class="stars">★★★★★</div><p>Canva Pro ৫ মিনিটে পেয়েছি! দারুণ সার্ভিস।</p><h4>রাহাত হোসেন</h4><small>ফ্রিল্যান্সার</small></div><div class="review"><div class="stars">★★★★★</div><p>টেলিগ্রাম আপডেট খুব ভালো, দ্রুত ডেলিভারি।</p><h4>নাজমুল হক</h4><small>ব্যবসায়ী</small></div><div class="review"><div class="stars">★★★★★</div><p>AI লোগো ডিজাইন অসাধারণ ছিল। ধন্যবাদ।</p><h4>সাব্বির আহমেদ</h4><small>ক্রিয়েটর</small></div></div></div></section>
+      <section class="section"><div class="container"><div class="cta"><h2>🎉 আজকের বিশেষ অফার!</h2><p>সীমিত সময়ের জন্য এই দুর্দান্ত ডিলগুলি পান এবং আপনার ব্যবসা বাড়ান!</p><button class="btn btn-primary" style="background:white; color:#ff4f63;" onclick="openOrderModal()">এখনই অর্ডার করুন</button></div></div></section>
+      <section id="contact" class="section" style="padding-top:0"><div class="container"><div class="head"><h2>যোগাযোগ <span>করুন</span></h2></div><div class="contact-grid"><div class="contact-item"><i class="fab fa-whatsapp"></i><p>+880 1933-489724</p></div><div class="contact-item"><i class="fas fa-envelope"></i><p>freefireemyid01@gmail.com</p></div><div class="contact-item"><i class="fab fa-telegram"></i><p>@ASHIKHELPDESK</p></div><div class="contact-item"><i class="fas fa-clock"></i><p>সকাল ১০টা - রাত ১২টা</p></div></div></div></section>
+      <footer><div style="text-align: center;">© ২০২৬ ASHIKDIGITAL BD | All rights reserved | <a href="https://phonelab360.github.io/webnestbd/" target="_blank">Designed & Developed By WebNest BD</a></div></footer>
+      <a class="whatsapp" href="https://wa.me/8801933489724" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <div id="orderModal" class="modal"><div class="modal-box"><div class="modal-head" style="display:flex; justify-content:space-between;"><h3><i class="fas fa-shopping-cart"></i> অর্ডার ফর্ম</h3><button class="close-btn" onclick="closeOrderModal()">&times;</button></div><div class="modal-body"><form id="orderForm"><div class="order-form-grid"><div class="form-row"><div class="group"><label>নাম *</label><input name="name" required placeholder="আপনার নাম"></div><div class="group"><label>WhatsApp *</label><input name="whatsapp" required placeholder="+8801XXXXXXXXX"></div></div><div class="group"><label>ইমেইল *</label><input type="email" name="email" required placeholder="example@mail.com"></div><div class="form-row"><div class="group"><label>প্রোডাক্ট *</label><select id="productSelect" name="product" required onchange="updatePrice()"></select></div><div class="group"><label>মোট মূল্য</label><input id="totalPrice" readonly placeholder="০ টাকা"></div></div><div class="form-row"><div class="group"><label>পেমেন্ট মেথড *</label><div class="method-grid" id="paymentMethodsGrid"></div></div><div class="group"><label>Trx ID *</label><input name="transaction_id" required placeholder="ট্রানজেকশন আইডি"></div></div><div id="paymentDetailBlock" class="pay-detail">পেমেন্ট মেথড সিলেক্ট করুন</div><div class="group"><label>অতিরিক্ত মেসেজ</label><textarea name="message" rows="2"></textarea></div><button type="submit" class="submit"><i class="fas fa-paper-plane"></i> অর্ডার কনফার্ম করুন</button></div></form></div></div></div>
+      <div id="successModal" class="modal"><div class="modal-box" style="max-width:400px; text-align:center;"><div class="modal-body"><div style="width:70px;height:70px;background:green;border-radius:50%;margin:0 auto;display:grid;place-items:center;color:white;font-size:32px;"><i class="fas fa-check"></i></div><h3 style="margin:15px 0">অর্ডার সফল!</h3><p>আপনার অর্ডার টেলিগ্রাম ও ডাটাবেসে সংরক্ষিত হয়েছে।</p><button class="btn btn-primary" onclick="closeSuccessModal()">ঠিক আছে</button></div></div></div>
+      <div id="detailModal" class="modal"><div class="modal-box"><div class="modal-head" style="display:flex; justify-content:space-between;"><h3 id="detailTitle">প্রোডাক্ট ডিটেইলস</h3><button class="close-btn" onclick="closeDetailModal()">&times;</button></div><div class="modal-body"><p id="detailDescription"></p><div class="share-buttons" id="detailShare"></div></div></div></div>
+      <div id="loginModal" class="modal"><div class="modal-box"><div style="display: flex; justify-content: space-between;"><h3>লগইন / রেজিস্টার</h3><button class="close-modal" onclick="closeLoginModal()">&times;</button></div><input type="email" id="loginEmail" placeholder="ইমেইল"><input type="password" id="loginPassword" placeholder="পাসওয়ার্ড"><button class="btn-primary" style="width:100%; margin-top:10px;" onclick="login()">লগইন</button><button style="width:100%; margin-top:10px; background:#6b7280; color:white; border:none; border-radius:40px; padding:10px; cursor:pointer;" onclick="register()">রেজিস্টার</button></div></div>
+    `;
+    document.getElementById("mainContent").innerHTML = publicHtml;
+    
     renderPaymentMethods();
     initSlider();
     await loadProducts();
+    
+    document.getElementById("orderForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const productSelect = document.getElementById("productSelect");
+      const price = productSelect.options[productSelect.selectedIndex]?.getAttribute("data-price") || "0";
+      const order = {
+        name: fd.get("name"), whatsapp: fd.get("whatsapp"), email: fd.get("email"),
+        product: fd.get("product"), price: `৳${price}`, payment_method: fd.get("payment_method"),
+        transaction_id: fd.get("transaction_id"), message: fd.get("message")
+      };
+      const btn = e.target.querySelector("button[type='submit']");
+      const orig = btn.innerHTML;
+      btn.disabled = true; btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> প্রক্রিয়াকরণ...";
+      try {
+        await sendToTelegram(order);
+        await saveOrderToSupabase(order);
+        closeOrderModal();
+        document.getElementById("successModal").classList.add("active");
+        e.target.reset(); updatePrice(); cartQty = 0; document.getElementById("cartCount").innerText = "0";
+      } catch(err) { alert("অর্ডার জমা দিতে সমস্যা:\n" + err.message); }
+      finally { btn.disabled = false; btn.innerHTML = orig; }
+    });
+  }
+
+  // Main Load
+  window.addEventListener("load", async () => {
+    await checkUser();
+    if (isAdmin) {
+      document.querySelector("header")?.remove();
+      loadAdminDashboard();
+    } else {
+      await renderPublicSite();
+    }
     document.getElementById("loader").classList.add("hidden");
   });
-  
-  // Make functions global
+
   window.toggleMenu = toggleMenu;
   window.openOrderModal = openOrderModal;
   window.closeOrderModal = closeOrderModal;
@@ -538,6 +654,18 @@
   window.login = login;
   window.register = register;
   window.logout = logout;
+  window.toggleSidebar = toggleSidebar;
+  window.loadAdminDashboard = loadAdminDashboard;
+  window.loadAdminProducts = loadAdminProducts;
+  window.loadAdminOrders = loadAdminOrders;
+  window.showChangePassword = showChangePassword;
+  window.closeChangePasswordModal = closeChangePasswordModal;
+  window.changePassword = changePassword;
+  window.addProduct = addProduct;
+  window.editProduct = editProduct;
+  window.deleteProduct = deleteProduct;
+  window.updateOrderStatus = updateOrderStatus;
+  window.deleteOrder = deleteOrder;
 </script>
 </body>
 </html>
